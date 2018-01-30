@@ -4,12 +4,8 @@
 
 class Entity{
 public:
-	Entity();
-
-	virtual void beginDraw();
-	virtual void endDraw();
-private:
-
+	virtual void beginDraw() = 0;
+	virtual void endDraw() = 0;
 };
 
 #endif

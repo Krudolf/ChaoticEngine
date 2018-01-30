@@ -2,13 +2,15 @@
 #ifndef TRANSFORM
 #define TRANSFORM
 
-class Transform: public Entity{
+#include <entity.hpp>
+
+class Transform : public Entity{
 public:
 	Transform();
 	~Transform();
 
-	void load();
-	void release();
+	int*** load();
+	int release(int*** p_matrix);
 
 	void identity();
 	void transpose();
@@ -20,7 +22,7 @@ public:
 	void endDraw();
 
 private:
-	int** m_matrix;
-}
+	int*** m_matrix;
+};
 
 #endif

@@ -2,6 +2,7 @@
 #ifndef ENTITY
 #define ENTITY
 
+/*Virtual class*/
 class Entity{
 public:
 	virtual void beginDraw() = 0;

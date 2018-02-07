@@ -8,8 +8,8 @@
 
 class SceneNode{
 public:
-	SceneNode();
-	SceneNode(SceneNode* p_father);
+	SceneNode(const char* p_name);
+	SceneNode(SceneNode* p_father, const char* p_name);
 	virtual ~SceneNode();
 
 	void release();
@@ -18,7 +18,7 @@ public:
 	bool	removeChild(SceneNode* p_child);
 	void 	removeAllChilds();
 
-	bool 	setEntity(Entity* p_entity);
+	void 	setEntity(Entity* p_entity);
 	
 	Entity*		getEntity();
 	SceneNode* 	getFather();
@@ -28,11 +28,14 @@ public:
 
 
 	int getTotalChilds();
+	const char* getName();
 
 private:
-	Entity* 			m_entity;
-	std::vector<SceneNode*> 	m_childs;
-	SceneNode* 			m_father;
+	Entity* 				m_entity;
+	std::vector<SceneNode*>	m_childs;
+	SceneNode* 				m_father;
+
+	const char* m_name;
 };
 
 #endif

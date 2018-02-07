@@ -2,27 +2,20 @@
 #ifndef TRANSFORM
 #define TRANSFORM
 
+#include <glm.hpp>
 #include <entity.hpp>
 
+/*La API de GLM la podeis ver aqui: http://glm.g-truc.net/0.9.8/api/modules.html*/
 class Transform : public Entity{
 public:
 	Transform();
 	~Transform();
 
-	int*** load();
-	int release(int*** p_matrix);
-
-	void identity();
-	void transpose();
-
-	void translate(float p_x, float p_y, float p_z);
-	void rotate(float p_x, float p_y, float p_z, float p_w);
-
 	void beginDraw();
 	void endDraw();
 
 private:
-	int*** m_matrix;
+	glm::mat4 m_matrix;
 };
 
 #endif

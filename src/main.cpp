@@ -2,87 +2,49 @@
 #include <iostream>
 #include <vector>
 #include <../include/scenenode.hpp>
-#include <../include/entity.hpp>
+#include <../include/transform.hpp>
 
-//OpenGL
-#include <glew.h>
-#include <glfw3.h>
-//#include <glm/glm.hpp>
-
-bool initGLFW(){
-	// Inicializar GLFW
-	if(!glfwInit()){
-	    fprintf( stderr, "Error al inicializar GLFW\n" );
-	    return false;
-	}
-	return true;
-}
-
-GLFWwindow* createWindow(){
-	glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // Queremos OpenGL 3.3
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // Para hacer feliz a MacOS ; Aunque no debería ser necesaria
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //No queremos el viejo OpenGL 
-
-	//Crear una ventana y su contexto OpenGL
-	GLFWwindow* window = glfwCreateWindow( 800, 600, "3KSC", NULL, NULL);
-	glfwMakeContextCurrent(window); // Inicializar GLEW
-
-	return window;
-}
-
-bool checkWindow(GLFWwindow* p_window){
-	if(p_window == NULL){
-	    fprintf(stderr, "Falla al abrir una ventana GLFW. Si GPU Intel prueba con OpenGL 2.2\n");
-	    glfwTerminate();
-	    return false;
-	}
-	return true;
-}
-
-bool initGLEW(){
-	glewExperimental=true; // Se necesita en el perfil de base.
-	if(glewInit() != GLEW_OK){
-	    fprintf(stderr, "Fallo al inicializar GLEW\n");
-	    return false;
-	}
-	return true;
-}
-
-bool isWindowOpen(GLFWwindow* p_window){
-	return glfwGetKey(p_window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(p_window) == 0;
-}
+#include <../include/chaoticengine.hpp>
 
 int main(){
-	//uint8_t* p;
 	std::cout << "*************************\n* TEST DE CHAOTICENGINE *\n*************************" << std::endl;
 
+	//CREATE ALL NODES
+	SceneNode* nodeRoot = new SceneNode("nodeRoot");
 
-	if(!initGLFW())
-		return -1;
+	SceneNode* nodeTrans1 = new SceneNode(nodeRoot, "nodeTrans1");
 
-	GLFWwindow* window;
-	window = createWindow();
+	SceneNode* nodeTrans11 = new SceneNode(nodeTrans1, "nodeTrans11");
+	SceneNode* nodeChild12 = new SceneNode(nodeTrans1, "nodeChild12");
 
-	if(!checkWindow(window))
-		return -1;
+	SceneNode* nodeChild111 = new SceneNode(nodeTrans11, "nodeChild111");
 
-	if(!initGLEW())
-		return -1;
+	//CREATE ALL ENTITIES
+	Transform* trans1 = new Transform();
 
-	// Capturar la tecla ESC cuando sea presionada
-	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+	Transform* trans11 = new Transform();
 
-	/*MAIN LOOP*/
-	// Revisar que la tecla ESC fue presionada y cerrar la ventana
-	while(isWindowOpen(window)){
+	//ASSIGN ENTITIES TO NODES
+	nodeTrans1->setEntity(trans1);
+
+	nodeTrans11->setEntity(trans11);
+
+
+	std::cout << "\nDIBUJAMOS ARBOL DE LA ESCENA" << std::endl;
+	nodeRoot->draw();
+
+/*
+	ChaoticEngine* engine = new ChaoticEngine();
+
+	engine->createWindow(640, 480, "3KSC", true);
+
+	//MAIN LOOP
+	while(engine->isWindowOpen()){
 	    
-	    // Intercambiar buffers
-	    glfwSwapBuffers(window);
-	    glfwPollEvents();
+	    engine->swapBuffers();
 	}
 
-
+	engine->terminate();
+*/
 	return 0;
 }

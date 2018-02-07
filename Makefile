@@ -13,7 +13,7 @@ BINARY 	:= CE
 #Compiler set-up
 CC		:= g++
 LDFLAGS := -Wl,-rpath=$(LIBDIR)OpenGL/lib
-INCLUDE := -I$(HDRDIR) -I$(LIBDIR)OpenGL/include
+INCLUDE := -I$(HDRDIR) -I$(LIBDIR)OpenGL/include -I$(LIBDIR)glm/include
 LIBS	:= -L$(LIBDIR)OpenGL/lib -lGL -lGLEW -lglfw
 
 #Make binary

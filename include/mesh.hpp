@@ -9,11 +9,13 @@ public:
 	Mesh();
 	~Mesh();
 
+	void loadSource(const char* p_urlSource);
+
 	void beginDraw();
 	void endDraw();
 
 private:
-
+	//ResourceMesh* m_mesh;
 };
 
 #endif

@@ -1,13 +1,13 @@
 
-#ifndef MESH
-#define MESH
+#ifndef CEMESH
+#define CEMESH
 
-#include <entity.hpp>
+#include <CEentity.hpp>
 
-class Mesh : public Entity{
+class CEMesh : public CEEntity{
 public:
-	Mesh();
-	~Mesh();
+	CEMesh();
+	~CEMesh();
 
 	void loadSource(const char* p_urlSource);
 

@@ -1,16 +1,16 @@
 
-#include <../include/scenenode.hpp> 
-#include <../include/transform.hpp>
-#include <../include/mesh.hpp>
+#include <../include/CEscenenode.hpp> 
+#include <../include/CEtransform.hpp>
+#include <../include/CEmesh.hpp>
 
-SceneNode::SceneNode(const char* p_name){
+CESceneNode::CESceneNode(const char* p_name){
 	m_name = p_name;
 	m_father = NULL;
 
 	std::cout << "Creado el nodo " << m_name << std::endl;
 }
 
-SceneNode::SceneNode(SceneNode* p_father, const char* p_name){
+CESceneNode::CESceneNode(CESceneNode* p_father, const char* p_name){
 	m_name = p_name;
 	m_father = p_father;
 	m_father->addChild(this);
@@ -19,15 +19,15 @@ SceneNode::SceneNode(SceneNode* p_father, const char* p_name){
 }
 
 //Si quiero puedo poner todos los atributos a 0 (no es necesario)
-SceneNode::~SceneNode(){}
+CESceneNode::~CESceneNode(){}
 
-void SceneNode::addChild(SceneNode* p_child){
+void CESceneNode::addChild(CESceneNode* p_child){
 	m_childs.push_back(p_child);
 	p_child->setFather(this);
 }
 
 /*Removes a child, and all the childs of his child.*/
-bool SceneNode::removeChild(SceneNode* p_child){
+bool CESceneNode::removeChild(CESceneNode* p_child){
 	std::cout << this->getName() << " va a eliminar a su hijo " << p_child->getName() << std::endl;
 	for(int i = 0; i < m_childs.size(); i++){
 		if(m_childs.at(i) == p_child){
@@ -44,7 +44,7 @@ bool SceneNode::removeChild(SceneNode* p_child){
 }
 
 /*Removes all childs of the father and all the childs of his childs*/
-void SceneNode::removeAllChilds(){
+void CESceneNode::removeAllChilds(){
 	for(int i = 0; i < m_childs.size(); i++){
 		m_childs.at(i)->removeAllChilds();
 		std::cout << m_childs.at(i)->getName() << " borrado." << std::endl;
@@ -54,23 +54,23 @@ void SceneNode::removeAllChilds(){
 	m_childs.clear();
 }
 
-void SceneNode::setEntity(Entity* p_entity){
+void CESceneNode::setEntity(CEEntity* p_entity){
 	m_entity = p_entity;
 }
 
-Entity* SceneNode::getEntity(){
+CEEntity* CESceneNode::getEntity(){
 	return m_entity;
 }
 
-SceneNode* SceneNode::getFather(){
+CESceneNode* CESceneNode::getFather(){
 	return m_father;
 }
 
-void SceneNode::setFather(SceneNode* p_father){
+void CESceneNode::setFather(CESceneNode* p_father){
 	m_father = p_father;
 }
 
-void SceneNode::draw(){
+void CESceneNode::draw(){
 	if(m_entity != NULL){
 		std::cout << "------------------------\n" << m_name << " empieza draw." << std::endl;
 		m_entity->beginDraw();
@@ -84,10 +84,10 @@ void SceneNode::draw(){
 	}
 }
 
-int SceneNode::getTotalChilds(){
+int CESceneNode::getTotalChilds(){
 	return m_childs.size();
 }
 
-const char* SceneNode::getName(){
+const char* CESceneNode::getName(){
 	return m_name;
 }

@@ -1,13 +1,13 @@
 
-#ifndef MAIN
-#define MAIN
+#ifndef CEMAIN
+#define CEMAIN
 
 #include <iostream>
 #include <vector>
 
-#include <../include/scenenode.hpp>
-#include <../include/transform.hpp>
-#include <../include/mesh.hpp>
+#include <../include/CEscenenode.hpp>
+#include <../include/CEtransform.hpp>
+#include <../include/CEmesh.hpp>
 
 #include <../include/chaoticengine.hpp>
 

@@ -1,13 +1,13 @@
  
-#ifndef ENTITY
-#define ENTITY
+#ifndef CEENTITY
+#define CEENTITY
 
 #include <stack>
 
 #include <glm.hpp>
 
 /*Virtual class*/
-class Entity{
+class CEEntity{
 public:
 	virtual void beginDraw() = 0;
 	virtual void endDraw() = 0;

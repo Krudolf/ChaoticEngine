@@ -1,15 +1,15 @@
 
-#ifndef TRANSFORM
-#define TRANSFORM
+#ifndef CETRANSFORM
+#define CETRANSFORM
 
 #include <glm.hpp>
-#include <entity.hpp>
+#include <CEentity.hpp>
 
 /*La API de GLM la podeis ver aqui: http://glm.g-truc.net/0.9.8/api/modules.html*/
-class Transform : public Entity{
+class CETransform : public CEEntity{
 public:
-	Transform(int p_num);
-	~Transform();
+	CETransform(int p_num);
+	~CETransform();
 
 	void beginDraw();
 	void endDraw();

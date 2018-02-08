@@ -1,15 +1,15 @@
 
 #include <iostream>
 #include <stack>
-#include <../include/mesh.hpp>
+#include <../include/CEmesh.hpp>
 
-Mesh::Mesh() : Entity(){}
+CEMesh::CEMesh() : CEEntity(){}
 
-Mesh::~Mesh(){}
+CEMesh::~CEMesh(){}
 
-void Mesh::beginDraw(){
+void CEMesh::beginDraw(){
 	std::cout << "Dibujamos una malla" << std::endl;
 	std::cout << "Valor de la matrixModel: " << m_matrixStack.top() << std::endl;
 }
 
-void Mesh::endDraw(){}
+void CEMesh::endDraw(){}

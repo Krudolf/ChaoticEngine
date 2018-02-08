@@ -5,29 +5,29 @@ int main(){
 	std::cout << "*************************\n* TEST DE CHAOTICENGINE *\n*************************" << std::endl;
 
 	//CREATE ALL NODES
-	SceneNode* nodeRoot = new SceneNode("nodeRoot");
+	CESceneNode* nodeRoot = new CESceneNode("nodeRoot");
 
-	SceneNode* nodeTrans1  = new SceneNode(nodeRoot, "nodeTrans1");
-	SceneNode* nodeTrans11 = new SceneNode(nodeTrans1, "nodeTrans11");
-	SceneNode* nodeMesh12  = new SceneNode(nodeTrans1, "nodeMesh12");
-	SceneNode* nodeMesh111 = new SceneNode(nodeTrans11, "nodeMesh111");
+	CESceneNode* nodeTrans1  = new CESceneNode(nodeRoot, "nodeTrans1");
+	CESceneNode* nodeTrans11 = new CESceneNode(nodeTrans1, "nodeTrans11");
+	CESceneNode* nodeMesh12  = new CESceneNode(nodeTrans1, "nodeMesh12");
+	CESceneNode* nodeMesh111 = new CESceneNode(nodeTrans11, "nodeMesh111");
 
-	SceneNode* nodeTrans2  = new SceneNode(nodeRoot, "nodeTrans2");
-	SceneNode* nodeTrans21 = new SceneNode(nodeTrans2, "nodeTrans21");
-	SceneNode* nodeMesh22  = new SceneNode(nodeTrans2, "nodeMesh22");
-	SceneNode* nodeMesh211 = new SceneNode(nodeTrans21, "nodeMesh211");
+	CESceneNode* nodeTrans2  = new CESceneNode(nodeRoot, "nodeTrans2");
+	CESceneNode* nodeTrans21 = new CESceneNode(nodeTrans2, "nodeTrans21");
+	CESceneNode* nodeMesh22  = new CESceneNode(nodeTrans2, "nodeMesh22");
+	CESceneNode* nodeMesh211 = new CESceneNode(nodeTrans21, "nodeMesh211");
 
 
 	//CREATE ALL ENTITIES
-	Transform* 	trans1  = new Transform(1);
-	Transform* 	trans11 = new Transform(11);
-	Transform* 	trans2  = new Transform(2);
-	Transform* 	trans21 = new Transform(21);
+	CETransform* 	trans1  = new CETransform(1);
+	CETransform* 	trans11 = new CETransform(11);
+	CETransform* 	trans2  = new CETransform(2);
+	CETransform* 	trans21 = new CETransform(21);
 
-	Mesh*		mesh12  = new Mesh();
-	Mesh*		mesh111 = new Mesh();
-	Mesh*		mesh22  = new Mesh();
-	Mesh*		mesh211 = new Mesh();
+	CEMesh*		mesh12  = new CEMesh();
+	CEMesh*		mesh111 = new CEMesh();
+	CEMesh*		mesh22  = new CEMesh();
+	CEMesh*		mesh211 = new CEMesh();
 
 	//ASSIGN ENTITIES TO NODES
 	nodeTrans1->setEntity(trans1);

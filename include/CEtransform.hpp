@@ -11,12 +11,20 @@ public:
 	CETransform(int p_num);
 	~CETransform();
 
-	void beginDraw();
-	void endDraw();
+    void        loadIdentity();
+    void        loadMatrix(glm::mat4 p_matrix);
+    glm::mat4   transpose(glm::mat4 p_matrix);
+
+    void        translate(float p_tx, float p_ty, float p_tz);
+    void        rotate(float p_rx, float p_ry, float p_rz);
+    void        scale (float p_sx, float p_sy, float p_sz);
+
+	void        beginDraw();
+	void        endDraw();
 
 private:
 	glm::mat4 m_matrix;
-	int num;
+	int m_num;
 };
 
 #endif

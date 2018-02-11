@@ -10,16 +10,55 @@ glm::mat4 CEEntity::m_modelMatrix;
 glm::mat4 CEEntity::m_viewMatrix;
 glm::mat4 CEEntity::m_projectionMatrix;
 
+//Constructor
 CETransform::CETransform(int p_num) : CEEntity(){
-	num = p_num;
+    loadIdentity();
+	m_num = p_num;
 }
 
+//Destructor
 CETransform::~CETransform(){}
 
+//Loads identity matrix
+void CETransform::loadIdentity(){
+    m_matrix = glm::mat4();
+}
+
+//Loads custom matrix
+void CETransform::loadMatrix(glm::mat4 p_matrix){
+    m_matrix = p_matrix;
+}
+
+//Trasposes the given matrix
+glm::mat4 CETransform::transpose(glm::mat4 p_matrix){
+    return glm::transpose(p_matrix);
+}
+
+//Applies a traslation to the matrix
+//Receives the offset for each axis
+void CETransform::translate(float p_tx, float p_ty, float p_tz){
+    m_matrix = glm::translate(m_matrix, glm::vec3(p_tx, p_ty, p_tz));
+}
+
+//Applies a rotation to the matrix
+//Receives the rotation for each axis
+void CETransform::rotate(float p_rx, float p_ry, float p_rz){
+    m_matrix = glm::rotate(m_matrix, p_rx, glm::vec3(1, 0, 0));
+    m_matrix = glm::rotate(m_matrix, p_ry, glm::vec3(0, 1, 0));
+    m_matrix = glm::rotate(m_matrix, p_rz, glm::vec3(0, 0, 1));
+}
+
+//Applies an scale to the matrix
+//Receives the ratio for each axis
+void CETransform::scale (float p_sx, float p_sy, float p_sz){
+    m_matrix = glm::scale(m_matrix, glm::vec3(p_sx, p_sy, p_sz));
+}
+
+
 void CETransform::beginDraw(){
-    std::cout << "Apilamos matriz de transformacion. Valor = " << num << std::endl;
+    std::cout << "Apilamos matriz de transformacion. Valor = " << m_num << std::endl;
     
-    m_matrixStack.push(num);
+    m_matrixStack.push(m_num);
 }
 
 void CETransform::endDraw(){

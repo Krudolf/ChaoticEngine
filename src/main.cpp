@@ -31,8 +31,8 @@ int main(){
 	CEMesh*		mesh22  = new CEMesh();
 	CEMesh*		mesh211 = new CEMesh();
 
-	CELight* 	light112 = new CELight(glm::vec3(100, 20, 3));
-	CELight* 	light212 = new CELight(glm::vec3(50, 100, 56));
+	CELight* 	light112 = new CELight(glm::vec3(100, 20, 3), glm::vec3(1,0,0));
+	CELight* 	light212 = new CELight(glm::vec3(50, 100, 56), glm::vec3(0.8,1,0));
 
 	//ASSIGN ENTITIES TO NODES
 	nodeTrans1->setEntity(trans1);

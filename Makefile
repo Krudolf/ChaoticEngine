@@ -1,6 +1,6 @@
 #Directories
 SRCDIR	:= src/
-HDRDIR	:= include/
+INCDIR	:= include/
 LIBDIR  := lib/
 OBJDIR	:= obj/
 SUBDIRS := $(OBJDIR)
@@ -13,7 +13,7 @@ BINARY 	:= CE
 #Compiler set-up
 CC		:= g++
 LDFLAGS := -Wl,-rpath=$(LIBDIR)OpenGL/lib
-INCLUDE := -I$(HDRDIR) -I$(LIBDIR)OpenGL/include -I$(LIBDIR)glm/include
+INCLUDE := -I$(INCDIR) -I$(LIBDIR)OpenGL/include -I$(LIBDIR)glm/include
 LIBS	:= -L$(LIBDIR)OpenGL/lib -lGL -lGLEW -lglfw
 
 #Make binary

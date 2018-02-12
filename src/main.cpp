@@ -44,6 +44,32 @@ int main(){
 	std::cout << "\nDIBUJAMOS ARBOL DE LA ESCENA" << std::endl;
 	nodeRoot->draw();
 
+    //TRANSFORMACIONES
+    std::cout << std::endl << "TRANSFORMATIONS" << std::endl;
+    std::cout << "Identity" << std::endl;
+    trans1->showMatrix();
+
+    std::cout << "Translate" << std::endl;
+    trans1->translate(1, 2, 3);
+    //trans1->transpose();
+    trans1->showMatrix();
+    
+    std::cout << "Identity" << std::endl;
+    trans1->loadIdentity();
+    trans1->showMatrix();
+    
+    std::cout << "Rotate" << std::endl;
+    trans1->rotate(0, 0, 30);
+    //trans1->transpose();
+    trans1->showMatrix();
+    
+    std::cout << "Identity" << std::endl;
+    trans1->loadIdentity();
+    trans1->showMatrix();
+
+    std::cout << "Scale" << std::endl;
+    trans1->scale(1, 2, 3);
+    trans1->showMatrix();
 /*
 	ChaoticEngine* engine = new ChaoticEngine();
 

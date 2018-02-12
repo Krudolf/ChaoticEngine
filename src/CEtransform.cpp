@@ -1,8 +1,8 @@
-
-#include <iostream>
-#include <stack>
-
 #include <../include/CEtransform.hpp>
+#include <gtc/matrix_transform.hpp> //For glm transformations
+#include <stack>
+#include <iostream>
+#include <iomanip>
 
 std::stack<int> CEEntity::m_matrixStack;
 
@@ -27,6 +27,27 @@ void CETransform::loadIdentity(){
 //Loads custom matrix
 void CETransform::loadMatrix(glm::mat4 p_matrix){
     m_matrix = p_matrix;
+}
+
+//Prints the matrix in the console
+void CETransform::showMatrix(){   
+    std::cout << std::fixed;
+    std::cout << std::setprecision(6);
+
+    for (int i = 0; i < 4; i++){
+        for (int j = 0; j < 4; j++){
+            std::cout << m_matrix[i][j] << "\t";
+        }
+        
+        std::cout << std::endl;
+    }
+
+    std::cout << std::endl;
+}
+
+//Trasposes the transform matrix
+void CETransform::transpose(){
+    m_matrix = glm::transpose(m_matrix);
 }
 
 //Trasposes the given matrix

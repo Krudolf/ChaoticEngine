@@ -13,6 +13,8 @@ public:
 
     void        loadIdentity();
     void        loadMatrix(glm::mat4 p_matrix);
+    void        showMatrix();
+    void        transpose();
     glm::mat4   transpose(glm::mat4 p_matrix);
 
     void        translate(float p_tx, float p_ty, float p_tz);

@@ -2,6 +2,7 @@
 #include <../include/CEscenenode.hpp> 
 #include <../include/CEtransform.hpp>
 #include <../include/CEmesh.hpp>
+#include <../include/CElight.hpp>
 
 CESceneNode::CESceneNode(const char* p_name){
 	m_name = p_name;

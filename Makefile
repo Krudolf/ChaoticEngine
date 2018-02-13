@@ -3,7 +3,7 @@ SRCDIR	:= src/
 INCDIR	:= include/
 LIBDIR  := lib/
 OBJDIR	:= obj/
-SUBDIRS := $(OBJDIR)
+SUBDIRS := $(OBJDIR) $(OBJDIR)manager
 
 #Files
 SOURCES := $(shell find $(SRCDIR) -name '*.cpp')

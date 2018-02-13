@@ -8,12 +8,12 @@
 /*La API de GLM la podeis ver aqui: http://glm.g-truc.net/0.9.8/api/modules.html*/
 class CETransform : public CEEntity{
 public:
-	CETransform(int p_num);
+	CETransform();
 	~CETransform();
 
     void        loadIdentity();
     void        loadMatrix(glm::mat4 p_matrix);
-    void        showMatrix();
+    void        showMatrix(glm::mat4 p_matrix);
     void        transpose();
     glm::mat4   transpose(glm::mat4 p_matrix);
 
@@ -26,7 +26,6 @@ public:
 
 private:
 	glm::mat4 m_matrix;
-	int m_num;
 };
 
 #endif

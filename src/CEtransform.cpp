@@ -4,17 +4,14 @@
 #include <iostream>
 #include <iomanip>
 
-std::stack<int> CEEntity::m_matrixStack;
+std::stack<glm::mat4> CEEntity::m_matrixStack;
 
 glm::mat4 CEEntity::m_modelMatrix;
 glm::mat4 CEEntity::m_viewMatrix;
 glm::mat4 CEEntity::m_projectionMatrix;
 
 //Constructor
-CETransform::CETransform(int p_num) : CEEntity(){
-    loadIdentity();
-	m_num = p_num;
-}
+CETransform::CETransform() : CEEntity(){}
 
 //Destructor
 CETransform::~CETransform(){}
@@ -30,18 +27,16 @@ void CETransform::loadMatrix(glm::mat4 p_matrix){
 }
 
 //Prints the matrix in the console
-void CETransform::showMatrix(){   
+void CETransform::showMatrix(glm::mat4 p_matrix){   
     std::cout << std::fixed;
     std::cout << std::setprecision(6);
 
     for (int i = 0; i < 4; i++){
         for (int j = 0; j < 4; j++){
-            std::cout << m_matrix[i][j] << "\t";
+            std::cout << p_matrix[i][j] << "\t";
         }
-        
         std::cout << std::endl;
     }
-
     std::cout << std::endl;
 }
 
@@ -75,15 +70,19 @@ void CETransform::scale (float p_sx, float p_sy, float p_sz){
     m_matrix = glm::scale(m_matrix, glm::vec3(p_sx, p_sy, p_sz));
 }
 
-
 void CETransform::beginDraw(){
-    std::cout << "Apilamos matriz de transformacion. Valor = " << m_num << std::endl;
-    
-    m_matrixStack.push(m_num);
+    std::cout << "Apilamos matriz de transformacion. Valor de la matrixModel apilada:" << std::endl;
+    m_matrixStack.push(m_modelMatrix);
+    showMatrix(m_modelMatrix);
+
+    std::cout << "Valor de la nueva matrixModel:" << std::endl;
+    m_modelMatrix = m_modelMatrix * m_matrix;
+    showMatrix(m_modelMatrix);
 }
 
 void CETransform::endDraw(){
-    std::cout << "Desapilamos matriz de transformacion. Valor = " << m_matrixStack.top() << std::endl;
-    //m_matrix = m_matrixStack().top();
+    std::cout << "Desapilamos matriz de transformacion. Valor de la matrixModel desapilada:" << std::endl;
+    m_modelMatrix = m_matrixStack.top();
+    showMatrix(m_modelMatrix);
     m_matrixStack.pop();
 }

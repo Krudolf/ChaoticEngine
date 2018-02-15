@@ -1,6 +1,8 @@
 
 #include <../include/manager/CEresourceManager.hpp>
 
+#include <assimp/Importer.hpp>      // C++ importer interface
+
 CEResourceManager::CEResourceManager(){}
 
 CEResourceManager::~CEResourceManager(){}

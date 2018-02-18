@@ -80,18 +80,11 @@ void CEResourceMesh::processMesh(aiMesh * p_mesh, const aiScene * p_scene){
 	}
 
 	// Save the information in the vectors form the resource
-	this->setVertices(vertices);
-	this->setIndices(indices);
+	m_vertices = vertices;
+	m_indices = indices;
+	m_nTriangles = p_mesh->mNumFaces;
 
 }
 
 void CEResourceMesh::draw(){}
-
-void CEResourceMesh::setVertices(std::vector<Vertex> p_vertices){
-	m_vertices = p_vertices;
-}
-
-void CEResourceMesh::setIndices(std::vector<GLuint> p_indices){
-	m_indices = p_indices;
-}
 

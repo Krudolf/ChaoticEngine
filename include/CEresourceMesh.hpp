@@ -35,8 +35,6 @@ private:
 	std::vector<GLuint> m_indices;
 	long int m_nTriangles;//faces from the mesh
 	
-	void setVertices(std::vector<Vertex> p_vertices);
-	void setIndices(std::vector<GLuint> p_indices);
 	void processNode(aiNode* p_node, const aiScene* p_scene);
 	void processMesh(aiMesh* p_mesh, const aiScene* p_scene);
 

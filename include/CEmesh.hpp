@@ -15,7 +15,7 @@ public:
 	void endDraw();
 
 private:
-	//ResourceMesh* m_mesh;
+	//CEResourceMesh* m_mesh;
 };
 
 #endif

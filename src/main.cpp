@@ -88,7 +88,14 @@ int main(){
     trans1->scale(1, 2, 3);
     trans1->showMatrix();
 */
-/*
+
+	//CARGA DE RECURSOS
+	CEResourceManager* manager = new CEResourceManager();
+	const char* resource = "../resources_prueba/life_tank.obj";
+	
+	manager->getResource(resource);
+
+
 	ChaoticEngine* engine = new ChaoticEngine();
 
 	engine->createWindow(640, 480, "3KSC", true);
@@ -100,6 +107,6 @@ int main(){
 	}
 
 	engine->terminate();
-*/
+	
 	return 0;
 }

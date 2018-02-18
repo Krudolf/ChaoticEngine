@@ -3,6 +3,7 @@
 #define CERESOURCEMANAGER
 
 #include <vector>
+#include <iostream>
 
 #include "CEresource.hpp"
 

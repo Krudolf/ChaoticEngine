@@ -1,5 +1,5 @@
 
-#include <../include/manager/CEresourceManager.hpp>
+#include <../../include/manager/CEresourceManager.hpp>
 
 CEResourceManager::CEResourceManager(){}
 

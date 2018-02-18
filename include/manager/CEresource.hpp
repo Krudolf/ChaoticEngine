@@ -8,7 +8,8 @@ public:
 	virtual ~CEResource();
 
 	const char* getName(){	return m_name;	};
-	void serName(const char* p_name){	m_name = p_name;	};
+	void setName(const char* p_name){	m_name = p_name;	};
+	void loadFile(const char* p_name){};
 
 protected:
 

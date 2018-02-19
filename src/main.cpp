@@ -92,13 +92,15 @@ int main(){
 	//CARGA DE RECURSOS
 	CEResourceManager* manager = new CEResourceManager();
 	const char* resource = "../resources_prueba/life_tank.obj";
+	const char* resource2 = "../resources_prueba/life_tank.obj";
 	
 	manager->getResource(resource);
+	manager->getResource(resource2);
 
-
+/*
 	ChaoticEngine* engine = new ChaoticEngine();
 
-	engine->createWindow(640, 480, "3KSC", true);
+	engine->createWindow(640, 480, "3KSC", false);
 
 	//MAIN LOOP
 	while(engine->isWindowOpen()){
@@ -106,7 +108,7 @@ int main(){
 	    engine->swapBuffers();
 	}
 
-	engine->terminate();
+	engine->terminate();*/
 	
 	return 0;
 }

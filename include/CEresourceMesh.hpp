@@ -33,10 +33,13 @@ private:
 	/*  Mesh Data  */
 	std::vector<Vertex> m_vertices;
 	std::vector<GLuint> m_indices;
-	long int m_nTriangles;//faces from the mesh
+	long int m_nTriangles;
+	/*  Render data  */
+	GLuint VAO, VBO, EBO;
 	
 	void processNode(aiNode* p_node, const aiScene* p_scene);
 	void processMesh(aiMesh* p_mesh, const aiScene* p_scene);
+	void prepareBuffers();
 
 };
 

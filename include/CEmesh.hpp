@@ -3,6 +3,7 @@
 #define CEMESH
 
 #include <CEentity.hpp>
+#include <CEresourceMesh.hpp>
 
 class CEMesh : public CEEntity{
 public:
@@ -15,7 +16,7 @@ public:
 	void endDraw();
 
 private:
-	//CEResourceMesh* m_mesh;
+	CEResourceMesh* m_mesh;
 };
 
 #endif

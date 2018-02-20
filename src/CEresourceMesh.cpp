@@ -12,9 +12,10 @@ CEResourceMesh::~CEResourceMesh(){}
 void CEResourceMesh::loadFile(const char* p_name){
 
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(p_name, aiProcess_Triangulate | aiProcess_FlipUVs);
+	//| aiProcess_FlipUVs)
+	const aiScene* scene = importer.ReadFile(p_name, aiProcess_Triangulate);
 
-	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode){
+	if (!scene || scene->mFlags && AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode){
 		std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
 		return;
 	}
@@ -32,6 +33,11 @@ void CEResourceMesh::processNode(aiNode * p_node, const aiScene * p_scene){
 		aiMesh* mesh = p_scene->mMeshes[p_node->mMeshes[i]];
 		processMesh(mesh, p_scene);
 	}
+	// then do the same for each of its children
+    for(GLuint i = 0; i < p_node->mNumChildren; i++)
+    {
+        processNode(p_node->mChildren[i], p_scene);
+    }
 }
 
 void CEResourceMesh::processMesh(aiMesh * p_mesh, const aiScene * p_scene){
@@ -86,5 +92,46 @@ void CEResourceMesh::processMesh(aiMesh * p_mesh, const aiScene * p_scene){
 
 }
 
-void CEResourceMesh::draw(){}
+void CEResourceMesh::prepareBuffers(){
+
+	glGenVertexArrays(1, &this->VAO);
+	glGenBuffers(1, &this->VBO);
+	glGenBuffers(1, &this->EBO);
+
+	glBindVertexArray(this->VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
+
+	glBufferData(GL_ARRAY_BUFFER, this->m_vertices.size() * sizeof(Vertex),
+		&this->m_vertices[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->m_indices.size() * sizeof(GLuint),
+		&this->m_indices[0], GL_STATIC_DRAW);
+
+	// Vertex Positions
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+		(GLvoid*)0);
+	// Vertex Normals
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+		(GLvoid*)offsetof(Vertex, Normal));
+	// Vertex Texture Coords
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+		(GLvoid*)offsetof(Vertex, TexCoords));
+
+	glBindVertexArray(0);
+}
+
+void CEResourceMesh::draw(){
+
+	prepareBuffers();
+
+	// Draw mesh
+	glBindVertexArray(this->VAO);
+	glDrawElements(GL_TRIANGLES, this->m_indices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
+
 

@@ -1,4 +1,4 @@
-#include <../include/CEFragmentShader.hpp>
+#include <../include/manager/CEFragmentShader.hpp>
 /*
 CEFragmentShader::CEFragmentShader(){}
 CEFragmentShader::~CEFragmentShader(){}

@@ -1,70 +1,107 @@
 
-
 #include <iostream>
 
 #include <../include/chaoticengine.hpp> 
 
-ChaoticEngine::ChaoticEngine(){}
+ChaoticEngine::ChaoticEngine(){
+	m_root = new CESceneNode("root");
+	m_resourceManager = new CEResourceManager();
+}
 
 ChaoticEngine::~ChaoticEngine(){}
 
 void ChaoticEngine::createWindow(int p_width, int p_height, const char* p_title, bool fullscreen){
-// Inicializar GLFW
-	if(!glfwInit())
-	    fprintf( stderr, "Error al inicializar GLFW\n" );
+	m_window = new sf::RenderWindow(sf::VideoMode(p_width, p_height), p_title);
+}
 
-	glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // Queremos OpenGL 3.3
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // Para hacer feliz a MacOS ; Aunque no debería ser necesaria
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //No queremos el viejo OpenGL 
-
-	if(fullscreen){
-		GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-		const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-
-		glfwWindowHint(GLFW_RED_BITS, mode->redBits);
-		glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
-		glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
-		glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-
-		m_window = glfwCreateWindow(mode->width, mode->height, p_title, monitor, NULL);		
-	}else{
-		m_window = glfwCreateWindow(p_width, p_height, p_title, NULL, NULL);
-	}
-
-	glfwMakeContextCurrent(m_window); // Inicializar GLEW
-/*
-	16x16, 32x32 and 48x48
-	GLFWimage images[2];
-	images[0] = load_icon("my_icon.png");
-	images[1] = load_icon("my_icon_small.png");
-	glfwSetWindowIcon(m_window, 2, images);
-*/
-
-	if(m_window == NULL){
-	    fprintf(stderr, "Falla al abrir una ventana GLFW. Si GPU Intel prueba con OpenGL 2.2\n");
-	    glfwTerminate();
-	}
-
-	glewExperimental=true; // Se necesita en el perfil de base.
-	if(glewInit() != GLEW_OK)
-	    fprintf(stderr, "Fallo al inicializar GLEW\n");
-
-	// Capturar la tecla ESC cuando sea presionada
-	glfwSetInputMode(m_window, GLFW_STICKY_KEYS, GL_TRUE);
+void ChaoticEngine::closeWindow(){
+	m_window->close();
 }
 
 bool ChaoticEngine::isWindowOpen(){
-	return glfwGetKey(m_window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(m_window) == 0;
+	return m_window->isOpen();
 }
 
-void ChaoticEngine::swapBuffers(){
-	// Intercambiar buffers
-    glfwSwapBuffers(m_window);
-    glfwPollEvents();
+sf::RenderWindow* ChaoticEngine::getWindow(){
+	return m_window;
 }
 
-void ChaoticEngine::terminate(){
-	glfwTerminate();
+void ChaoticEngine::pushGLStates(){
+	m_window->pushGLStates();
+}
+
+void ChaoticEngine::popGLStates(){
+	m_window->popGLStates();
+}
+
+bool ChaoticEngine::pollEvent(){
+	return m_window->pollEvent(m_event);
+}
+
+/*
+			**************************************
+			* FUNCTION FOR CREATE THE SCENE TREE *
+			**************************************
+*/
+
+CESceneNode* ChaoticEngine::createNode(CESceneNode* p_father, CEEntity* p_entity){
+	CESceneNode* t_node = new CESceneNode(p_father, "node");
+	t_node->setEntity(p_entity);
+
+	return t_node;
+}
+
+CETransform* ChaoticEngine::createTransform(){
+	CETransform* t_transform = new CETransform();
+
+	return t_transform;
+}
+
+CECamera* ChaoticEngine::createCamera(){
+	CECamera* t_camera = new CECamera();
+
+	return t_camera;
+}
+
+CELight* ChaoticEngine::createLight(glm::vec3 p_intensities, float p_attenuation){
+	CELight* t_light = new CELight(p_intensities, p_attenuation);
+
+	return t_light;
+}
+
+CEMesh* ChaoticEngine::createMesh(){
+	CEMesh* t_mesh = new CEMesh();
+
+	return t_mesh;
+}
+
+CESceneNode* ChaoticEngine::getRootNode(){
+	return m_root;
+}
+
+
+void ChaoticEngine::draw(){
+	m_root->draw();
+}
+
+void ChaoticEngine::release(){
+	m_root->removeAllChilds();
+	//m_resourceManager->PONER_EL_METODO_DE_BORRADO_DE_MANU();
+
+	delete m_resourceManager;
+	delete m_root;
+}
+
+void ChaoticEngine::nodeMesh(){
+	CETransform* 	trans1  = createTransform();
+	CETransform* 	trans11 = createTransform();
+
+	CEMesh*			mesh111 = createMesh();
+
+	trans1 ->rotate(0, 45, 0);
+	trans11->translate(200, 200, 200);
+
+	CESceneNode* nodeTrans1  = createNode(getRootNode(), trans1);
+	CESceneNode* nodeTrans11 = createNode(nodeTrans1, trans11);
+	CESceneNode* nodeMesh111 = createNode(nodeTrans11, mesh111);
 }

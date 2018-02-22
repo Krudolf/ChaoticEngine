@@ -9,13 +9,15 @@ public:
 	CELight(glm::vec3 m_intensities, float m_attenuation);
 	~CELight();
 
-	void beginDraw();
-	void endDraw();
 	void setIntensities(glm::vec3 p_intensities);
 	void setAtenuation(float p_attenuation);
 
+	void beginDraw();
+	void endDraw();
+
 private:
     glm::vec3 m_intensities; //(0-1)red, green and blue intensities 
+    
     float m_attenuation;
 };
 

@@ -34,6 +34,20 @@ int main(){
 	CELight* 	light112 = new CELight(glm::vec3(1,0,0), 0.8f);
 	CELight* 	light212 = new CELight(glm::vec3(0.8,1,0), 0.5f);
 
+	//CARGA DE RECURSOS
+	CEResourceManager* manager = CEResourceManager::instance();
+	const char* resource = "resources_prueba/life_tank.obj";
+	const char* resource2 = "resources_prueba/Lago_sakura.obj";
+	const char* resource3 = "resources_prueba/fabrica_kawiisaki.obj";
+	const char* resource4 = "resources_prueba/fusfus_stadium.obj";
+
+	mesh12->loadResource(resource);
+	
+	manager->getResource(resource2);
+	manager->getResource(resource3);
+	manager->getResource(resource4);
+	
+
 	//ASSIGN ENTITIES TO NODES
 	nodeTrans1->setEntity(trans1);
 	nodeTrans11->setEntity(trans11);
@@ -89,13 +103,10 @@ int main(){
     trans1->showMatrix();
 */
 
-	//CARGA DE RECURSOS
-	CEResourceManager* manager = new CEResourceManager();
-	const char* resource = "resources_prueba/life_tank.obj";
-	const char* resource2 = "resources_prueba/life_tank.obj";
-	
-	manager->getResource(resource);
-	manager->getResource(resource2);
+
+	manager->showResources();
+	manager->deleteResources();
+	manager->showResources();
 
 
 	ChaoticEngine* engine = new ChaoticEngine();
@@ -104,7 +115,8 @@ int main(){
 
 	//MAIN LOOP
 	while(engine->isWindowOpen()){
-	    
+
+		nodeRoot->draw();
 	    engine->swapBuffers();
 	}
 

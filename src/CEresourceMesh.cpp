@@ -9,7 +9,7 @@ CEResourceMesh::CEResourceMesh() : CEResource(){}
 //Destructor
 CEResourceMesh::~CEResourceMesh(){}
 
-void CEResourceMesh::loadFile(const char* p_name){
+bool CEResourceMesh::loadFile(const char* p_name){
 
 	Assimp::Importer importer;
 	//| aiProcess_FlipUVs)
@@ -17,10 +17,11 @@ void CEResourceMesh::loadFile(const char* p_name){
 
 	if (!scene || scene->mFlags && AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode){
 		std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
-		return;
+		return false;
 	}
 
 	processNode(scene->mRootNode, scene);
+	return true;
 }
 
 
@@ -93,11 +94,13 @@ void CEResourceMesh::processMesh(aiMesh * p_mesh, const aiScene * p_scene){
 }
 
 void CEResourceMesh::prepareBuffers(){
+	std::cout << "PETOO!!\n";
 
 	glGenVertexArrays(1, &this->VAO);
 	glGenBuffers(1, &this->VBO);
 	glGenBuffers(1, &this->EBO);
 
+	std::cout << "PETOO!!\n";
 	glBindVertexArray(this->VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
 
@@ -125,7 +128,6 @@ void CEResourceMesh::prepareBuffers(){
 }
 
 void CEResourceMesh::draw(){
-
 	prepareBuffers();
 
 	// Draw mesh

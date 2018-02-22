@@ -26,7 +26,7 @@ public:
 	CEResourceMesh();
 	~CEResourceMesh();
 
-	void loadFile(const char* p_name);
+	bool loadFile(const char* p_name);
 	void draw();
 
 private:

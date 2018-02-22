@@ -9,7 +9,7 @@ public:
 
 	const char* getName(){	return m_name;	};
 	void setName(const char* p_name){	m_name = p_name;	};
-	virtual void loadFile(const char* p_name){};
+	virtual bool loadFile(const char* p_name){};
 
 protected:
 

@@ -4,19 +4,20 @@
 
 #include <CEentity.hpp>
 #include <CEresourceMesh.hpp>
+#include <vector>
 
 class CEMesh : public CEEntity{
 public:
 	CEMesh();
 	~CEMesh();
 
-	void loadSource(const char* p_urlSource);
+	void loadResource(const char* p_urlSource);
 
 	void beginDraw();
 	void endDraw();
 
 private:
-	CEResourceMesh* m_mesh;
+	std::vector<CEResourceMesh*> m_mesh;
 };
 
 #endif

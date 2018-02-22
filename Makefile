@@ -14,8 +14,8 @@ BINARY 	:= CE
 #Compiler set-up
 CC		:= g++
 LDFLAGS := -Wl,-rpath=$(LIBDIR)
-INCLUDE := -I$(HDRDIR) -I$(INCDIR)OpenGL -I$(INCDIR)glm -I$(INCDIR)
-LIBS	:= -L$(LIBDIR) -lGL -lGLEW -lglfw -lassimp
+INCLUDE := -I$(HDRDIR) -I$(INCDIR) -I$(INCDIR)OpenGL -I$(INCDIR)glm -I$(INCDIR)sfml
+LIBS	:= -L$(LIBDIR) -lGL -lGLEW -lglfw -lassimp -lsfml-window -lsfml-graphics -lsfml-system
 
 #Make binary
 $(BINARY): $(OBJECTS)

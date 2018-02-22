@@ -1,4 +1,4 @@
-#include "../include/CEGLShader.hpp"
+#include "../include/manager/CEGLShader.hpp"
 
 #include <string>
 #include <iostream>

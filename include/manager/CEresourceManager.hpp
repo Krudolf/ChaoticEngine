@@ -12,6 +12,7 @@ public:
 	~CEResourceManager();
 
 	CEResource* getResource(const char* p_name);
+	
 
 private:
 	std::vector<CEResource*> m_resources;

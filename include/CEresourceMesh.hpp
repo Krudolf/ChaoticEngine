@@ -3,9 +3,13 @@
 #define CERESOURMESH
 
 #include <vector>
+
+#include <glew.h>
+#include <glut.h>
+
 #include <glm.hpp>
-#include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
+
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
@@ -32,19 +36,21 @@ public:
 	void draw();
 
 private:
-
 	std::vector<CEResourceMesh*> m_meshes;
 
 	/*  Mesh Data  */
 	std::vector<Vertex> m_vertices;
 	std::vector<GLuint> m_indices;
 	long int m_nTriangles;
+
 	/*  Render data  */
-	GLuint m_VAO = 0, m_VBO = 0, m_EBO = 0;
+	GLuint m_VAO = 0;
+	GLuint m_VBO = 0;
+	GLuint m_EBO = 0;
 	
-	void processNode(aiNode* p_node, const aiScene* p_scene);
+	void 			prepareBuffers();
+	void 			processNode(aiNode* p_node, const aiScene* p_scene);
 	CEResourceMesh* processMesh(aiMesh* p_mesh, const aiScene* p_scene);
-	void prepareBuffers();
 
 };
 

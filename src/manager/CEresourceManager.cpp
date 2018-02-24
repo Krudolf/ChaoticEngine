@@ -50,14 +50,12 @@ CEResource* CEResourceManager::getResource(const char* p_name){
 }
 
 void CEResourceManager::deleteResources(){
-
 	std::cout<<std::endl;
 	std::cout<<"Borrar todos los recursos"<<std::endl;
 	m_resources.clear();
 }
 
 void CEResourceManager::showResources(){
-
 	std::cout<<std::endl;
 	std::cout<<"Lista de recursos"<<std::endl;
 	for(int i = 0; i < m_resources.size(); i++){

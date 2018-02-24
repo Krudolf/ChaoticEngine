@@ -17,12 +17,11 @@ CEResourceMesh::CEResourceMesh(std::vector<Vertex> p_vertices, std::vector<GLuin
 CEResourceMesh::~CEResourceMesh(){}
 
 bool CEResourceMesh::loadFile(const char* p_name){
-
 	Assimp::Importer importer;
 	//| aiProcess_FlipUVs)
 	const aiScene* scene = importer.ReadFile(p_name, aiProcess_Triangulate);
 
-	if (!scene || scene->mFlags && AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode){
+	if(!scene || scene->mFlags && AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode){
 		std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
 		return false;
 	}
@@ -31,11 +30,9 @@ bool CEResourceMesh::loadFile(const char* p_name){
 	return true;
 }
 
-
-void CEResourceMesh::processNode(aiNode * p_node, const aiScene * p_scene){
-
+void CEResourceMesh::processNode(aiNode* p_node, const aiScene* p_scene){
 	// Process each mesh located at the current node
-	for (GLuint i = 0; i < p_node->mNumMeshes; i++){
+	for(GLuint i = 0; i < p_node->mNumMeshes; i++){
 		// The node object only contains indices to index the actual objects in the scene. 
 		// The scene contains all the data
 		aiMesh* mesh = p_scene->mMeshes[p_node->mMeshes[i]];
@@ -43,14 +40,12 @@ void CEResourceMesh::processNode(aiNode * p_node, const aiScene * p_scene){
 		//processMesh(mesh, p_scene);
 	}
 	// then do the same for each of its children
-    for(GLuint i = 0; i < p_node->mNumChildren; i++)
-    {
+    for(GLuint i = 0; i < p_node->mNumChildren; i++){
         this->processNode(p_node->mChildren[i], p_scene);
     }
 }
 
-CEResourceMesh* CEResourceMesh::processMesh(aiMesh * p_mesh, const aiScene * p_scene){
-
+CEResourceMesh* CEResourceMesh::processMesh(aiMesh* p_mesh, const aiScene* p_scene){
 	// Data to fill
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
@@ -99,47 +94,36 @@ CEResourceMesh* CEResourceMesh::processMesh(aiMesh * p_mesh, const aiScene * p_s
 	resourceMesh->m_nTriangles = p_mesh->mNumFaces;
 
 	return (resourceMesh);
-
 }
 
 void CEResourceMesh::prepareBuffers(){
+	glGenVertexArrays(1, &m_VAO);
+	glGenBuffers(1, &m_VBO);
+	glGenBuffers(1, &m_EBO);
+	glBindVertexArray(m_VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 
-std::cout << "PETOO!!\n";
-	glGenVertexArrays(1, &this->m_VAO);
-std::cout << "PETOO!!\n";
-	glGenBuffers(1, &this->m_VBO);
-	glGenBuffers(1, &this->m_EBO);
-	glBindVertexArray(this->m_VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, this->m_VBO);
+	glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(Vertex), &m_vertices[0], GL_STATIC_DRAW);
 
-	glBufferData(GL_ARRAY_BUFFER, this->m_vertices.size() * sizeof(Vertex),
-		&this->m_vertices[0], GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->m_EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->m_indices.size() * sizeof(GLuint),
-		&this->m_indices[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(GLuint), &m_indices[0], GL_STATIC_DRAW);
 
 	// Vertex Positions
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-		(GLvoid*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)0);
 	// Vertex Normals
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-		(GLvoid*)offsetof(Vertex, Normal));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, Normal));
 	// Vertex Texture Coords
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-		(GLvoid*)offsetof(Vertex, TexCoords));
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, TexCoords));
 
 	glBindVertexArray(0);
 }
 
 void CEResourceMesh::draw(){
-
 	// Draw mesh
-	for (GLuint i = 0; i < this->m_meshes.size(); i++) {
-
+	for (GLuint i = 0; i < m_meshes.size(); i++) {
 		glBindVertexArray(m_meshes[i]->m_VAO);
 		glDrawElements(GL_TRIANGLES, m_meshes[i]->m_indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);

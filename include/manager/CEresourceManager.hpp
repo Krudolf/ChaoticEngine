@@ -5,6 +5,9 @@
 #include <vector>
 #include <iostream>
 
+#include <glew.h>
+#include <glut.h>
+
 #include "CEresource.hpp"
 
 class CEResourceManager{

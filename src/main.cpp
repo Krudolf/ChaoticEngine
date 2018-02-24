@@ -3,6 +3,9 @@
 
 int main(){
 	std::cout << "*************************\n* TEST DE CHAOTICENGINE *\n*************************" << std::endl;
+	
+	ChaoticEngine* engine = new ChaoticEngine();
+	engine->createWindow(640, 480, "3KSC", false);
 
 	//CREATE ALL NODES
 	CESceneNode* nodeRoot = new CESceneNode("nodeRoot");
@@ -18,7 +21,6 @@ int main(){
 	CESceneNode* nodeMesh22  = new CESceneNode(nodeTrans2, "nodeMesh22");
 	CESceneNode* nodeMesh211 = new CESceneNode(nodeTrans21, "nodeMesh211");
 	//CESceneNode* nodeLight212 = new CESceneNode(nodeTrans21, "nodeLight212");
-
 
 	//CREATE ALL ENTITIES
 	CETransform* 	trans1  = new CETransform();
@@ -36,7 +38,7 @@ int main(){
 
 	//CARGA DE RECURSOS
 	CEResourceManager* manager = CEResourceManager::instance();
-	const char* resource = "resources_prueba/life_tank.obj";
+	const char* resource  = "resources_prueba/life_tank.obj";
 	const char* resource2 = "resources_prueba/Lago_sakura.obj";
 	const char* resource3 = "resources_prueba/fabrica_kawiisaki.obj";
 	const char* resource4 = "resources_prueba/fusfus_stadium.obj";
@@ -63,62 +65,22 @@ int main(){
 	//nodeLight112->setEntity(light112);
 	//nodeLight212->setEntity(light212);
 
-
 	//APLICAMOS TRANSFORMACIONES
 	trans1->translate(10, 10, 10);
 	trans11->translate(200, 200, 200);
     trans2->rotate(0, 0, 45);
 
-
-
 	//DIBUJADO DEL ARBOL
 	std::cout << "\nDIBUJAMOS ARBOL DE LA ESCENA" << std::endl;
-	nodeRoot->draw();
-
-/*
-    //TRANSFORMACIONES
-    std::cout << std::endl << "TRANSFORMATIONS" << std::endl;
-    std::cout << "Identity" << std::endl;
-    trans1->showMatrix();
-
-    std::cout << "Translate" << std::endl;
-    trans1->translate(1, 2, 3);
-    //trans1->transpose();
-    trans1->showMatrix();
-    
-    std::cout << "Identity" << std::endl;
-    trans1->loadIdentity();
-    trans1->showMatrix();
-    
-    std::cout << "Rotate" << std::endl;
-    trans1->rotate(0, 0, 30);
-    //trans1->transpose();
-    trans1->showMatrix();
-    
-    std::cout << "Identity" << std::endl;
-    trans1->loadIdentity();
-    trans1->showMatrix();
-
-    std::cout << "Scale" << std::endl;
-    trans1->scale(1, 2, 3);
-    trans1->showMatrix();
-*/
-
-
-
-
-	ChaoticEngine* engine = new ChaoticEngine();
-
-	engine->createWindow(640, 480, "3KSC", false);
+	//nodeRoot->draw();
 
 	//MAIN LOOP
 	while(engine->isWindowOpen()){
-
 		nodeRoot->draw();
 	    engine->swapBuffers();
 	}
 
 	engine->terminate();
-	
+
 	return 0;
 }

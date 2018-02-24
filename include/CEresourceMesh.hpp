@@ -4,7 +4,8 @@
 
 #include <vector>
 #include <glm.hpp>
-#include <GL/glew.h> 
+#include <GL/glew.h>
+#include <glm/gtc/matrix_transform.hpp>
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
@@ -24,21 +25,25 @@ struct Vertex {
 class CEResourceMesh: public CEResource{
 public:
 	CEResourceMesh();
+	CEResourceMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indices);
 	~CEResourceMesh();
 
 	bool loadFile(const char* p_name);
 	void draw();
 
 private:
+
+	std::vector<CEResourceMesh*> m_meshes;
+
 	/*  Mesh Data  */
 	std::vector<Vertex> m_vertices;
 	std::vector<GLuint> m_indices;
 	long int m_nTriangles;
 	/*  Render data  */
-	GLuint VAO, VBO, EBO;
+	GLuint m_VAO = 0, m_VBO = 0, m_EBO = 0;
 	
 	void processNode(aiNode* p_node, const aiScene* p_scene);
-	void processMesh(aiMesh* p_mesh, const aiScene* p_scene);
+	CEResourceMesh* processMesh(aiMesh* p_mesh, const aiScene* p_scene);
 	void prepareBuffers();
 
 };

@@ -6,6 +6,13 @@
 //Constructor
 CEResourceMesh::CEResourceMesh() : CEResource(){}
 
+CEResourceMesh::CEResourceMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indices) : CEResource(){
+	m_vertices = p_vertices;
+	m_indices = p_indices;
+
+	this->prepareBuffers();
+}
+
 //Destructor
 CEResourceMesh::~CEResourceMesh(){}
 
@@ -32,16 +39,17 @@ void CEResourceMesh::processNode(aiNode * p_node, const aiScene * p_scene){
 		// The node object only contains indices to index the actual objects in the scene. 
 		// The scene contains all the data
 		aiMesh* mesh = p_scene->mMeshes[p_node->mMeshes[i]];
-		processMesh(mesh, p_scene);
+		this->m_meshes.push_back(this->processMesh(mesh, p_scene));
+		//processMesh(mesh, p_scene);
 	}
 	// then do the same for each of its children
     for(GLuint i = 0; i < p_node->mNumChildren; i++)
     {
-        processNode(p_node->mChildren[i], p_scene);
+        this->processNode(p_node->mChildren[i], p_scene);
     }
 }
 
-void CEResourceMesh::processMesh(aiMesh * p_mesh, const aiScene * p_scene){
+CEResourceMesh* CEResourceMesh::processMesh(aiMesh * p_mesh, const aiScene * p_scene){
 
 	// Data to fill
 	std::vector<Vertex> vertices;
@@ -87,27 +95,27 @@ void CEResourceMesh::processMesh(aiMesh * p_mesh, const aiScene * p_scene){
 	}
 
 	// Save the information in the vectors form the resource
-	m_vertices = vertices;
-	m_indices = indices;
-	m_nTriangles = p_mesh->mNumFaces;
+	CEResourceMesh* resourceMesh = new CEResourceMesh(vertices, indices);
+	resourceMesh->m_nTriangles = p_mesh->mNumFaces;
+
+	return (resourceMesh);
 
 }
 
 void CEResourceMesh::prepareBuffers(){
-	std::cout << "PETOO!!\n";
 
-	glGenVertexArrays(1, &this->VAO);
-	glGenBuffers(1, &this->VBO);
-	glGenBuffers(1, &this->EBO);
-
-	std::cout << "PETOO!!\n";
-	glBindVertexArray(this->VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
+std::cout << "PETOO!!\n";
+	glGenVertexArrays(1, &this->m_VAO);
+std::cout << "PETOO!!\n";
+	glGenBuffers(1, &this->m_VBO);
+	glGenBuffers(1, &this->m_EBO);
+	glBindVertexArray(this->m_VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, this->m_VBO);
 
 	glBufferData(GL_ARRAY_BUFFER, this->m_vertices.size() * sizeof(Vertex),
 		&this->m_vertices[0], GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->m_EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->m_indices.size() * sizeof(GLuint),
 		&this->m_indices[0], GL_STATIC_DRAW);
 
@@ -128,12 +136,14 @@ void CEResourceMesh::prepareBuffers(){
 }
 
 void CEResourceMesh::draw(){
-	prepareBuffers();
 
 	// Draw mesh
-	glBindVertexArray(this->VAO);
-	glDrawElements(GL_TRIANGLES, this->m_indices.size(), GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
+	for (GLuint i = 0; i < this->m_meshes.size(); i++) {
+
+		glBindVertexArray(m_meshes[i]->m_VAO);
+		glDrawElements(GL_TRIANGLES, m_meshes[i]->m_indices.size(), GL_UNSIGNED_INT, 0);
+		glBindVertexArray(0);
+	}
 }
 
 

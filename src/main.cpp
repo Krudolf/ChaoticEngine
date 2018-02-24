@@ -47,6 +47,7 @@ int main(){
 	manager->getResource(resource3);
 	manager->getResource(resource4);
 	
+	manager->showResources();
 
 	//ASSIGN ENTITIES TO NODES
 	nodeTrans1->setEntity(trans1);
@@ -104,9 +105,6 @@ int main(){
 */
 
 
-	manager->showResources();
-	manager->deleteResources();
-	manager->showResources();
 
 
 	ChaoticEngine* engine = new ChaoticEngine();

@@ -4,7 +4,6 @@
 
 #include <CEentity.hpp>
 #include <CEresourceMesh.hpp>
-#include <vector>
 
 class CEMesh : public CEEntity{
 public:
@@ -17,7 +16,7 @@ public:
 	void endDraw();
 
 private:
-	std::vector<CEResourceMesh*> m_mesh;
+	CEResourceMesh* m_mesh;
 };
 
 #endif

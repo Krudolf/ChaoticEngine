@@ -29,8 +29,8 @@ void CEMesh::beginDraw(){
 	std::cout << "Valor de la matrixModel:" << std::endl;
 	showMatrix(m_modelMatrix);
 
-    for(int i = 0; i < m_mesh.size(); i++){
-        m_mesh[i]->draw();
+    if(m_mesh != NULL){
+        m_mesh->draw();
     }
 }
 
@@ -41,6 +41,6 @@ void CEMesh::loadResource(const char* p_urlSource){
     CEResourceManager *t_manager = CEResourceManager::instance();
     CEResource *t_resource = t_manager->getResource(p_urlSource);
     if(t_resource != NULL){
-        m_mesh.push_back((CEResourceMesh*)t_resource);
+        m_mesh = (CEResourceMesh*)t_resource;
     }
 }

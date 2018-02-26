@@ -18,6 +18,7 @@
 #include <CEtransform.hpp>
 
 #include <manager/CEresourceManager.hpp>
+#include <manager/CEGLShader.hpp>
 
 class ChaoticEngine{
 public:
@@ -38,6 +39,8 @@ public:
 	CECamera*		createCamera();
 	CELight*		createLight(glm::vec3 p_intensities, float p_attenuation);
 	CEMesh*			createMesh();
+	GLuint 			loadShader();
+	void			setShadersPath(const char* vert_path, const char* frag_path);
 
 	void nodeMesh();
 
@@ -51,6 +54,11 @@ private:
 
 	CESceneNode*		m_root;
 	CEResourceManager*	m_resourceManager;
+
+	CEGLShader 			*m_loader;
+
+	const char *m_vertex_path;
+	const char *m_fragment_path;
 };
 
 #endif

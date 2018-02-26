@@ -1,9 +1,13 @@
 
 #include <iostream>
 
-#include <../include/chaoticengine.hpp> 
+#include <../include/chaoticengine.hpp>
+ 
 
 ChaoticEngine::ChaoticEngine(){
+	m_loader = new CEGLShader();
+	m_vertex_path = "hola";
+	m_fragment_path = "adios";
 	m_root = new CESceneNode("root");
 	m_resourceManager = new CEResourceManager();
 }
@@ -76,6 +80,17 @@ CEMesh* ChaoticEngine::createMesh(){
 	CEMesh* t_mesh = new CEMesh();
 
 	return t_mesh;
+}
+
+// Loads the shaders. By default, loads default path. To change path, use setShadersPath(vertex_path, fragment_path)
+GLuint ChaoticEngine::loadShader(){
+	m_loader->LoadShader(m_vertex_path, m_fragment_path);
+}
+
+// Sets the path to load the shaders from
+void ChaoticEngine::setShadersPath(const char* vert_path, const char* frag_path){
+	m_vertex_path = vert_path;
+	m_fragment_path = frag_path;
 }
 
 CESceneNode* ChaoticEngine::getRootNode(){

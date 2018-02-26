@@ -2,6 +2,7 @@
 #define CEGLSHADER_H
 
 #include <glew.h>
+#include <string>
 
 class CEGLShader{
 public:
@@ -10,7 +11,7 @@ public:
     GLuint LoadShader(const char *vertex_path, const char *fragment_path);
 
 private:
-
+	std::string readFile(const char *filePath);
 };
 
 #endif

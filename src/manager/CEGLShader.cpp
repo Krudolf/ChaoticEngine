@@ -1,13 +1,14 @@
 #include "../include/manager/CEGLShader.hpp"
 
-#include <string>
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <algorithm>
 
+CEGLShader::CEGLShader(){}
+CEGLShader::~CEGLShader(){}
 
-std::string readFile(const char *filePath) {
+std::string CEGLShader::readFile(const char *filePath) {
     std::string content;
     std::ifstream fileStream(filePath, std::ios::in);
 
@@ -27,7 +28,7 @@ std::string readFile(const char *filePath) {
 }
 
 
-GLuint LoadShader(const char *vertex_path, const char *fragment_path) {
+GLuint CEGLShader::LoadShader(const char *vertex_path, const char *fragment_path) {
     GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
     GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
 

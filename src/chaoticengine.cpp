@@ -14,10 +14,6 @@ void ChaoticEngine::createWindow(int p_width, int p_height, const char* p_title,
 	m_window = new sf::RenderWindow(sf::VideoMode(p_width, p_height), p_title);
 }
 
-void ChaoticEngine::closeWindow(){
-	m_window->close();
-}
-
 bool ChaoticEngine::isWindowOpen(){
 	return m_window->isOpen();
 }
@@ -34,8 +30,15 @@ void ChaoticEngine::popGLStates(){
 	m_window->popGLStates();
 }
 
-bool ChaoticEngine::pollEvent(){
-	return m_window->pollEvent(m_event);
+void ChaoticEngine::eventHandler(){
+	sf::Event t_event;
+	while(m_window->pollEvent(t_event)){
+		switch(t_event.type){
+			case sf::Event::Closed:
+				m_window->close();
+			break;
+		}
+    }
 }
 
 /*

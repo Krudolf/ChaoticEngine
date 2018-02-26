@@ -25,14 +25,13 @@ public:
 	~ChaoticEngine();
 
 	void createWindow(int p_width, int p_height, const char* p_title, bool fullscreen);
-	void closeWindow();
 	bool isWindowOpen();
 	sf::RenderWindow* getWindow();
 
 	void pushGLStates();
 	void popGLStates();
 
-	bool pollEvent();
+	void eventHandler();
 
 	CESceneNode* 	createNode(CESceneNode* p_father, CEEntity* p_entity);
 	CETransform* 	createTransform();

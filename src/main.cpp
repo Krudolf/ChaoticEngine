@@ -5,25 +5,19 @@ int main(){
 	std::cout << "*************************\n* TEST DE CHAOTICENGINE *\n*************************" << std::endl;
 
 	ChaoticEngine* engine = new ChaoticEngine();
+	engine->createWindow(640, 480, "3KSC", true);
+/*
+	Comentar si quieremos ver la ventana!!
+	engine->getWindow()->close();
+*/
 
 	//Crea un nodo hoja mesh con dos transformaciones padre(rotate->translate->mesh)
 	engine->nodeMesh();
 
 	engine->draw();
-
-	engine->createWindow(640, 480, "3KSC", true);
-/*
-	Comentar si quieremos ver la ventana!!
-*/
-	engine->closeWindow();
 	//MAIN LOOP
 	while(engine->isWindowOpen()){
-		sf::Event event;
-        while (engine->getWindow()->pollEvent(event)){
-            if (event.type == sf::Event::Closed){
-                engine->closeWindow();
-            }
-        }
+		engine->eventHandler();
 	    //Dibujamos con OpenGL
 
 

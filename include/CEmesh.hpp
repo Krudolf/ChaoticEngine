@@ -7,12 +7,12 @@
 class CEMesh : public CEEntity{
 public:
 	CEMesh();
-	~CEMesh();
+	virtual ~CEMesh();
 
 	void loadSource(const char* p_urlSource);
 
-	void beginDraw();
-	void endDraw();
+	void beginDraw() override;
+	void endDraw() override;
 
 private:
 	//ResourceMesh* m_mesh;

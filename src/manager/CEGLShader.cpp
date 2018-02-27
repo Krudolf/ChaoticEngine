@@ -27,7 +27,6 @@ std::string CEGLShader::readFile(const char *filePath) {
     return content;
 }
 
-
 GLuint CEGLShader::LoadShader(const char *vertex_path, const char *fragment_path) {
     GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
     GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -35,6 +34,8 @@ GLuint CEGLShader::LoadShader(const char *vertex_path, const char *fragment_path
     // Read shaders
     std::string vertShaderStr = readFile(vertex_path);
     std::string fragShaderStr = readFile(fragment_path);
+    if(vertShaderStr == "" || fragShaderStr == "")
+        exit(EXIT_FAILURE);
     const char *vertShaderSrc = vertShaderStr.c_str();
     const char *fragShaderSrc = fragShaderStr.c_str();
 
@@ -52,6 +53,11 @@ GLuint CEGLShader::LoadShader(const char *vertex_path, const char *fragment_path
     std::vector<char> vertShaderError((logLength > 1) ? logLength : 1);
     glGetShaderInfoLog(vertShader, logLength, NULL, &vertShaderError[0]);
     std::cout << &vertShaderError[0] << std::endl;
+
+    GLint compiled = 0;
+    glGetShaderiv(vertShader, GL_COMPILE_STATUS, &compiled);
+    //if(compiled == GL_FALSE)
+    //    exit(EXIT_FAILURE);
 
     // Compile fragment shader
     std::cout << "Compiling fragment shader." << std::endl;

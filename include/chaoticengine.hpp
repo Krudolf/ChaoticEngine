@@ -6,12 +6,12 @@
 #include <glew.h>
 #include <gl.h>
 #include <glu.h>
-#include <glut.h>
+//#include <glut.h>
 #include <glfw3.h>
 #include <glm.hpp>
 
 #include <SFML/Graphics.hpp>
-#include <SFML/OpenGL.hpp>
+//#include <SFML/OpenGL.hpp>
 
 #include <CEentity.hpp>
 #include <CEcamera.hpp>
@@ -55,7 +55,8 @@ public:
 	void 			loadShader();
 	void			setShadersPath(const char* vert_path, const char* frag_path);
 
-	void cube();
+	void createVertexBuffer();
+	void renderBuffers();
 	void displayGL();
 
 private:
@@ -68,6 +69,8 @@ private:
 
 	CEGLShader* 		m_loader;
 	GLuint				m_shader;
+
+	GLuint				m_VBO;
 
 	const char* m_vertex_path;
 	const char* m_fragment_path;

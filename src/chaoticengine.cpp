@@ -36,7 +36,6 @@ void ChaoticEngine::initGL(){
     gluPerspective(90.f, 1.f, 1.f, 300.0f);//fov, aspect, zNear, zFar
 }
 
-
 void ChaoticEngine::createWindow(int p_width, int p_height, const char* p_title, bool fullscreen){
 	m_window = new sf::RenderWindow(sf::VideoMode(p_width, p_height), p_title);
 
@@ -155,30 +154,33 @@ void ChaoticEngine::setShadersPath(const char* vert_path, const char* frag_path)
 	m_fragment_path = frag_path;
 }
 
-void ChaoticEngine::cube(){
-	/*Vector3f Vertices[3];
-	Vertices[0] = Vector3f(-1.0f, -1.0f, 0.0f);
-	Vertices[1] = Vector3f(1.0f, -1.0f, 0.0f);
-	Vertices[2] = Vector3f(0.0f, 1.0f, 0.0f);
+void ChaoticEngine::createVertexBuffer(){
+	glm::vec3 Vertices[3];
+    Vertices[0] = glm::vec3(-1.0f, -1.0f, 0.0f);
+    Vertices[1] = glm::vec3(1.0f, -1.0f, 0.0f);
+    Vertices[2] = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	GLuint VBO;
-	glGenBuffers(1, &VBO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
+ 	glGenBuffers(1, &m_VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+}
 
-	glEnableVertexAttribArray(0);
+void ChaoticEngine::renderBuffers(){
+	glClear(GL_COLOR_BUFFER_BIT);
 
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
 
-	glDrawArrays(GL_TRIANGLES, 0, 3);*/
+    glDisableVertexAttribArray(0);
+
+    //glfwSwapBuffers();
 }
 
 void ChaoticEngine::displayGL(){
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Apply some transformations for the cube
     glMatrixMode(GL_MODELVIEW);
@@ -193,37 +195,31 @@ void ChaoticEngine::displayGL(){
 
 	//Draw a cube
 	glBegin(GL_QUADS);//draw some squares
-	glColor3i(0,1,1);
 	glVertex3f(-50.f, -50.f, -50.f);
 	glVertex3f(-50.f,  50.f, -50.f);
 	glVertex3f( 50.f,  50.f, -50.f);
 	glVertex3f( 50.f, -50.f, -50.f);
 
-	glColor3f(0,0,1);
 	glVertex3f(-50.f, -50.f, 50.f);
 	glVertex3f(-50.f,  50.f, 50.f);
 	glVertex3f( 50.f,  50.f, 50.f);
 	glVertex3f( 50.f, -50.f, 50.f);
 
-	glColor3f(1,0,1);
 	glVertex3f(-50.f, -50.f, -50.f);
 	glVertex3f(-50.f,  50.f, -50.f);
 	glVertex3f(-50.f,  50.f,  50.f);
 	glVertex3f(-50.f, -50.f,  50.f);
 
-	glColor3f(0,1,0);
 	glVertex3f(50.f, -50.f, -50.f);
 	glVertex3f(50.f,  50.f, -50.f);
 	glVertex3f(50.f,  50.f,  50.f);
 	glVertex3f(50.f, -50.f,  50.f);
 
-	glColor3f(1,1,0);
 	glVertex3f(-50.f, -50.f,  50.f);
 	glVertex3f(-50.f, -50.f, -50.f);
 	glVertex3f( 50.f, -50.f, -50.f);
 	glVertex3f( 50.f, -50.f,  50.f);
 
-	glColor3f(1,0,0);
 	glVertex3f(-50.f, 50.f,  50.f);
 	glVertex3f(-50.f, 50.f, -50.f);
 	glVertex3f( 50.f, 50.f, -50.f);

@@ -14,24 +14,24 @@ int main(){
 	engine->nodeMesh();
 	engine->loadShader();
 
+	//engine->createVertexBuffer();
+
 	engine->draw();
 	//MAIN LOOP
 	while(engine->isWindowOpen()){
 	    engine->getWindow()->clear();
 		engine->eventHandler();
-//Dibujamos con OpenGL
-		glClear(GL_COLOR_BUFFER_BIT); 
+/* --------------- Dibujamos con OpenGL --------------- */
 		engine->displayGL();
-		//engine->cube();
-		//glutSwapBuffers();
+		//engine->renderBuffers();
+
 	    engine->pushGLStates();
-//Dibujamos con SFML
+/* --------------- Dibujamos con SFML --------------- */
 
 		engine->quad();
-
-	    engine->getWindow()->display();
 	    
 	    engine->popGLStates();
+	    engine->getWindow()->display();
 	}
 
 	engine->release();

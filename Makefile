@@ -44,7 +44,7 @@ cleanc:
 
 #Runs after compiling
 run:
-	make $(FAST)
+	make
 	./$(BINARY)
 
 #Cleans, compiles and runs

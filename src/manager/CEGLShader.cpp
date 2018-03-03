@@ -27,7 +27,6 @@ std::string CEGLShader::readFile(const char *filePath) {
     return content;
 }
 
-
 GLuint CEGLShader::LoadShader(const char *vertex_path, const char *fragment_path) {
     GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
     GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -35,10 +34,12 @@ GLuint CEGLShader::LoadShader(const char *vertex_path, const char *fragment_path
     // Read shaders
     std::string vertShaderStr = readFile(vertex_path);
     std::string fragShaderStr = readFile(fragment_path);
+    if(vertShaderStr == "" || fragShaderStr == "")
+        exit(EXIT_FAILURE);
     const char *vertShaderSrc = vertShaderStr.c_str();
     const char *fragShaderSrc = fragShaderStr.c_str();
 
-    GLint result = GL_FALSE;
+    GLint resultV = 0, resultF = 0, resultL = 0;
     int logLength;
 
     // Compile vertex shader
@@ -47,11 +48,11 @@ GLuint CEGLShader::LoadShader(const char *vertex_path, const char *fragment_path
     glCompileShader(vertShader);
 
     // Check vertex shader
-    glGetShaderiv(vertShader, GL_COMPILE_STATUS, &result);
+    glGetShaderiv(vertShader, GL_COMPILE_STATUS, &resultV);
     glGetShaderiv(vertShader, GL_INFO_LOG_LENGTH, &logLength);
     std::vector<char> vertShaderError((logLength > 1) ? logLength : 1);
-    glGetShaderInfoLog(vertShader, logLength, NULL, &vertShaderError[0]);
-    std::cout << &vertShaderError[0] << std::endl;
+        glGetShaderInfoLog(vertShader, logLength, NULL, &vertShaderError[0]);
+        std::cout << &vertShaderError[0] << std::endl;
 
     // Compile fragment shader
     std::cout << "Compiling fragment shader." << std::endl;
@@ -59,11 +60,14 @@ GLuint CEGLShader::LoadShader(const char *vertex_path, const char *fragment_path
     glCompileShader(fragShader);
 
     // Check fragment shader
-    glGetShaderiv(fragShader, GL_COMPILE_STATUS, &result);
+    glGetShaderiv(fragShader, GL_COMPILE_STATUS, &resultF);
     glGetShaderiv(fragShader, GL_INFO_LOG_LENGTH, &logLength);
     std::vector<char> fragShaderError((logLength > 1) ? logLength : 1);
-    glGetShaderInfoLog(fragShader, logLength, NULL, &fragShaderError[0]);
-    std::cout << &fragShaderError[0] << std::endl;
+        glGetShaderInfoLog(fragShader, logLength, NULL, &fragShaderError[0]);
+        std::cout << &fragShaderError[0] << std::endl;
+
+    if(resultV == GL_FALSE || resultF == GL_FALSE)
+        exit(EXIT_FAILURE);
 
     std::cout << "Linking program" << std::endl;
     GLuint program = glCreateProgram();
@@ -71,11 +75,11 @@ GLuint CEGLShader::LoadShader(const char *vertex_path, const char *fragment_path
     glAttachShader(program, fragShader);
     glLinkProgram(program);
 
-    glGetProgramiv(program, GL_LINK_STATUS, &result);
+    glGetProgramiv(program, GL_LINK_STATUS, &resultL);
     glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
     std::vector<char> programError( (logLength > 1) ? logLength : 1 );
-    glGetProgramInfoLog(program, logLength, NULL, &programError[0]);
-    std::cout << &programError[0] << std::endl;
+        glGetProgramInfoLog(program, logLength, NULL, &programError[0]);
+        std::cout << &programError[0] << std::endl;
 
     glDeleteShader(vertShader);
     glDeleteShader(fragShader);

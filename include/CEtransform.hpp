@@ -9,7 +9,7 @@
 class CETransform : public CEEntity{
 public:
 	CETransform();
-	~CETransform();
+	virtual ~CETransform();
 
     void        loadIdentity();
     void        loadMatrix(glm::mat4 p_matrix);
@@ -21,8 +21,8 @@ public:
     void        rotate(float p_rx, float p_ry, float p_rz);
     void        scale (float p_sx, float p_sy, float p_sz);
 
-	void        beginDraw();
-	void        endDraw();
+	void        beginDraw() override;
+	void        endDraw() override;
 
 private:
 	glm::mat4 m_matrix;

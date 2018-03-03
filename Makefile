@@ -15,7 +15,7 @@ BINARY 	:= CE
 CC		:= g++
 LDFLAGS := -Wl,-rpath=$(LIBDIR)
 INCLUDE := -I$(HDRDIR) -I$(INCDIR) -I$(INCDIR)OpenGL -I$(INCDIR)glm -I$(INCDIR)sfml
-LIBS	:= -L$(LIBDIR) -lGL -lGLEW -lglfw -lassimp -lsfml-window -lsfml-graphics -lsfml-system
+LIBS	:= -L$(LIBDIR) -lGL -lGLEW -lGLU -lglfw -lassimp -lsfml-window -lsfml-graphics -lsfml-system
 FAST	:= -j4
 
 #Make binary
@@ -44,7 +44,7 @@ cleanc:
 
 #Runs after compiling
 run:
-	make $(FAST)
+	make
 	./$(BINARY)
 
 #Cleans, compiles and runs

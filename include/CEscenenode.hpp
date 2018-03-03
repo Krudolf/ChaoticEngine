@@ -22,7 +22,7 @@ public:
 	
 	CEEntity*		getEntity();
 	CESceneNode* 	getFather();
-	void 		setFather(CESceneNode* p_father);
+	void 			setFather(CESceneNode* p_father);
 
 	void draw();
 

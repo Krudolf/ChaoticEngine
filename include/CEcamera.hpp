@@ -9,13 +9,13 @@
 class CECamera : public CEEntity{
 public:
 	CECamera();
-	~CECamera();
+	virtual ~CECamera();
 
 	void setPerspective(float p_angle, float p_aspect, float p_near = 0.1f, float p_far = 100.0f);
 	void setParallel(float p_left, float p_right, float p_bottom, float p_top, float p_near = 0.1f, float p_far = 100.0f);
 
-	void beginDraw();
-	void endDraw();
+	void beginDraw() override;
+	void endDraw() override;
 
 	/*Preguntar por el lookAt() de GLM*/
 

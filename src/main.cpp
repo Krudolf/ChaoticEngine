@@ -10,25 +10,27 @@ int main(){
 	Comentar si quieremos ver la ventana!!
 	engine->getWindow()->close();
 */
-
 	//Crea un nodo hoja mesh con dos transformaciones padre(rotate->translate->mesh)
 	engine->nodeMesh();
+	engine->loadShader();
+
+	//engine->createVertexBuffer();
 
 	engine->draw();
 	//MAIN LOOP
 	while(engine->isWindowOpen()){
+	    engine->getWindow()->clear();
 		engine->eventHandler();
-	    //Dibujamos con OpenGL
-
+/* --------------- Dibujamos con OpenGL --------------- */
+		engine->displayGL();
+		//engine->renderBuffers();
 
 	    engine->pushGLStates();
-	    //Dibujamos con SFML
+/* --------------- Dibujamos con SFML --------------- */
 
-
+		engine->quad();
+	    
 	    engine->popGLStates();
-	    //Dibujamos con OpenGL
-	    engine->getWindow()->clear();
-	    //engine->getWindow()->draw();
 	    engine->getWindow()->display();
 	}
 

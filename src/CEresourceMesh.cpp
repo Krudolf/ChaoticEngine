@@ -1,17 +1,9 @@
 
-#include <iostream>
-
 #include <../include/CEresourceMesh.hpp>
 
 //Constructor
 CEResourceMesh::CEResourceMesh() : CEResource(){}
 
-CEResourceMesh::CEResourceMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indices) : CEResource(){
-	m_vertices = p_vertices;
-	m_indices = p_indices;
-
-	this->prepareBuffers();
-}
 
 //Destructor
 CEResourceMesh::~CEResourceMesh(){}
@@ -45,7 +37,7 @@ void CEResourceMesh::processNode(aiNode* p_node, const aiScene* p_scene){
     }
 }
 
-CEResourceMesh* CEResourceMesh::processMesh(aiMesh* p_mesh, const aiScene* p_scene){
+CEsubMesh CEResourceMesh::processMesh(aiMesh* p_mesh, const aiScene* p_scene){
 	// Data to fill
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
@@ -89,48 +81,16 @@ CEResourceMesh* CEResourceMesh::processMesh(aiMesh* p_mesh, const aiScene* p_sce
 			indices.push_back(face.mIndices[j]);
 	}
 
-	// Save the information in the vectors form the resource
-	CEResourceMesh* resourceMesh = new CEResourceMesh(vertices, indices);
-	resourceMesh->m_nTriangles = p_mesh->mNumFaces;
-
-	return (resourceMesh);
+	// Return a mesh object created from the extracted mesh data
+	return (CEsubMesh(vertices, indices));
 }
 
-void CEResourceMesh::prepareBuffers(){
-	glGenVertexArrays(1, &m_VAO);
-	glGenBuffers(1, &m_VBO);
-	glGenBuffers(1, &m_EBO);
-	glBindVertexArray(m_VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-
-	glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(Vertex), &m_vertices[0], GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(GLuint), &m_indices[0], GL_STATIC_DRAW);
-
-	// Vertex Positions
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)0);
-	// Vertex Normals
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, Normal));
-	// Vertex Texture Coords
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, TexCoords));
-
-	glBindVertexArray(0);
-}
 
 void CEResourceMesh::draw(){
-	// Draw mesh
+
 		std::cout <<"Hola??? "<<m_meshes.size()<<std::endl;
 	for (GLuint i = 0; i < m_meshes.size(); i++) {
-		glBindVertexArray(m_meshes[i]->m_VAO);
-		//glBindVertexArray(this->m_VAO);
-		glDrawElements(GL_TRIANGLES, m_meshes[i]->m_indices.size(), GL_UNSIGNED_INT, 0);
-		//glDrawElements(GL_TRIANGLES, this->m_indices.size(), GL_UNSIGNED_INT, 0);
-		std::cout<<"Hola"<<std::endl;
-		glBindVertexArray(0);
+			m_meshes[i].subDraw();
 	}
 }
 

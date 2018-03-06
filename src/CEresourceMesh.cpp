@@ -123,9 +123,13 @@ void CEResourceMesh::prepareBuffers(){
 
 void CEResourceMesh::draw(){
 	// Draw mesh
+		std::cout <<"Hola??? "<<m_meshes.size()<<std::endl;
 	for (GLuint i = 0; i < m_meshes.size(); i++) {
 		glBindVertexArray(m_meshes[i]->m_VAO);
+		//glBindVertexArray(this->m_VAO);
 		glDrawElements(GL_TRIANGLES, m_meshes[i]->m_indices.size(), GL_UNSIGNED_INT, 0);
+		//glDrawElements(GL_TRIANGLES, this->m_indices.size(), GL_UNSIGNED_INT, 0);
+		std::cout<<"Hola"<<std::endl;
 		glBindVertexArray(0);
 	}
 }

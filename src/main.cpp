@@ -13,13 +13,13 @@ int main(){
 	CESceneNode* nodeTrans1  = new CESceneNode(nodeRoot, "nodeTrans1");
 	CESceneNode* nodeTrans11 = new CESceneNode(nodeTrans1, "nodeTrans11");
 	CESceneNode* nodeMesh12  = new CESceneNode(nodeTrans1, "nodeMesh12");
-	CESceneNode* nodeMesh111 = new CESceneNode(nodeTrans11, "nodeMesh111");
+	//CESceneNode* nodeMesh111 = new CESceneNode(nodeTrans11, "nodeMesh111");*/
 	//CESceneNode* nodeLight112 = new CESceneNode(nodeTrans11, "nodeLight112");
 
 	CESceneNode* nodeTrans2  = new CESceneNode(nodeRoot, "nodeTrans2");
 	CESceneNode* nodeTrans21 = new CESceneNode(nodeTrans2, "nodeTrans21");
-	CESceneNode* nodeMesh22  = new CESceneNode(nodeTrans2, "nodeMesh22");
-	CESceneNode* nodeMesh211 = new CESceneNode(nodeTrans21, "nodeMesh211");
+	/*CESceneNode* nodeMesh22  = new CESceneNode(nodeTrans2, "nodeMesh22");
+	CESceneNode* nodeMesh211 = new CESceneNode(nodeTrans21, "nodeMesh211");*/
 	//CESceneNode* nodeLight212 = new CESceneNode(nodeTrans21, "nodeLight212");
 
 	//CREATE ALL ENTITIES
@@ -29,9 +29,9 @@ int main(){
 	CETransform* 	trans21 = new CETransform();
 
 	CEMesh*		mesh12  = new CEMesh();
-	CEMesh*		mesh111 = new CEMesh();
+	/*CEMesh*	mesh111 = new CEMesh();
 	CEMesh*		mesh22  = new CEMesh();
-	CEMesh*		mesh211 = new CEMesh();
+	CEMesh*		mesh211 = new CEMesh();*/
 
 	CELight* 	light112 = new CELight(glm::vec3(1,0,0), 0.8f);
 	CELight* 	light212 = new CELight(glm::vec3(0.8,1,0), 0.5f);
@@ -39,15 +39,15 @@ int main(){
 	//CARGA DE RECURSOS
 	CEResourceManager* manager = CEResourceManager::instance();
 	const char* resource  = "resources_prueba/life_tank.obj";
-	const char* resource2 = "resources_prueba/Lago_sakura.obj";
+	/*const char* resource2 = "resources_prueba/Lago_sakura.obj";
 	const char* resource3 = "resources_prueba/fabrica_kawiisaki.obj";
-	const char* resource4 = "resources_prueba/fusfus_stadium.obj";
+	const char* resource4 = "resources_prueba/fusfus_stadium.obj";*/
 
 	mesh12->loadResource(resource);
 	
-	manager->getResource(resource2);
+	/*manager->getResource(resource2);
 	manager->getResource(resource3);
-	manager->getResource(resource4);
+	manager->getResource(resource4);*/
 	
 	manager->showResources();
 
@@ -58,9 +58,9 @@ int main(){
 	nodeTrans21->setEntity(trans21);
 
 	nodeMesh12->setEntity(mesh12);
-	nodeMesh111->setEntity(mesh111);
+	/*nodeMesh111->setEntity(mesh111);
 	nodeMesh22->setEntity(mesh22);
-	nodeMesh211->setEntity(mesh211);
+	nodeMesh211->setEntity(mesh211);*/
 
 	//nodeLight112->setEntity(light112);
 	//nodeLight212->setEntity(light212);

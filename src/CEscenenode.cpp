@@ -7,6 +7,7 @@
 CESceneNode::CESceneNode(const char* p_name){
 	m_name = p_name;
 	m_father = NULL;
+	m_entity = NULL;
 
 	std::cout << "Creado el nodo " << m_name << std::endl;
 }

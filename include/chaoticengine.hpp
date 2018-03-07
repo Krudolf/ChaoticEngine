@@ -54,6 +54,7 @@ public:
 
 	void 			loadShader();
 	void			setShadersPath(const char* vert_path, const char* frag_path);
+	void 			loadModel(const char* p_path);
 
 	void createVertexBuffer();
 	void renderBuffers();

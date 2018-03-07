@@ -3,9 +3,12 @@
 
 int main(){
 	std::cout << "*************************\n* TEST DE CHAOTICENGINE *\n*************************" << std::endl;
-
+	
 	ChaoticEngine* engine = new ChaoticEngine();
-	engine->createWindow(640, 480, "3KSC", true);
+	engine->createWindow(640, 480, "3KSC", false);
+
+	/*ChaoticEngine* engine = new ChaoticEngine();
+	engine->createWindow(640, 480, "3KSC", true);*/
 /*
 	Comentar si quieremos ver la ventana!!
 	engine->getWindow()->close();
@@ -14,6 +17,13 @@ int main(){
 	engine->nodeMesh();
 	engine->loadShader();
 
+	//--------------descomentar para cargar modelos---------------------------------
+
+	/*//Crea un nodo hoja mesh al que se le asigna un modelo
+	const char* model = "resources_prueba/coso.obj";
+	engine->loadModel(model);*/
+
+	//----------------------------------------------------------
 	//engine->createVertexBuffer();
 
 	engine->draw();

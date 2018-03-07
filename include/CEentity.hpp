@@ -9,6 +9,7 @@
 /*Virtual class*/
 class CEEntity{
 public:
+	virtual ~CEEntity() = default;
 	virtual void beginDraw() = 0;
 	virtual void endDraw() = 0;
 

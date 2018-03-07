@@ -14,8 +14,9 @@ BINARY 	:= CE
 #Compiler set-up
 CC		:= g++
 LDFLAGS := -Wl,-rpath=$(LIBDIR)
-INCLUDE := -I$(HDRDIR) -I$(INCDIR)OpenGL -I$(INCDIR)glm -I$(INCDIR)
-LIBS	:= -L$(LIBDIR) -lGL -lGLEW -lglfw -lassimp
+INCLUDE := -I$(HDRDIR) -I$(INCDIR) -I$(INCDIR)OpenGL -I$(INCDIR)glm -I$(INCDIR)sfml
+LIBS	:= -L$(LIBDIR) -lGL -lGLEW -lGLU -lglfw -lassimp -lsfml-window -lsfml-graphics -lsfml-system
+FAST	:= -j4
 
 #Make binary
 $(BINARY): $(OBJECTS)
@@ -33,24 +34,28 @@ setup:
 #Deletes object files
 clean:
 	rm -R -f $(OBJDIR)
-	rm -f CE
-	rm -f CE.exe
+	rm -f $(BINARY)
+	rm -f $(BINARY).exe
 
 #Makes binary (previous clean)
 cleanc:
 	make clean
-	make
+	make $(FAST)
 
 #Runs after compiling
 run:
 	make
-	./CE
+	./$(BINARY)
 
 #Cleans, compiles and runs
 cleanr:
 	make clean
-	make
-	./CE
+	make $(FAST)
+	./$(BINARY)
+
+#Compile the program with 4 threads
+fast:
+	make $(FAST)
 
 #Prints sources, objects and headers lists
 info:

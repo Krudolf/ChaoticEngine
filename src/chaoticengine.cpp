@@ -145,7 +145,7 @@ void ChaoticEngine::draw(){
 
 void ChaoticEngine::release(){
 	m_root->removeAllChilds();
-	//m_resourceManager->PONER_EL_METODO_DE_BORRADO_DE_MANU();
+	m_resourceManager->deleteResources();
 
 	delete m_resourceManager;
 	delete m_root;
@@ -160,6 +160,22 @@ void ChaoticEngine::nodeMesh(){
 	CESceneNode* nodeTrans1  = createNode(getRootNode(), trans1);
 	CESceneNode* nodeTrans11 = createNode(nodeTrans1, trans11);
 	CESceneNode* nodeMesh111 = createNode(nodeTrans11, mesh111);
+}
+
+void ChaoticEngine::loadModel(const char* p_path){
+	CETransform* 	trans1  = createTransform();
+	CETransform* 	trans11 = createTransform();
+
+	CEMesh*			mesh111 = createMesh();
+
+	trans1 ->rotate(0, 45, 0);
+	trans11->translate(200, 200, 200);
+
+	CESceneNode* nodeTrans1  = createNode(getRootNode(), trans1);
+	CESceneNode* nodeTrans11 = createNode(nodeTrans1, trans11);
+	CESceneNode* nodeMesh111 = createNode(nodeTrans11, mesh111);
+
+	mesh111->loadResource(p_path);
 }
 
 // Loads the shaders. By default, loads default path. To change path, use setShadersPath(vertex_path, fragment_path)

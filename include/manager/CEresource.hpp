@@ -4,11 +4,12 @@
 
 class CEResource{
 public:
-	CEResource();
-	virtual ~CEResource();
+	CEResource(){};
+	virtual ~CEResource(){};
 
 	const char* getName(){	return m_name;	};
-	void serName(const char* p_name){	m_name = p_name;	};
+	void setName(const char* p_name){	m_name = p_name;	};
+	virtual bool loadFile(const char* p_name){};
 
 protected:
 

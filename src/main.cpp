@@ -38,7 +38,8 @@ int main(){
 
 	//CARGA DE RECURSOS
 	CEResourceManager* manager = CEResourceManager::instance();
-	const char* resource  = "resources_prueba/life_tank.obj";
+	//const char* resource  = "resources_prueba/life_tank.obj";
+	const char* resource = "resources_prueba/coso.obj";
 	/*const char* resource2 = "resources_prueba/Lago_sakura.obj";
 	const char* resource3 = "resources_prueba/fabrica_kawiisaki.obj";
 	const char* resource4 = "resources_prueba/fusfus_stadium.obj";*/

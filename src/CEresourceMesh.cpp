@@ -11,7 +11,7 @@ CEResourceMesh::~CEResourceMesh(){}
 bool CEResourceMesh::loadFile(const char* p_name){
 	Assimp::Importer importer;
 	//| aiProcess_FlipUVs)
-	const aiScene* scene = importer.ReadFile(p_name, aiProcess_Triangulate);
+	const aiScene* scene = importer.ReadFile(p_name, aiProcess_Triangulate | aiProcess_FlipUVs);
 
 	if(!scene || scene->mFlags && AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode){
 		std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;

@@ -41,12 +41,20 @@ public:
 	void quad();
 
 	CESceneNode* 	createNode(CESceneNode* p_father, CEEntity* p_entity);
-	CETransform* 	createTransform();
-	CECamera*		createCamera();
+	
+    //Transformations
+    CETransform* 	createTransform();
+    CETransform*    translate(float p_tx, float p_ty, float p_tz);
+    CETransform*    rotate(float p_rx, float p_ry, float p_rz);
+    CETransform*    scale (float p_sx, float p_sy, float p_sz);
+	
+    CECamera*		createCamera();
 	CELight*		createLight(glm::vec3 p_intensities, float p_attenuation);
 	CEMesh*			createMesh();
 
 	void nodeMesh();
+
+    
 
 	CESceneNode* getRootNode();
 	void draw();

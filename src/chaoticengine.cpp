@@ -95,6 +95,28 @@ CETransform* ChaoticEngine::createTransform(){
 	return t_transform;
 }
 
+CETransform* ChaoticEngine::translate(float p_tx, float p_ty, float p_tz){
+    CETransform* t_transform = createTransform();
+    t_transform->translate(p_tx, p_ty, p_tz);
+
+	return t_transform;
+}
+
+CETransform* ChaoticEngine::rotate(float p_rx, float p_ry, float p_rz){
+    CETransform* t_transform = createTransform();
+    t_transform->rotate(p_rx, p_ry, p_rz);
+
+	return t_transform;
+}
+
+CETransform* ChaoticEngine::scale(float p_sx, float p_sy, float p_sz){
+    CETransform* t_transform = createTransform();
+    t_transform->scale(p_sx, p_sy, p_sz);
+
+	return t_transform;
+}
+
+
 CECamera* ChaoticEngine::createCamera(){
 	CECamera* t_camera = new CECamera();
 
@@ -130,13 +152,10 @@ void ChaoticEngine::release(){
 }
 
 void ChaoticEngine::nodeMesh(){
-	CETransform* 	trans1  = createTransform();
-	CETransform* 	trans11 = createTransform();
+	CETransform* 	trans1  = rotate(0, 45, 0);
+	CETransform* 	trans11 = translate(200, 200, 200);
 
 	CEMesh*			mesh111 = createMesh();
-
-	trans1 ->rotate(0, 45, 0);
-	trans11->translate(200, 200, 200);
 
 	CESceneNode* nodeTrans1  = createNode(getRootNode(), trans1);
 	CESceneNode* nodeTrans11 = createNode(nodeTrans1, trans11);

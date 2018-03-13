@@ -30,15 +30,26 @@ public:
 
 	void initGL();
 
-	void createWindow(int p_width, int p_height, const char* p_title, bool fullscreen);
+	void createWindow(int p_width, int p_height, const char* p_title, bool p_fullscreen);
 	bool isWindowOpen();
-	sf::RenderWindow* getWindow();
+	void closeWindow();
+	void clearWindow(float p_red, float p_green, float p_blue, float p_alpha);
+	GLFWwindow* getWindow();
 
-	void pushGLStates();
-	void popGLStates();
+	void render();
 
-	void eventHandler();
+	static void windows_size_callback(GLFWwindow* p_window, int p_width, int p_height);
+
+	void swapBuffers();
+	void pollEvents();
+
+	void processInput();
+
+	void terminate();
+
 	void quad();
+
+/* ----- ARBOL -----*/
 
 	CESceneNode* 	createNode(CESceneNode* p_father, CEEntity* p_entity);
 	
@@ -54,8 +65,6 @@ public:
 
 	void nodeMesh();
 
-    
-
 	CESceneNode* getRootNode();
 	void draw();
 	void release();
@@ -69,7 +78,7 @@ public:
 	void displayGL();
 
 private:
-	sf::RenderWindow* 	m_window;
+	GLFWwindow* 	m_window;
 	sf::Event			m_event;
 	sf::Clock			m_clock;
 

@@ -18,62 +18,81 @@ ChaoticEngine::ChaoticEngine(){
 ChaoticEngine::~ChaoticEngine(){}
 
 void ChaoticEngine::initGL(){
-	GLenum err = glewInit();
-	if(GLEW_OK != err){
-	  fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
-	}
-	fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
-
-	//prepare OpenGL surface for HSR
-    glClearColor(0.3f, 0.3f, 0.3f, 0.f);
-	glClearDepth(1.f);
-    glEnable(GL_DEPTH_TEST);
-    glDepthMask(GL_TRUE);
-
-    //// Setup a perspective projection & Camera position
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(90.f, 1.f, 1.f, 300.0f);//fov, aspect, zNear, zFar
+	glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 }
 
 void ChaoticEngine::createWindow(int p_width, int p_height, const char* p_title, bool fullscreen){
-	m_window = new sf::RenderWindow(sf::VideoMode(p_width, p_height), p_title);
-
 	initGL();
+	
+	m_window = glfwCreateWindow(p_width, p_height, p_title, NULL, NULL);
+	if (m_window == NULL){
+	    std::cout << "Failed to create GLFW window" << std::endl;
+	    glfwTerminate();
+	}
+	glfwMakeContextCurrent(m_window);
+	
+	glfwSetFramebufferSizeCallback(m_window, windows_size_callback);
+
+	//glViewport(0, 0, p_width, p_height);
 }
 
 bool ChaoticEngine::isWindowOpen(){
-	return m_window->isOpen();
+	if(glfwWindowShouldClose(m_window) == GL_FALSE)
+		return true;
+	
+	return false;
 }
 
-sf::RenderWindow* ChaoticEngine::getWindow(){
+void ChaoticEngine::closeWindow(){
+	glfwDestroyWindow(m_window);
+}
+
+void ChaoticEngine::clearWindow(float p_red, float p_green, float p_blue, float p_alpha){
+	glClearColor(p_red, p_green, p_blue, p_alpha);
+	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+GLFWwindow* ChaoticEngine::getWindow(){
 	return m_window;
 }
 
-void ChaoticEngine::pushGLStates(){
-	m_window->pushGLStates();
+void ChaoticEngine::swapBuffers(){
+	glfwSwapBuffers(m_window);
 }
 
-void ChaoticEngine::popGLStates(){
-	m_window->popGLStates();
+void ChaoticEngine::pollEvents(){
+	glfwPollEvents();
 }
 
-void ChaoticEngine::eventHandler(){
-	sf::Event t_event;
-	while(m_window->pollEvent(t_event)){
-		switch(t_event.type){
-			case sf::Event::Closed:
-				m_window->close();
-			break;
-		}
-    }
+void ChaoticEngine::processInput(){
+    if(glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(m_window, true);
 }
+
+void ChaoticEngine::terminate(){
+	glfwTerminate();
+}
+/*
+	CALLBACKS
+*/
+
+void ChaoticEngine::windows_size_callback(GLFWwindow* p_window, int p_width, int p_height){
+	glViewport(0, 0, p_width, p_height);
+}
+
+/*++++++++++++++++++++++*/
 
 void ChaoticEngine::quad(){
+	/*
 	sf::RectangleShape quad(sf::Vector2f(250,100));
 	quad.setFillColor(sf::Color::Red);
 
 	m_window->draw(quad);
+	*/
 }
 
 /*

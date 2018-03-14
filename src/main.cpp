@@ -7,43 +7,31 @@ int main(){
 	ChaoticEngine* engine = new ChaoticEngine();
 	engine->createWindow(640, 480, "3KSC", false);
 
-	/*ChaoticEngine* engine = new ChaoticEngine();
-	engine->createWindow(640, 480, "3KSC", true);*/
-/*
-	Comentar si quieremos ver la ventana!!
-	engine->getWindow()->close();
-*/
 	//Crea un nodo hoja mesh con dos transformaciones padre(rotate->translate->mesh)
-	engine->nodeMesh();
-	engine->loadShader();
-
-	//--------------descomentar para cargar modelos---------------------------------
+	//engine->nodeMesh();
+	//engine->loadShader();
 
 	/*//Crea un nodo hoja mesh al que se le asigna un modelo
 	const char* model = "resources_prueba/coso.obj";
 	engine->loadModel(model);*/
 
 	//----------------------------------------------------------
-	//engine->createVertexBuffer();
-
-	engine->draw();
+	//engine->draw();
 	//MAIN LOOP
+	engine->shaderProgram();
+	engine->createTriangle();
 	while(engine->isWindowOpen()){
-	    engine->getWindow()->clear();
-		engine->eventHandler();
-/* --------------- Dibujamos con OpenGL --------------- */
-		engine->displayGL();
-		//engine->renderBuffers();
+		engine->processInput();
+		
+		engine->clearWindow(0.5f, 0.0f, 0.0f, 1.0f);
 
-	    engine->pushGLStates();
-/* --------------- Dibujamos con SFML --------------- */
+		//engine->useProgram();
+		engine->drawTriangle();
 
-		engine->quad();
-	    
-	    engine->popGLStates();
-	    engine->getWindow()->display();
+    	engine->swapBuffers();
+		engine->pollEvents();
 	}
-
+	engine->terminate();
 	engine->release();
 
 	return 0;

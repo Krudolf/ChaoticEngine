@@ -2,7 +2,6 @@
 #include <iostream>
 
 #include <../include/chaoticengine.hpp>
- 
 
 ChaoticEngine::ChaoticEngine(){
 	m_root = new CESceneNode("root");
@@ -10,70 +9,206 @@ ChaoticEngine::ChaoticEngine(){
 	m_resourceManager = new CEResourceManager();
 
 	m_loader = new CEGLShader();
-	m_shader = 0;
+	m_shaderProgram = 0;
 	m_vertex_path = "src/shader/CEShader.vert";
 	m_fragment_path = "src/shader/CEShader.frag";
+	
+	m_VBO = 0;
+	m_VAO = 0;
+	m_EBO = 0;
 }
 
 ChaoticEngine::~ChaoticEngine(){}
 
 void ChaoticEngine::initGL(){
-	GLenum err = glewInit();
-	if(GLEW_OK != err){
-	  fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
-	}
-	fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
-
-	//prepare OpenGL surface for HSR
-    glClearColor(0.3f, 0.3f, 0.3f, 0.f);
-	glClearDepth(1.f);
-    glEnable(GL_DEPTH_TEST);
-    glDepthMask(GL_TRUE);
-
-    //// Setup a perspective projection & Camera position
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(90.f, 1.f, 1.f, 300.0f);//fov, aspect, zNear, zFar
+	glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 }
 
 void ChaoticEngine::createWindow(int p_width, int p_height, const char* p_title, bool fullscreen){
-	m_window = new sf::RenderWindow(sf::VideoMode(p_width, p_height), p_title);
-
 	initGL();
+	
+	m_window = glfwCreateWindow(p_width, p_height, p_title, NULL, NULL);
+	if (m_window == NULL){
+	    std::cout << "Failed to create GLFW window" << std::endl;
+	    glfwTerminate();
+	}
+	glfwMakeContextCurrent(m_window);
+	
+	// start GLEW extension handler
+	glewExperimental = GL_TRUE;
+	GLenum err = glewInit();
+	if(GLEW_OK != err){
+		//Problem: glewInit failed, something is seriously wrong.
+		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
+	}
+	//fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
+
+	glfwSetFramebufferSizeCallback(m_window, windows_size_callback);
+
+	std::cout << "VERSION OPENGL: " << glGetString(GL_VERSION) << std::endl;
+
 }
 
 bool ChaoticEngine::isWindowOpen(){
-	return m_window->isOpen();
+	if(glfwWindowShouldClose(m_window) == GL_FALSE)
+		return true;
+	
+	return false;
 }
 
-sf::RenderWindow* ChaoticEngine::getWindow(){
+void ChaoticEngine::closeWindow(){
+	glfwDestroyWindow(m_window);
+}
+
+void ChaoticEngine::clearWindow(float p_red, float p_green, float p_blue, float p_alpha){
+	glClearColor(p_red, p_green, p_blue, p_alpha);
+	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+GLFWwindow* ChaoticEngine::getWindow(){
 	return m_window;
 }
 
-void ChaoticEngine::pushGLStates(){
-	m_window->pushGLStates();
+void ChaoticEngine::swapBuffers(){
+	glfwSwapBuffers(m_window);
 }
 
-void ChaoticEngine::popGLStates(){
-	m_window->popGLStates();
+void ChaoticEngine::pollEvents(){
+	glfwPollEvents();
 }
 
-void ChaoticEngine::eventHandler(){
-	sf::Event t_event;
-	while(m_window->pollEvent(t_event)){
-		switch(t_event.type){
-			case sf::Event::Closed:
-				m_window->close();
-			break;
-		}
+void ChaoticEngine::processInput(){
+    if(glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(m_window, true);
+}
+
+void ChaoticEngine::terminate(){
+	glDeleteVertexArrays(1, &m_VAO);
+    glDeleteBuffers(1, &m_VBO);
+    glDeleteBuffers(1, &m_EBO);
+
+	glfwTerminate();
+}
+
+void ChaoticEngine::shaderProgram(){
+	const char *vertexShaderSource = "#version 330 core\n"
+	    "layout (location = 0) in vec3 aPos;\n"
+	    "void main()\n"
+	    "{\n"
+	    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+	    "}\n\0";
+	
+	const char *fragmentShaderSource = "#version 330 core\n"
+	    "out vec4 FragColor;\n"
+	    "void main()\n"
+	    "{\n"
+	    "   FragColor = vec4(0.0f, 1.0f, 0.0f, 1.0f);\n"
+	    "}\n\0";
+
+	/*+-+-+-+ VERTES SHADER +-+-+-+*/
+	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+    glCompileShader(vertexShader);
+    
+    // check for shader compile errors
+    GLint success;
+    char infoLog[512];
+    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+    if(!success){
+        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
+	/*+-+-+-+ FRAGMENT SHADER +-+-+-+*/
+    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+    glCompileShader(fragmentShader);
+    
+    // check for shader compile errors
+    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+    if(!success){
+        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+    }
+	/*+-+-+-+ PROGRAM SHADER +-+-+-+*/
+    m_shaderProgram = glCreateProgram();
+    glAttachShader(m_shaderProgram, vertexShader);
+    glAttachShader(m_shaderProgram, fragmentShader);
+    glLinkProgram(m_shaderProgram);
+    
+    // check for linking errors
+    glGetProgramiv(m_shaderProgram, GL_LINK_STATUS, &success);
+    if(!success){
+        glGetProgramInfoLog(m_shaderProgram, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+    }
+    
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+
+	glUseProgram(m_shaderProgram);
 }
 
+void ChaoticEngine::useProgram(){
+	glUseProgram(m_shaderProgram);
+}
+
+void ChaoticEngine::createTriangle(){
+	float vertices[] = {
+         0.5f,  0.5f, 0.0f,  // top right
+         0.5f, -0.5f, 0.0f,  // bottom right
+        -0.5f, -0.5f, 0.0f,  // bottom left
+        -0.5f,  0.5f, 0.0f   // top left 
+    };
+    uint indices[] = {  // note that we start from 0!
+        0, 3, 1,  // first Triangle
+        1, 3, 2   // second Triangle
+    };
+    glGenVertexArrays(1, &m_VAO);
+    glGenBuffers(1, &m_VBO);
+    glGenBuffers(1, &m_EBO);
+    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+    glBindVertexArray(m_VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, vertices, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 6, indices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0); 
+
+    glBindVertexArray(0); 
+}
+
+void ChaoticEngine::drawTriangle(){
+	glBindVertexArray(m_VAO);
+	//glDrawArrays(GL_TRIANGLES, 0, 6);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	//glBindVertexArray(0); //no need to unbind it every time 
+}
+
+/*
+	CALLBACKS
+*/
+void ChaoticEngine::windows_size_callback(GLFWwindow* p_window, int p_width, int p_height){
+	glViewport(0, 0, p_width, p_height);
+}
+
+/*++++++++++++++++++++++*/
 void ChaoticEngine::quad(){
+	/*
 	sf::RectangleShape quad(sf::Vector2f(250,100));
 	quad.setFillColor(sf::Color::Red);
 
 	m_window->draw(quad);
+	*/
 }
 
 /*
@@ -180,7 +315,7 @@ void ChaoticEngine::loadModel(const char* p_path){
 
 // Loads the shaders. By default, loads default path. To change path, use setShadersPath(vertex_path, fragment_path)
 void ChaoticEngine::loadShader(){
-	m_shader = m_loader->LoadShader(m_vertex_path, m_fragment_path);
+	m_shaderProgram = m_loader->LoadShader(m_vertex_path, m_fragment_path);
 }
 
 // Sets the path to load the shaders from

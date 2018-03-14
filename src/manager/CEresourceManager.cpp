@@ -33,7 +33,7 @@ CEResource* CEResourceManager::getResource(const char* p_name){
 	if(t_resource == NULL){
 		std::cout<<"No estaba en la lista, lo solicito"<<std::endl;
 		//check the format of the resource
-		std::string path = p_name;
+		std::string path   = p_name;
 		std::string format = path.substr(path.find_last_of('.')+1, path.size());
 
 		//if the resource is a mesh

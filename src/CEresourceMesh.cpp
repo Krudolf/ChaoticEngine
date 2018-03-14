@@ -11,7 +11,8 @@ CEResourceMesh::~CEResourceMesh(){}
 bool CEResourceMesh::loadFile(const char* p_name){
 	Assimp::Importer importer;
 	//| aiProcess_FlipUVs)
-	const aiScene* scene = importer.ReadFile(p_name, aiProcess_Triangulate | aiProcess_FlipUVs);
+	//const aiScene* scene = importer.ReadFile(p_name, aiProcess_Triangulate | aiProcess_FlipUVs);
+    const aiScene* scene = importer.ReadFile(p_name, aiProcess_Triangulate | aiProcess_GenNormals);
 
 	if(!scene || scene->mFlags && AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode){
 		std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
@@ -87,8 +88,7 @@ CEsubMesh CEResourceMesh::processMesh(aiMesh* p_mesh, const aiScene* p_scene){
 
 
 void CEResourceMesh::draw(){
-
-		std::cout <<"Hola??? "<<m_meshes.size()<<std::endl;
+	std::cout <<"Hola??? "<<m_meshes.size()<<std::endl;
 	for (GLuint i = 0; i < m_meshes.size(); i++) {
 			m_meshes[i].subDraw();
 	}

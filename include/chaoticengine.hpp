@@ -47,62 +47,64 @@ public:
 
 	void terminate();
 
-	void shaderProgram();
-	void useProgram(); 
-	
 	void createTriangle();
 	void drawTriangle();
 
-
-	void quad();
-
 /* ----- ARBOL -----*/
 
-	CESceneNode* 	createNode(CESceneNode* p_father, CEEntity* p_entity);
+	CESceneNode* 	createNode(CEEntity* p_entity, CESceneNode* p_father = NULL);
 	
     //Transformations
-    CETransform* 	createTransform();
+    CETransform* 	newTransform();
     CETransform*    translate(float p_tx, float p_ty, float p_tz);
     CETransform*    rotate(float p_rx, float p_ry, float p_rz);
     CETransform*    scale (float p_sx, float p_sy, float p_sz);
 	
-    CECamera*		createCamera();
-	CELight*		createLight(glm::vec3 p_intensities, float p_attenuation);
-	CEMesh*			createMesh();
+    CECamera*		newCamera();
+	CELight*		newLight(glm::vec3 p_intensities, float p_attenuation);
+	CEMesh*			newMesh();
 
-	void nodeMesh();
-
-	CESceneNode* getRootNode();
-	void draw();
-	void release();
+	CESceneNode* 	getRootNode();
+	void 			draw();
+	void 			release();
 
 	void 			loadShader();
-	void			setShadersPath(const char* vert_path, const char* frag_path);
-	void 			loadModel(const char* p_path);
+	void 			setShadersPath(const char* vert_path, const char* frag_path);
 
-	void createVertexBuffer();
-	void renderBuffers();
-	void displayGL();
+	void 			createCube();
+	void 			createMesh();
+	void 			loadModel(const char* p_path);
+	
+	CESceneNode* 	createLight(glm::vec3 p_intensities, float p_attenuation, bool p_setActive = true);
+	void 			setActiveLight(CESceneNode* p_nodeLight);
+	void 			getLightMatrix();
+
+	CESceneNode* 	createCamera(bool p_setActive = true);
+	void 			setActiveCamera(CESceneNode* p_nodeCamera);
+	void 			getViewMatrix();
 
 private:
-	GLFWwindow* 		m_window;
-	sf::Event			m_event;
-	sf::Clock			m_clock;
+	GLFWwindow* 				m_window;
+	sf::Event					m_event;
+	sf::Clock					m_clock;
 
-	CESceneNode*		m_root;
-	CEResourceManager*	m_resourceManager;
+	CESceneNode*				m_root;
+	CEResourceManager*			m_resourceManager;
 
-	CEGLShader* 		m_loader;
-	GLuint				m_shaderProgram;
+	CEGLShader* 				m_loader;
+	GLuint						m_shaderProgram;
 
-    uint m_VBO, m_VAO, m_EBO;
+    uint 						m_VBO, m_VAO, m_EBO;
 
-	//GLuint				m_VBO;
+	const char* 				m_vertex_path;
+	const char* 				m_fragment_path;
 
-	const char* m_vertex_path;
-	const char* m_fragment_path;
+	std::stack<glm::mat4> 		m_matrixStack;
+	glm::mat4 					m_lightMatrix;
+	std::vector<CESceneNode*> 	m_activeLights;
 
-	float angle;
+	CESceneNode*				m_activeCamera;
+	glm::mat4 					m_viewMatrix;
 };
 
 #endif

@@ -71,19 +71,23 @@ void CETransform::scale (float p_sx, float p_sy, float p_sz){
     m_matrix = glm::scale(m_matrix, glm::vec3(p_sx, p_sy, p_sz));
 }
 
-void CETransform::beginDraw(){
-    std::cout << "Apilamos matriz de transformacion. Valor de la matrixModel apilada:" << std::endl;
-    m_matrixStack.push(m_modelMatrix);
-    showMatrix(m_modelMatrix);
+glm::mat4 CETransform::getMatrix(){
+    return m_matrix;
+}
 
-    std::cout << "Valor de la nueva matrixModel:" << std::endl;
+void CETransform::beginDraw(){
+    //std::cout << "Apilamos matriz de transformacion. Valor de la matrixModel apilada:" << std::endl;
+    m_matrixStack.push(m_modelMatrix);
+    //showMatrix(m_modelMatrix);
+
+    //std::cout << "Valor de la nueva matrixModel:" << std::endl;
     m_modelMatrix = m_modelMatrix * m_matrix;
-    showMatrix(m_modelMatrix);
+    //showMatrix(m_modelMatrix);
 }
 
 void CETransform::endDraw(){
-    std::cout << "Desapilamos matriz de transformacion. Valor de la matrixModel desapilada:" << std::endl;
+    //std::cout << "Desapilamos matriz de transformacion. Valor de la matrixModel desapilada:" << std::endl;
     m_modelMatrix = m_matrixStack.top();
-    showMatrix(m_modelMatrix);
+    //showMatrix(m_modelMatrix);
     m_matrixStack.pop();
 }

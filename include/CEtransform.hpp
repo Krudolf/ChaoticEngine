@@ -21,6 +21,8 @@ public:
     void        rotate(float p_rx, float p_ry, float p_rz);
     void        scale (float p_sx, float p_sy, float p_sz);
 
+    glm::mat4   getMatrix();
+
 	void        beginDraw() override;
 	void        endDraw() override;
 

@@ -6,35 +6,32 @@ CEsubMesh::CEsubMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indic
 	m_vertices = p_vertices;
 	m_indices = p_indices;
 
-	this->prepareBuffers();
+	prepareBuffers();
 }
 
 //Destructor
 CEsubMesh::~CEsubMesh(){}
 
 void CEsubMesh::subDraw(){
-
 	// Draw mesh
 	std::cout<<"Hola"<<std::endl;
-	glBindVertexArray(this->m_VAO);
-	glDrawElements(GL_TRIANGLES, this->m_indices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(m_VAO);
+	glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
-
 }
 
 void CEsubMesh::prepareBuffers(){
+	glGenVertexArrays(1, &m_VAO);
+	glGenBuffers(1, &m_VBO);
+	glGenBuffers(1, &m_EBO);
 
-	glGenVertexArrays(1, &this->m_VAO);
-	glGenBuffers(1, &this->m_VBO);
-	glGenBuffers(1, &this->m_EBO);
+	glBindVertexArray(m_VAO);
+	
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+	glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(Vertex), &m_vertices[0], GL_STATIC_DRAW);
 
-	glBindVertexArray(this->m_VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, this->m_VBO);
-
-	glBufferData(GL_ARRAY_BUFFER, this->m_vertices.size() * sizeof(Vertex), &this->m_vertices[0], GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->m_EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->m_indices.size() * sizeof(GLuint), &this->m_indices[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(GLuint), &m_indices[0], GL_STATIC_DRAW);
 
 	// Vertex Positions
 	glEnableVertexAttribArray(0);
@@ -47,5 +44,4 @@ void CEsubMesh::prepareBuffers(){
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, TexCoords));
 
 	glBindVertexArray(0);
-
 }

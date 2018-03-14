@@ -9,29 +9,32 @@ int main(){
 
 	//Crea un nodo hoja mesh con dos transformaciones padre(rotate->translate->mesh)
 	//engine->nodeMesh();
-	//engine->loadShader();
 
 	/*//Crea un nodo hoja mesh al que se le asigna un modelo
 	const char* model = "resources_prueba/coso.obj";
 	engine->loadModel(model);*/
 
-	//----------------------------------------------------------
-	//engine->draw();
-	//MAIN LOOP
-	engine->shaderProgram();
-	engine->createTriangle();
+	//engine->shaderProgram();
+	engine->loadShader();
+	engine->createCube();
+	//engine->createTriangle();
+
+	glm::vec3 t_intensities;
+	float t_attenuation = 0;
+	engine->createLight(t_intensities, t_attenuation);
+	engine->createCamera();
+
 	while(engine->isWindowOpen()){
 		engine->processInput();
 		
 		engine->clearWindow(0.5f, 0.0f, 0.0f, 1.0f);
 
-		//engine->useProgram();
-		engine->drawTriangle();
+		//engine->drawTriangle();
+		engine->draw();
 
     	engine->swapBuffers();
 		engine->pollEvents();
 	}
-	engine->terminate();
 	engine->release();
 
 	return 0;

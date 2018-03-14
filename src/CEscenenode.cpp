@@ -74,7 +74,7 @@ void CESceneNode::setFather(CESceneNode* p_father){
 
 void CESceneNode::draw(){
 	if(m_entity != NULL){
-		std::cout << "------------------------\n" << m_name << " empieza draw." << std::endl;
+		//std::cout << "------------------------\n" << m_name << " empieza draw." << std::endl;
 		m_entity->beginDraw();
 	}
 	for(int i = 0; i < m_childs.size(); i++){
@@ -82,7 +82,7 @@ void CESceneNode::draw(){
 	}
 	if(m_entity != NULL){
 		m_entity->endDraw();
-		std::cout << m_name << " termina draw." << std::endl;
+		//std::cout << m_name << " termina draw." << std::endl;
 	}
 }
 

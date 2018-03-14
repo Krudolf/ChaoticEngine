@@ -6,7 +6,7 @@
 #include <../include/CEmesh.hpp>
 #include <../include/manager/CEresourceManager.hpp>
 
-void showMatrix(glm::mat4 p_matrix){   
+/*void showMatrix(glm::mat4 p_matrix){   
     std::cout << std::fixed;
     std::cout << std::setprecision(6);
 
@@ -17,7 +17,7 @@ void showMatrix(glm::mat4 p_matrix){
         std::cout << std::endl;
     }
     std::cout << std::endl;
-}
+}*/
 
 
 CEMesh::CEMesh() : CEEntity(){}
@@ -25,9 +25,9 @@ CEMesh::CEMesh() : CEEntity(){}
 CEMesh::~CEMesh(){}
 
 void CEMesh::beginDraw(){
-	std::cout << "Dibujamos una malla" << std::endl;
-	std::cout << "Valor de la matrixModel:" << std::endl;
-	showMatrix(m_modelMatrix);
+	//std::cout << "Dibujamos una malla" << std::endl;
+	//std::cout << "Valor de la matrixModel:" << std::endl;
+	//showMatrix(m_modelMatrix);
 
     if(m_mesh != NULL){
         m_mesh->draw();

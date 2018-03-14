@@ -5,7 +5,7 @@
 //OpenGL
 #include <glew.h>
 #include <gl.h>
-#include <glu.h>
+//#include <glu.h>
 //#include <glut.h>
 #include <glfw3.h>
 #include <glm.hpp>
@@ -47,6 +47,13 @@ public:
 
 	void terminate();
 
+	void shaderProgram();
+	void useProgram(); 
+	
+	void createTriangle();
+	void drawTriangle();
+
+
 	void quad();
 
 /* ----- ARBOL -----*/
@@ -78,7 +85,7 @@ public:
 	void displayGL();
 
 private:
-	GLFWwindow* 	m_window;
+	GLFWwindow* 		m_window;
 	sf::Event			m_event;
 	sf::Clock			m_clock;
 
@@ -86,9 +93,11 @@ private:
 	CEResourceManager*	m_resourceManager;
 
 	CEGLShader* 		m_loader;
-	GLuint				m_shader;
+	GLuint				m_shaderProgram;
 
-	GLuint				m_VBO;
+    uint m_VBO, m_VAO, m_EBO;
+
+	//GLuint				m_VBO;
 
 	const char* m_vertex_path;
 	const char* m_fragment_path;

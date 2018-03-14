@@ -11,8 +11,6 @@ int main(){
 	//engine->nodeMesh();
 	//engine->loadShader();
 
-	//--------------descomentar para cargar modelos---------------------------------
-
 	/*//Crea un nodo hoja mesh al que se le asigna un modelo
 	const char* model = "resources_prueba/coso.obj";
 	engine->loadModel(model);*/
@@ -20,10 +18,15 @@ int main(){
 	//----------------------------------------------------------
 	//engine->draw();
 	//MAIN LOOP
+	engine->shaderProgram();
+	engine->createTriangle();
 	while(engine->isWindowOpen()){
-		engine->clearWindow(0.0f, 0.0f, 0.0f, 1.0f);
-
 		engine->processInput();
+		
+		engine->clearWindow(0.5f, 0.0f, 0.0f, 1.0f);
+
+		//engine->useProgram();
+		engine->drawTriangle();
 
     	engine->swapBuffers();
 		engine->pollEvents();

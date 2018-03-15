@@ -256,7 +256,7 @@ void ChaoticEngine::createCube(){
 	CESceneNode* nodeTranslate 	= createNode(t_translate, nodeRotate);
 	CESceneNode* nodeMesh 		= createNode(t_mesh, nodeTranslate);
 
-	t_mesh->loadResource("resources_prueba/coso.obj");
+	t_mesh->loadResource("resources_prueba/life_tank.blend");
 }
 
 void ChaoticEngine::createMesh(){

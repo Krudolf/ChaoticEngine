@@ -68,8 +68,8 @@ public:
 	void 			draw();
 	void 			release();
 
-	void 			loadShader();
 	void 			setShadersPath(const char* vert_path, const char* frag_path);
+	GLuint 			loadShader();
 
 	void 			createCube();
 	void 			createMesh();

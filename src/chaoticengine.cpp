@@ -143,6 +143,12 @@ void ChaoticEngine::createTriangle(){
 }
 
 void ChaoticEngine::drawTriangle(){
+	float timeValue = glfwGetTime();
+	float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+	int vertexColorLocation = glGetUniformLocation(m_shaderProgram, "ourColor");
+	glUseProgram(m_shaderProgram);
+	glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+
 	glBindVertexArray(m_VAO);
 	//glDrawArrays(GL_TRIANGLES, 0, 6);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -235,15 +241,16 @@ void ChaoticEngine::release(){
 	delete m_root;
 }
 
-// Loads the shaders. By default, loads default path. To change path, use setShadersPath(vertex_path, fragment_path)
-void ChaoticEngine::loadShader(){
-	m_shaderProgram = m_loader->LoadShader(m_vertex_path, m_fragment_path);
-}
-
 // Sets the path to load the shaders from
 void ChaoticEngine::setShadersPath(const char* vert_path, const char* frag_path){
 	m_vertex_path = vert_path;
 	m_fragment_path = frag_path;
+}
+
+// Loads the shaders. By default, loads default path. To change path, use setShadersPath(vertex_path, fragment_path)
+GLuint ChaoticEngine::loadShader(){
+	m_shaderProgram = m_loader->LoadShader(m_vertex_path, m_fragment_path);
+	return m_shaderProgram;
 }
 
 void ChaoticEngine::createCube(){
@@ -377,7 +384,7 @@ void ChaoticEngine::getViewMatrix(){
 		m_tempMatrix = m_tempMatrix * m_matrixStack.top();
 		m_matrixStack.pop();
 	}
-	m_viewMatrix = m_tempMatrix;
+	m_viewMatrix = glm::inverse(m_tempMatrix);
 	std::cout << "VIEW MATRIX!" << std::endl;
 	showMatrix(m_viewMatrix);
 }

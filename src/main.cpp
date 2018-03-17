@@ -16,7 +16,7 @@ int main(){
 
 	//engine->shaderProgram();
 	GLuint t_shader = engine->loadShader();
-	//engine->createCube();
+	engine->createCube();
 	engine->createTriangle();
 
 	glm::vec3 t_intensities;

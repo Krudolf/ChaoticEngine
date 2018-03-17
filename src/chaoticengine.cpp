@@ -146,7 +146,7 @@ void ChaoticEngine::drawTriangle(){
 	float timeValue = glfwGetTime();
 	float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
 	int vertexColorLocation = glGetUniformLocation(m_shaderProgram, "ourColor");
-	glUseProgram(m_shaderProgram);
+	//glUseProgram(m_shaderProgram);
 	glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 
 	glBindVertexArray(m_VAO);
@@ -228,6 +228,8 @@ CESceneNode* ChaoticEngine::getRootNode(){
 }
 
 void ChaoticEngine::draw(){
+	variableForShader();
+
 	m_root->draw();
 }
 
@@ -291,6 +293,19 @@ void ChaoticEngine::loadModel(const char* p_path){
 	CESceneNode* nodeMesh111 = createNode(mesh111, nodeTrans11);
 
 	mesh111->loadResource(p_path);
+}
+
+void ChaoticEngine::variableForShader(){
+	float timeValue = glfwGetTime();
+	float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+	int vertexColorLocation = glGetUniformLocation(m_shaderProgram, "ourColor");
+	glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+
+    GLuint t_locationView = glGetUniformLocation(m_shaderProgram, "view");
+    glUniformMatrix4fv(t_locationView, 1, GL_FALSE, glm::value_ptr(m_viewMatrix));
+
+    GLuint t_locationProj = glGetUniformLocation(m_shaderProgram, "projection");
+    glUniformMatrix4fv(t_locationProj, 1, GL_FALSE, glm::value_ptr(getProjectionMatrix()));
 }
 
 
@@ -387,4 +402,10 @@ void ChaoticEngine::getViewMatrix(){
 	m_viewMatrix = glm::inverse(m_tempMatrix);
 	std::cout << "VIEW MATRIX!" << std::endl;
 	showMatrix(m_viewMatrix);
+}
+
+glm::mat4 ChaoticEngine::getProjectionMatrix(){
+	CECamera* t_camera = (CECamera*)m_activeCamera->getEntity();
+	showMatrix(t_camera->getMatrix());
+	return t_camera->getMatrix();
 }

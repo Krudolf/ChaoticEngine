@@ -31,7 +31,7 @@ public:
 	CEsubMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indices);
 	~CEsubMesh();
 
-	void subDraw();
+	void subDraw(glm::mat4 p_modelMatrix);
 
 private:
 	/*  Render data  */

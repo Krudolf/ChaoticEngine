@@ -9,6 +9,7 @@
 //#include <glut.h>
 #include <glfw3.h>
 #include <glm.hpp>
+#include <gtc/type_ptr.hpp>
 
 #include <SFML/Graphics.hpp>
 //#include <SFML/OpenGL.hpp>
@@ -74,6 +75,9 @@ public:
 	void 			createCube();
 	void 			createMesh();
 	void 			loadModel(const char* p_path);
+
+	void 			variableForShader();
+
 	
 	CESceneNode* 	createLight(glm::vec3 p_intensities, float p_attenuation, bool p_setActive = true);
 	void 			setActiveLight(CESceneNode* p_nodeLight);
@@ -82,6 +86,7 @@ public:
 	CESceneNode* 	createCamera(bool p_setActive = true);
 	void 			setActiveCamera(CESceneNode* p_nodeCamera);
 	void 			getViewMatrix();
+	glm::mat4		getProjectionMatrix();
 
 private:
 	GLFWwindow* 				m_window;

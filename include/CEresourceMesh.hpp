@@ -16,7 +16,7 @@ public:
 	~CEResourceMesh();
 
 	bool loadFile(const char* p_name);
-	void draw();
+	void draw(glm::mat4 p_modelMatrix);
 
 private:
 	std::vector<CEsubMesh> m_meshes;

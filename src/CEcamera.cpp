@@ -29,6 +29,11 @@ void CECamera::setParallel(float p_left, float p_right, float p_bottom, float p_
 	m_proyectionMatrix = glm::ortho(m_left, m_right, m_bottom, m_top, m_near, m_far);
 }
 
+glm::mat4 CECamera::getMatrix(){
+	return m_proyectionMatrix;
+}
+
+
 void CECamera::beginDraw(){}
 
 void CECamera::endDraw(){}

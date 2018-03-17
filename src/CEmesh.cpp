@@ -30,7 +30,7 @@ void CEMesh::beginDraw(){
 	//showMatrix(m_modelMatrix);
 
     if(m_mesh != NULL){
-        m_mesh->draw();
+        m_mesh->draw(m_modelMatrix);
     }
 }
 

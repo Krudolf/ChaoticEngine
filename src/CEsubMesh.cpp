@@ -12,9 +12,11 @@ CEsubMesh::CEsubMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indic
 //Destructor
 CEsubMesh::~CEsubMesh(){}
 
-void CEsubMesh::subDraw(){
+void CEsubMesh::subDraw(glm::mat4 p_modelMatrix){
+	//GLuint t_locationModel = glGetUniformLocation(m_shaderProgram, "model");
+    //glUniformMatrix4fv(t_locationModel, 1, GL_FALSE, glm::value_ptr(p_modelMatrix));
+
 	// Draw mesh
-	std::cout<<"Hola"<<std::endl;
 	glBindVertexArray(m_VAO);
 	glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);

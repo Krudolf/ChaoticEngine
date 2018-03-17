@@ -143,11 +143,11 @@ void ChaoticEngine::createTriangle(){
 }
 
 void ChaoticEngine::drawTriangle(){
-	float timeValue = glfwGetTime();
+	/*float timeValue = glfwGetTime();
 	float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
 	int vertexColorLocation = glGetUniformLocation(m_shaderProgram, "ourColor");
 	//glUseProgram(m_shaderProgram);
-	glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+	glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);*/
 
 	glBindVertexArray(m_VAO);
 	//glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -218,7 +218,7 @@ CELight* ChaoticEngine::newLight(glm::vec3 p_intensities, float p_attenuation){
 }
 
 CEMesh* ChaoticEngine::newMesh(){
-	CEMesh* t_mesh = new CEMesh();
+	CEMesh* t_mesh = new CEMesh(m_shaderProgram);
 
 	return t_mesh;
 }

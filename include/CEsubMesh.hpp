@@ -1,9 +1,9 @@
 #ifndef CESUBMESH
 #define CESUBMESH
 
-#include <GL/glew.h> 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include <glew.h> 
+#include <glm.hpp>
+#include <gtc/type_ptr.hpp>
 
 #include <iostream>
 #include <vector>
@@ -20,8 +20,9 @@ struct Vertex {
 };
 
 struct Texture {
-    unsigned int id;
-    string type;
+    GLuint id;
+    std::string type;
+    std::string path;
 }; 
 
 class CEsubMesh
@@ -33,10 +34,10 @@ public:
 	std::vector<GLuint> m_indices;
 	std::vector<Texture> m_textures;
 
-	CEsubMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indices);
+	CEsubMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indices, std::vector<Texture> p_textures);
 	~CEsubMesh();
 
-	void subDraw(glm::mat4 p_modelMatrix);
+	void subDraw(glm::mat4 p_modelMatrix, GLuint p_shaderProgram);
 
 private:
 	/*  Render data  */

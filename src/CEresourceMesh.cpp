@@ -19,7 +19,8 @@ bool CEResourceMesh::loadFile(const char* p_name){
 		return false;
 	}
 
-	m_directory = p_name.substr(0, p_name.find_last_of('/'));
+	std::string path   = p_name;
+	m_directory = path.substr(0, path.find_last_of('/'));
 	std::cout<<m_directory<<std::endl;
 
 	processNode(scene->mRootNode, scene);
@@ -45,6 +46,7 @@ CEsubMesh CEResourceMesh::processMesh(aiMesh* p_mesh, const aiScene* p_scene){
 	// Data to fill
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
+	std::vector<Texture> textures;
 
 	// Walk through each of the mesh's vertices
 	for (GLuint i = 0; i < p_mesh->mNumVertices; i++)
@@ -84,15 +86,97 @@ CEsubMesh CEResourceMesh::processMesh(aiMesh* p_mesh, const aiScene* p_scene){
 		for (GLuint j = 0; j < face.mNumIndices; j++)
 			indices.push_back(face.mIndices[j]);
 	}
+	// Process materials
+	if (p_mesh->mMaterialIndex >= 0)
+	{
+		aiMaterial* material = p_scene->mMaterials[p_mesh->mMaterialIndex];
+		// We assume a convention for sampler names in the shaders. Each diffuse texture should be named
+		// as 'texture_diffuseN' where N is a sequential number ranging from 1 to MAX_SAMPLER_NUMBER. 
+		// Same applies to other texture as the following list summarizes:
+		// Diffuse: texture_diffuseN
+		// Specular: texture_specularN
+		// Normal: texture_normalN
+
+		// 1. Diffuse maps
+		std::vector<Texture> diffuseMaps = this->loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+		// 2. Specular maps
+		std::vector<Texture> specularMaps = this->loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
+		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+	}
 
 	// Return a mesh object created from the extracted mesh data
-	return (CEsubMesh(vertices, indices));
+	return (CEsubMesh(vertices, indices, textures));
 }
 
-void CEResourceMesh::draw(glm::mat4 p_modelMatrix){
+void CEResourceMesh::draw(glm::mat4 p_modelMatrix, GLuint p_shaderProgram){
 	for(GLuint i = 0; i < m_meshes.size(); i++){
-			m_meshes[i].subDraw(p_modelMatrix);
+			m_meshes[i].subDraw(p_modelMatrix, p_shaderProgram);
 	}
 }
 
+std::vector<Texture> CEResourceMesh::loadMaterialTextures(aiMaterial * p_mat, aiTextureType p_type, string p_typeName){
 
+	vector<Texture> textures;
+    for(unsigned int i = 0; i < p_mat->GetTextureCount(p_type); i++){
+        aiString str;
+        p_mat->GetTexture(p_type, i, &str);
+        // check if texture was loaded before and if so, continue to next iteration: skip loading a new texture
+        bool skip = false;
+        for(unsigned int j = 0; j < m_textures_loaded.size(); j++){
+            if(std::strcmp(m_textures_loaded[j].path.data(), str.C_Str()) == 0){
+                textures.push_back(m_textures_loaded[j]);
+                skip = true; // a texture with the same filepath has already been loaded, continue to next one. (optimization)
+                break;
+            }
+        }
+        if(!skip){   // if texture hasn't been loaded already, load it
+            Texture texture;
+            texture.id = TextureFromFile(str.C_Str(), this->m_directory);
+            texture.type = p_typeName;
+            texture.path = str.C_Str();
+            textures.push_back(texture);
+            m_textures_loaded.push_back(texture);  // store it as texture loaded for entire model, to ensure we won't unnecesery load duplicate textures.
+        }
+    }
+	return textures;
+
+}
+
+GLint TextureFromFile(const char * p_path, std::string p_directory){
+
+    string filename = string(p_path);
+    filename = p_directory + '/' + filename;
+
+    unsigned int textureID;
+    glGenTextures(1, &textureID);
+
+    int width, height, nrComponents;
+    unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
+    if (data){
+        GLenum format;
+        if (nrComponents == 1)
+            format = GL_RED;
+        else if (nrComponents == 3)
+            format = GL_RGB;
+        else if (nrComponents == 4)
+            format = GL_RGBA;
+
+        glBindTexture(GL_TEXTURE_2D, textureID);
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        stbi_image_free(data);
+    }
+    else{
+        std::cout << "Texture failed to load at path: " << p_path << std::endl;
+        stbi_image_free(data);
+    }
+
+    return textureID;
+}

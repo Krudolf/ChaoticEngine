@@ -19,6 +19,9 @@ bool CEResourceMesh::loadFile(const char* p_name){
 		return false;
 	}
 
+	m_directory = p_name.substr(0, p_name.find_last_of('/'));
+	std::cout<<m_directory<<std::endl;
+
 	processNode(scene->mRootNode, scene);
 	return true;
 }
@@ -88,7 +91,7 @@ CEsubMesh CEResourceMesh::processMesh(aiMesh* p_mesh, const aiScene* p_scene){
 
 
 void CEResourceMesh::draw(){
-	std::cout <<"Hola??? "<<m_meshes.size()<<std::endl;
+
 	for (GLuint i = 0; i < m_meshes.size(); i++) {
 			m_meshes[i].subDraw();
 	}

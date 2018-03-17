@@ -256,7 +256,7 @@ void ChaoticEngine::createCube(){
 	CESceneNode* nodeTranslate 	= createNode(t_translate, nodeRotate);
 	CESceneNode* nodeMesh 		= createNode(t_mesh, nodeTranslate);
 
-	t_mesh->loadResource("resources_prueba/life_tank.blend");
+	t_mesh->loadResource("resources_prueba/life_tank.obj");
 }
 
 void ChaoticEngine::createMesh(){
@@ -271,19 +271,17 @@ void ChaoticEngine::createMesh(){
 }
 
 void ChaoticEngine::loadModel(const char* p_path){
-	CETransform* 	trans1  = newTransform();
-	CETransform* 	trans11 = newTransform();
+	
+	CETransform* 	t_rotate    = rotate(0.0, 0.0, 0.0);
+	CETransform* 	t_translate = translate(0.0, 0.0, 0.0);
 
-	CEMesh*			mesh111 = newMesh();
+	CEMesh*			t_mesh 		= newMesh();
 
-	trans1 ->rotate(0, 45, 0);
-	trans11->translate(200, 200, 200);
+	CESceneNode* nodeRotate  	= createNode(t_rotate , getRootNode());
+	CESceneNode* nodeTranslate 	= createNode(t_translate, nodeRotate);
+	CESceneNode* nodeMesh 		= createNode(t_mesh, nodeTranslate);
 
-	CESceneNode* nodeTrans1  = createNode(trans1 , getRootNode());
-	CESceneNode* nodeTrans11 = createNode(trans11, nodeTrans1);
-	CESceneNode* nodeMesh111 = createNode(mesh111, nodeTrans11);
-
-	mesh111->loadResource(p_path);
+	t_mesh->loadResource(p_path);
 }
 
 

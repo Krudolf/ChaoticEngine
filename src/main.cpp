@@ -10,13 +10,13 @@ int main(){
 	//Crea un nodo hoja mesh con dos transformaciones padre(rotate->translate->mesh)
 	//engine->nodeMesh();
 
-	/*//Crea un nodo hoja mesh al que se le asigna un modelo
-	const char* model = "resources_prueba/coso.obj";
-	engine->loadModel(model);*/
+	//Crea un nodo hoja mesh al que se le asigna un modelo
+	const char* model = "resources_prueba/life_tank.blend";
+	engine->loadModel(model);
 
 	//engine->shaderProgram();
 	engine->loadShader();
-	engine->createCube();
+	//engine->createCube();
 	//engine->createTriangle();
 
 	glm::vec3 t_intensities;

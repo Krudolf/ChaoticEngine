@@ -19,6 +19,10 @@ struct Vertex {
 	glm::vec2 TexCoords;
 };
 
+struct Texture {
+    unsigned int id;
+    string type;
+}; 
 
 class CEsubMesh
 {
@@ -27,6 +31,7 @@ public:
 	/*  Mesh Data  */
 	std::vector<Vertex> m_vertices;
 	std::vector<GLuint> m_indices;
+	std::vector<Texture> m_textures;
 
 	CEsubMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indices);
 	~CEsubMesh();

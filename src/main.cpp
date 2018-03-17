@@ -34,8 +34,8 @@ int main(){
 
 		//engine->drawTriangle();
 		glm::mat4 trans;
-		trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
-		trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5)); 
+		trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(1.0f, 1.0f, 1.0f));
+		trans = glm::scale(trans, glm::vec3(0.3, 0.3, 0.3)); 
 
 		unsigned int transformLoc = glGetUniformLocation(t_shader, "transform");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));

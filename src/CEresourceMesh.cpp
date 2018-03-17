@@ -89,11 +89,9 @@ CEsubMesh CEResourceMesh::processMesh(aiMesh* p_mesh, const aiScene* p_scene){
 	return (CEsubMesh(vertices, indices));
 }
 
-
-void CEResourceMesh::draw(){
-
-	for (GLuint i = 0; i < m_meshes.size(); i++) {
-			m_meshes[i].subDraw();
+void CEResourceMesh::draw(glm::mat4 p_modelMatrix){
+	for(GLuint i = 0; i < m_meshes.size(); i++){
+			m_meshes[i].subDraw(p_modelMatrix);
 	}
 }
 

@@ -15,9 +15,9 @@ int main(){
 	engine->loadModel(model);
 
 	//engine->shaderProgram();
-	engine->loadShader();
-	//engine->createCube();
-	//engine->createTriangle();
+	GLuint t_shader = engine->loadShader();
+	engine->createCube();
+	engine->createTriangle();
 
 	glm::vec3 t_intensities;
 	float t_attenuation = 0;
@@ -29,8 +29,8 @@ int main(){
 		
 		engine->clearWindow(0.5f, 0.0f, 0.0f, 1.0f);
 
-		//engine->drawTriangle();
-		engine->draw();
+		engine->drawTriangle();
+		//engine->draw();
 
     	engine->swapBuffers();
 		engine->pollEvents();

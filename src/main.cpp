@@ -18,6 +18,7 @@ int main(){
 	GLuint t_shader = engine->loadShader();
 	engine->createCube();
 	engine->createTriangle();
+	engine->createTexture();
 
 	glm::vec3 t_intensities;
 	float t_attenuation = 0;
@@ -29,6 +30,7 @@ int main(){
 		
 		engine->clearWindow(0.5f, 0.0f, 0.0f, 1.0f);
 
+		engine->updateTexture();
 		engine->drawTriangle();
 		//engine->draw();
 

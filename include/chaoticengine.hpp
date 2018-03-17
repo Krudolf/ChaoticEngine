@@ -12,7 +12,6 @@
 #include <gtc/type_ptr.hpp>
 
 #include <SFML/Graphics.hpp>
-//#include <SFML/OpenGL.hpp>
 
 #include <CEentity.hpp>
 #include <CEcamera.hpp>
@@ -72,12 +71,14 @@ public:
 	void 			setShadersPath(const char* vert_path, const char* frag_path);
 	GLuint 			loadShader();
 
+	void			createTexture();
+	void			updateTexture();
+
 	void 			createCube();
 	void 			createMesh();
 	void 			loadModel(const char* p_path);
 
 	void 			variableForShader();
-
 	
 	CESceneNode* 	createLight(glm::vec3 p_intensities, float p_attenuation, bool p_setActive = true);
 	void 			setActiveLight(CESceneNode* p_nodeLight);
@@ -90,8 +91,6 @@ public:
 
 private:
 	GLFWwindow* 				m_window;
-	sf::Event					m_event;
-	sf::Clock					m_clock;
 
 	CESceneNode*				m_root;
 	CEResourceManager*			m_resourceManager;
@@ -110,6 +109,10 @@ private:
 
 	CESceneNode*				m_activeCamera;
 	glm::mat4 					m_viewMatrix;
+
+	sf::RenderTexture*			m_renderTexture;
+	sf::RectangleShape*			m_rectangle;
+	sf::Texture 				m_texture;
 };
 
 #endif

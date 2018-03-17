@@ -143,16 +143,20 @@ void ChaoticEngine::createTriangle(){
 }
 
 void ChaoticEngine::drawTriangle(){
-	float timeValue = glfwGetTime();
-	float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
-	int vertexColorLocation = glGetUniformLocation(m_shaderProgram, "ourColor");
+	//float timeValue = glfwGetTime();
+	//float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+	//int vertexColorLocation = glGetUniformLocation(m_shaderProgram, "ourColor");
 	//glUseProgram(m_shaderProgram);
-	glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+	//glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+
+	sf::Texture::bind(&m_texture, sf::Texture::Pixels);
 
 	glBindVertexArray(m_VAO);
 	//glDrawArrays(GL_TRIANGLES, 0, 6);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	//glBindVertexArray(0); //no need to unbind it every time 
+	//glBindVertexArray(0); //no need to unbind it every time
+
+	sf::Texture::bind(NULL);
 }
 
 /*
@@ -253,6 +257,25 @@ void ChaoticEngine::setShadersPath(const char* vert_path, const char* frag_path)
 GLuint ChaoticEngine::loadShader(){
 	m_shaderProgram = m_loader->LoadShader(m_vertex_path, m_fragment_path);
 	return m_shaderProgram;
+}
+
+void ChaoticEngine::createTexture(){
+	m_renderTexture = new sf::RenderTexture();
+
+    if (!m_renderTexture->create(0.5,0.5)){
+        std::cerr << "Error creating 2D render target!" << std::endl;
+    }
+
+	m_rectangle = new sf::RectangleShape(sf::Vector2f(50,50));
+	m_rectangle->setFillColor(sf::Color::Blue);
+}
+
+void ChaoticEngine::updateTexture(){
+	m_renderTexture->clear(sf::Color::Transparent);
+	m_renderTexture->draw(*m_rectangle);
+	m_renderTexture->display();
+
+	m_texture = m_renderTexture->getTexture();
 }
 
 void ChaoticEngine::createCube(){

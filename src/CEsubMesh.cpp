@@ -1,10 +1,28 @@
 
 #include "../include/CEsubMesh.hpp"
+#include <sstream>
+#include <iomanip>
+#include <algorithm>
+
+void showMatrix2(glm::mat4 p_matrix){   
+    std::cout << std::fixed;
+    std::cout << std::setprecision(6);
+
+    for (int i = 0; i < 4; i++){
+        for (int j = 0; j < 4; j++){
+            std::cout << p_matrix[i][j] << "\t";
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+}
+
 
 //Constructor
-CEsubMesh::CEsubMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indices){
+CEsubMesh::CEsubMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indices, std::vector<Texture> p_textures){
 	m_vertices = p_vertices;
 	m_indices = p_indices;
+	m_textures = p_textures;
 
 	prepareBuffers();
 }
@@ -12,12 +30,47 @@ CEsubMesh::CEsubMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indic
 //Destructor
 CEsubMesh::~CEsubMesh(){}
 
-void CEsubMesh::subDraw(){
+void CEsubMesh::subDraw(glm::mat4 p_modelMatrix, GLuint p_shaderProgram){
+	GLuint t_locationModel = glGetUniformLocation(p_shaderProgram, "model");
+    glUniformMatrix4fv(t_locationModel, 1, GL_FALSE, glm::value_ptr(p_modelMatrix));
+    //showMatrix2(p_modelMatrix);
+
+    // Bind appropriate textures
+	GLuint diffuseNr  = 1;
+	GLuint specularNr = 1;
+	GLuint normalNr   = 1;
+    GLuint heightNr   = 1;
+	for (GLuint i = 0; i < this->m_textures.size(); i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
+        // retrieve texture number (the N in diffuse_textureN)
+        string number;
+        string name = m_textures[i].type;
+        if(name == "texture_diffuse")
+			number = std::to_string(diffuseNr++);
+		else if(name == "texture_specular")
+			number = std::to_string(specularNr++); // transfer unsigned int to stream
+
+		// now set the sampler to the correct texture unit
+        glUniform1i(glGetUniformLocation(p_shaderProgram, (name + number).c_str()), i);
+        // and finally bind the texture
+        glBindTexture(GL_TEXTURE_2D, m_textures[i].id);
+	}
+
+	// Also set each mesh's shininess property to a default value (if you want you could extend this to another mesh property and possibly change this value)
+	glUniform1f(glGetUniformLocation(p_shaderProgram, "material.shininess"), 16.0f);
+
 	// Draw mesh
-	std::cout<<"Hola"<<std::endl;
-	glBindVertexArray(m_VAO);
-	glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(this->m_VAO);
+	glDrawElements(GL_TRIANGLES, this->m_indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+
+	// Always good practice to set everything back to defaults once configured.
+	for (GLuint i = 0; i < this->m_textures.size(); i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
 }
 
 void CEsubMesh::prepareBuffers(){

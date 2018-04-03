@@ -6,32 +6,15 @@
 #include <../include/CEmesh.hpp>
 #include <../include/manager/CEresourceManager.hpp>
 
-/*void showMatrix(glm::mat4 p_matrix){   
-    std::cout << std::fixed;
-    std::cout << std::setprecision(6);
-
-    for (int i = 0; i < 4; i++){
-        for (int j = 0; j < 4; j++){
-            std::cout << p_matrix[i][j] << "\t";
-        }   
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
-}*/
-
-
-CEMesh::CEMesh() : CEEntity(){}
+CEMesh::CEMesh(GLuint p_shaderProgram) : CEEntity(){
+    m_shaderProgram = p_shaderProgram;
+}
 
 CEMesh::~CEMesh(){}
 
 void CEMesh::beginDraw(){
-	//std::cout << "Dibujamos una malla" << std::endl;
-	//std::cout << "Valor de la matrixModel:" << std::endl;
-	//showMatrix(m_modelMatrix);
-
-    if(m_mesh != NULL){
-        m_mesh->draw();
-    }
+    if(m_mesh != NULL)
+        m_mesh->draw(m_modelMatrix, m_shaderProgram);
 }
 
 void CEMesh::endDraw(){}
@@ -39,7 +22,6 @@ void CEMesh::endDraw(){}
 void CEMesh::loadResource(const char* p_urlSource){
     CEResourceManager* t_manager = CEResourceManager::instance();
     CEResource* t_resource = t_manager->getResource(p_urlSource);
-    if(t_resource != NULL){
+    if(t_resource != NULL)
         m_mesh = (CEResourceMesh*)t_resource;
-    }
 }

@@ -4,7 +4,9 @@
 //Por defecto crea una camara con perspectiva
 CECamera::CECamera() : CEEntity(){
 	m_isPerspective = true;
-	m_proyectionMatrix = glm::perspective(90.0f, 10.f, 0.1f, 100.f);
+	m_proyectionMatrix = glm::ortho(-1, 1, -1, 1, 1, -1);
+	//m_proyectionMatrix = glm::perspective(45.0f, 1.0f, 0.1f, 100.0f);
+	//m_proyectionMatrix = glm::perspective(90.0f, 10.0f, 0.1f, 100.0f);
 }
 
 CECamera::~CECamera(){}
@@ -28,6 +30,11 @@ void CECamera::setParallel(float p_left, float p_right, float p_bottom, float p_
 	m_far 	 = p_far;
 	m_proyectionMatrix = glm::ortho(m_left, m_right, m_bottom, m_top, m_near, m_far);
 }
+
+glm::mat4 CECamera::getMatrix(){
+	return m_proyectionMatrix;
+}
+
 
 void CECamera::beginDraw(){}
 

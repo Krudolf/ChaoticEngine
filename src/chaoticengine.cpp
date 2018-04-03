@@ -143,6 +143,12 @@ void ChaoticEngine::createTriangle(){
 }
 
 void ChaoticEngine::drawTriangle(){
+	/*float timeValue = glfwGetTime();
+	float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+	int vertexColorLocation = glGetUniformLocation(m_shaderProgram, "ourColor");
+	//glUseProgram(m_shaderProgram);
+	glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);*/
+
 	glBindVertexArray(m_VAO);
 	//glDrawArrays(GL_TRIANGLES, 0, 6);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -212,7 +218,7 @@ CELight* ChaoticEngine::newLight(glm::vec3 p_intensities, float p_attenuation){
 }
 
 CEMesh* ChaoticEngine::newMesh(){
-	CEMesh* t_mesh = new CEMesh();
+	CEMesh* t_mesh = new CEMesh(m_shaderProgram);
 
 	return t_mesh;
 }
@@ -222,6 +228,8 @@ CESceneNode* ChaoticEngine::getRootNode(){
 }
 
 void ChaoticEngine::draw(){
+	variableForShader();
+
 	m_root->draw();
 }
 
@@ -235,15 +243,16 @@ void ChaoticEngine::release(){
 	delete m_root;
 }
 
-// Loads the shaders. By default, loads default path. To change path, use setShadersPath(vertex_path, fragment_path)
-void ChaoticEngine::loadShader(){
-	m_shaderProgram = m_loader->LoadShader(m_vertex_path, m_fragment_path);
-}
-
 // Sets the path to load the shaders from
 void ChaoticEngine::setShadersPath(const char* vert_path, const char* frag_path){
 	m_vertex_path = vert_path;
 	m_fragment_path = frag_path;
+}
+
+// Loads the shaders. By default, loads default path. To change path, use setShadersPath(vertex_path, fragment_path)
+GLuint ChaoticEngine::loadShader(){
+	m_shaderProgram = m_loader->LoadShader(m_vertex_path, m_fragment_path);
+	return m_shaderProgram;
 }
 
 void ChaoticEngine::createCube(){
@@ -256,7 +265,7 @@ void ChaoticEngine::createCube(){
 	CESceneNode* nodeTranslate 	= createNode(t_translate, nodeRotate);
 	CESceneNode* nodeMesh 		= createNode(t_mesh, nodeTranslate);
 
-	t_mesh->loadResource("resources_prueba/coso.obj");
+	t_mesh->loadResource("resources_prueba/life_tank.obj");
 }
 
 void ChaoticEngine::createMesh(){
@@ -271,19 +280,31 @@ void ChaoticEngine::createMesh(){
 }
 
 void ChaoticEngine::loadModel(const char* p_path){
-	CETransform* 	trans1  = newTransform();
-	CETransform* 	trans11 = newTransform();
+	CETransform* 	t_scale     = scale(0.25, 0.25, 0.25);
+	CETransform* 	t_rotate    = rotate(3*PI/2, 0.0, 0.0);
+	CETransform* 	t_translate = translate(0.0, 0.0, 0.0);
 
-	CEMesh*			mesh111 = newMesh();
+	CEMesh*			t_mesh 		= newMesh();
 
-	trans1 ->rotate(0, 45, 0);
-	trans11->translate(200, 200, 200);
+	CESceneNode* nodeScale  	= createNode(t_scale , getRootNode());
+	CESceneNode* nodeRotate  	= createNode(t_rotate , nodeScale);
+	CESceneNode* nodeTranslate 	= createNode(t_translate, nodeRotate);
+	CESceneNode* nodeMesh 		= createNode(t_mesh, nodeTranslate);
 
-	CESceneNode* nodeTrans1  = createNode(trans1 , getRootNode());
-	CESceneNode* nodeTrans11 = createNode(trans11, nodeTrans1);
-	CESceneNode* nodeMesh111 = createNode(mesh111, nodeTrans11);
+	t_mesh->loadResource(p_path);
+}
 
-	mesh111->loadResource(p_path);
+void ChaoticEngine::variableForShader(){
+	float timeValue = glfwGetTime();
+	float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+	int vertexColorLocation = glGetUniformLocation(m_shaderProgram, "ourColor");
+	glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+
+    GLuint t_locationView = glGetUniformLocation(m_shaderProgram, "view");
+    glUniformMatrix4fv(t_locationView, 1, GL_FALSE, glm::value_ptr(m_viewMatrix));
+
+    GLuint t_locationProj = glGetUniformLocation(m_shaderProgram, "projection");
+    glUniformMatrix4fv(t_locationProj, 1, GL_FALSE, glm::value_ptr(getProjectionMatrix()));
 }
 
 
@@ -291,8 +312,8 @@ void ChaoticEngine::loadModel(const char* p_path){
 //* 							LIGHTS 								*
 //*******************************************************************
 CESceneNode* ChaoticEngine::createLight(glm::vec3 p_intensities, float p_attenuation, bool p_setActive){
-	CETransform* 	t_rotate    = rotate(10.0, 0.0, 0.0);
-	CETransform* 	t_translate = translate(10.0, 0.0, 0.0);
+	CETransform* 	t_rotate    = rotate(0.0, 0.0, 0.0);
+	CETransform* 	t_translate = translate(0.0, 0.0, 0.0);
 
 	CELight*		t_light 	= newLight(p_intensities, p_attenuation);
 
@@ -340,8 +361,8 @@ void ChaoticEngine::getLightMatrix(){
 //* 						   CAMERAS 								*
 //*******************************************************************
 CESceneNode* ChaoticEngine::createCamera(bool p_setActive){
-	CETransform* 	t_rotate    = rotate(45.0, 0.0, 0.0);
-	CETransform* 	t_translate = translate(50.0, 0.0, 0.0);
+	CETransform* 	t_rotate    = rotate(0.0, 0.0, 0.0);
+	CETransform* 	t_translate = translate(0.0, 0.0, 0.0);
 
 	CECamera*		t_camera 	= newCamera();
 
@@ -377,7 +398,13 @@ void ChaoticEngine::getViewMatrix(){
 		m_tempMatrix = m_tempMatrix * m_matrixStack.top();
 		m_matrixStack.pop();
 	}
-	m_viewMatrix = m_tempMatrix;
+	m_viewMatrix = glm::inverse(m_tempMatrix);
 	std::cout << "VIEW MATRIX!" << std::endl;
 	showMatrix(m_viewMatrix);
+}
+
+glm::mat4 ChaoticEngine::getProjectionMatrix(){
+	CECamera* t_camera = (CECamera*)m_activeCamera->getEntity();
+	//showMatrix(t_camera->getMatrix());
+	return t_camera->getMatrix();
 }

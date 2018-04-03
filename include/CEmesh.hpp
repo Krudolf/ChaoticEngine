@@ -4,10 +4,12 @@
 
 #include <CEentity.hpp>
 #include <CEresourceMesh.hpp>
+#include <glew.h> 
+#include <glm.hpp>
 
 class CEMesh : public CEEntity{
 public:
-	CEMesh();
+	CEMesh(GLuint p_shaderProgram);
 	virtual ~CEMesh();
 
 	void loadResource(const char* p_urlSource);
@@ -17,6 +19,7 @@ public:
 
 private:
 	CEResourceMesh* m_mesh;
+	GLuint m_shaderProgram;
 };
 
 #endif

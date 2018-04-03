@@ -1,6 +1,22 @@
 
 #include "../include/CEsubMesh.hpp"
 #include <sstream>
+#include <iomanip>
+#include <algorithm>
+
+void showMatrix2(glm::mat4 p_matrix){   
+    std::cout << std::fixed;
+    std::cout << std::setprecision(6);
+
+    for (int i = 0; i < 4; i++){
+        for (int j = 0; j < 4; j++){
+            std::cout << p_matrix[i][j] << "\t";
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+}
+
 
 //Constructor
 CEsubMesh::CEsubMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indices, std::vector<Texture> p_textures){
@@ -17,6 +33,7 @@ CEsubMesh::~CEsubMesh(){}
 void CEsubMesh::subDraw(glm::mat4 p_modelMatrix, GLuint p_shaderProgram){
 	GLuint t_locationModel = glGetUniformLocation(p_shaderProgram, "model");
     glUniformMatrix4fv(t_locationModel, 1, GL_FALSE, glm::value_ptr(p_modelMatrix));
+    //showMatrix2(p_modelMatrix);
 
     // Bind appropriate textures
 	GLuint diffuseNr  = 1;

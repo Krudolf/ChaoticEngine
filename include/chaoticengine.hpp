@@ -24,6 +24,8 @@
 #include <manager/CEresourceManager.hpp>
 #include <manager/CEGLShader.hpp>
 
+#define PI 3.14159
+
 class ChaoticEngine{
 public:
 	ChaoticEngine();

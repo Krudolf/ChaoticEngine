@@ -280,13 +280,14 @@ void ChaoticEngine::createMesh(){
 }
 
 void ChaoticEngine::loadModel(const char* p_path){
-	
-	CETransform* 	t_rotate    = rotate(0.0, 0.0, 0.0);
+	CETransform* 	t_scale     = scale(0.25, 0.25, 0.25);
+	CETransform* 	t_rotate    = rotate(3*PI/2, 0.0, 0.0);
 	CETransform* 	t_translate = translate(0.0, 0.0, 0.0);
 
 	CEMesh*			t_mesh 		= newMesh();
 
-	CESceneNode* nodeRotate  	= createNode(t_rotate , getRootNode());
+	CESceneNode* nodeScale  	= createNode(t_scale , getRootNode());
+	CESceneNode* nodeRotate  	= createNode(t_rotate , nodeScale);
 	CESceneNode* nodeTranslate 	= createNode(t_translate, nodeRotate);
 	CESceneNode* nodeMesh 		= createNode(t_mesh, nodeTranslate);
 
@@ -311,8 +312,8 @@ void ChaoticEngine::variableForShader(){
 //* 							LIGHTS 								*
 //*******************************************************************
 CESceneNode* ChaoticEngine::createLight(glm::vec3 p_intensities, float p_attenuation, bool p_setActive){
-	CETransform* 	t_rotate    = rotate(10.0, 0.0, 0.0);
-	CETransform* 	t_translate = translate(10.0, 0.0, 0.0);
+	CETransform* 	t_rotate    = rotate(0.0, 0.0, 0.0);
+	CETransform* 	t_translate = translate(0.0, 0.0, 0.0);
 
 	CELight*		t_light 	= newLight(p_intensities, p_attenuation);
 
@@ -360,8 +361,8 @@ void ChaoticEngine::getLightMatrix(){
 //* 						   CAMERAS 								*
 //*******************************************************************
 CESceneNode* ChaoticEngine::createCamera(bool p_setActive){
-	CETransform* 	t_rotate    = rotate(45.0, 0.0, 0.0);
-	CETransform* 	t_translate = translate(50.0, 0.0, 0.0);
+	CETransform* 	t_rotate    = rotate(0.0, 0.0, 0.0);
+	CETransform* 	t_translate = translate(0.0, 0.0, 0.0);
 
 	CECamera*		t_camera 	= newCamera();
 
@@ -404,6 +405,6 @@ void ChaoticEngine::getViewMatrix(){
 
 glm::mat4 ChaoticEngine::getProjectionMatrix(){
 	CECamera* t_camera = (CECamera*)m_activeCamera->getEntity();
-	showMatrix(t_camera->getMatrix());
+	//showMatrix(t_camera->getMatrix());
 	return t_camera->getMatrix();
 }

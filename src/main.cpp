@@ -28,14 +28,6 @@ int main(){
 		
 		rotacion->rotate(0,1,0);
 		engine->clearWindow(0.5f, 0.0f, 0.0f, 1.0f);
-/*
-		glm::mat4 trans;
-		trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
-		trans = glm::scale(trans, glm::vec3(0.05, 0.05, 0.05)); 
-
-		unsigned int transformLoc = glGetUniformLocation(t_shader, "transform");
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-*/
 		engine->draw();
 
     	engine->swapBuffers();

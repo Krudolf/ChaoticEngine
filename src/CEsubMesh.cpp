@@ -38,8 +38,7 @@ void CEsubMesh::subDraw(glm::mat4 p_modelMatrix, GLuint p_shaderProgram){
     // Bind appropriate textures
 	GLuint diffuseNr  = 1;
 	GLuint specularNr = 1;
-	GLuint normalNr   = 1;
-    GLuint heightNr   = 1;
+
 	for (GLuint i = 0; i < this->m_textures.size(); i++)
 	{
         glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
@@ -50,10 +49,6 @@ void CEsubMesh::subDraw(glm::mat4 p_modelMatrix, GLuint p_shaderProgram){
 			number = std::to_string(diffuseNr++);
 		else if(name == "texture_specular")
 			number = std::to_string(specularNr++); // transfer unsigned int to stream
-        else if(name == "texture_normal")
-			number = std::to_string(normalNr++); // transfer unsigned int to stream
-         else if(name == "texture_height")
-		    number = std::to_string(heightNr++); // transfer unsigned int to stream
 
 		// now set the sampler to the correct texture unit
         glUniform1i(glGetUniformLocation(p_shaderProgram, (name + number).c_str()), i);
@@ -99,12 +94,6 @@ void CEsubMesh::prepareBuffers(){
 	// Vertex Texture Coords
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, TexCoords));
-	// vertex tangent
-    glEnableVertexAttribArray(3);
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Tangent));
-    // vertex bitangent
-    glEnableVertexAttribArray(4);
-    glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Bitangent));
 
 	glBindVertexArray(0);
 }

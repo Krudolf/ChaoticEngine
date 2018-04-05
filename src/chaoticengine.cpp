@@ -68,6 +68,10 @@ void ChaoticEngine::createWindow(int p_width, int p_height, const char* p_title,
 	glfwSetFramebufferSizeCallback(m_window, windows_size_callback);
 
 	std::cout << "VERSION OPENGL: " << glGetString(GL_VERSION) << std::endl;
+
+    glFrontFace(GL_CCW);
+    glCullFace(GL_BACK);
+    glEnable(GL_CULL_FACE);
 }
 
 bool ChaoticEngine::isWindowOpen(){

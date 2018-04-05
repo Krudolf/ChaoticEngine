@@ -76,7 +76,7 @@ public:
 
 	void 			createCube();
 	void 			createMesh();
-	void 			loadModel(const char* p_path);
+	CESceneNode* 	loadModel(const char* p_path);
 
 	void 			variableForShader();
 

@@ -10,18 +10,9 @@ int main(){
 	ChaoticEngine* engine = new ChaoticEngine();
 	engine->createWindow(640, 480, "3KSC", false);
 
-	//Crea un nodo hoja mesh con dos transformaciones padre(rotate->translate->mesh)
-	//engine->nodeMesh();
-
-	//Crea un nodo hoja mesh al que se le asigna un modelo
-	const char* model1 = "resources_prueba/plup/plupTex.obj";
-	//engine->loadModel(model1);
-
 	const char* model = "resources_prueba/fusfus/Plataforma_Fusfus.obj";
-	//engine->loadModel(model1);
 
 	const char* model2 = "resources_prueba/life_tank/life_tank.obj";
-	engine->loadModel(model2);
 
 	GLuint t_shader = engine->loadShader();
 
@@ -29,14 +20,14 @@ int main(){
 
 	engine->createCamera();
 
-	engine->loadModel("resources_prueba/life_tank/life_tank.blend");
+	CESceneNode* modelo = engine->loadModel(model2);
+	CETransform* rotacion = static_cast<CETransform*>(modelo->getEntity());
 
 	while(engine->isWindowOpen()){
 		engine->processInput();
 		
+		rotacion->rotate(0,1,0);
 		engine->clearWindow(0.5f, 0.0f, 0.0f, 1.0f);
-
-		//engine->drawTriangle();
 /*
 		glm::mat4 trans;
 		trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));

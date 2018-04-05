@@ -60,9 +60,9 @@ void CETransform::translate(float p_tx, float p_ty, float p_tz){
 //Applies a rotation to the matrix
 //Receives the rotation for each axis
 void CETransform::rotate(float p_rx, float p_ry, float p_rz){
-    m_matrix = glm::rotate(m_matrix, p_rx, glm::vec3(1, 0, 0));
-    m_matrix = glm::rotate(m_matrix, p_ry, glm::vec3(0, 1, 0));
-    m_matrix = glm::rotate(m_matrix, p_rz, glm::vec3(0, 0, 1));
+    m_matrix = glm::rotate(m_matrix, glm::radians(p_rx), glm::vec3(1, 0, 0));
+    m_matrix = glm::rotate(m_matrix, glm::radians(p_ry), glm::vec3(0, 1, 0));
+    m_matrix = glm::rotate(m_matrix, glm::radians(p_rz), glm::vec3(0, 0, 1));
 }
 
 //Applies an scale to the matrix

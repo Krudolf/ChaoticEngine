@@ -283,9 +283,9 @@ void ChaoticEngine::createMesh(){
 	CESceneNode* nodeMesh111 = createNode(mesh111, nodeTrans11);
 }
 
-void ChaoticEngine::loadModel(const char* p_path){
+CESceneNode* ChaoticEngine::loadModel(const char* p_path){
 	CETransform* 	t_scale     = scale(0.25, 0.25, 0.25);
-	CETransform* 	t_rotate    = rotate(3*PI/2, 0.0, 0.0);
+	CETransform* 	t_rotate    = rotate(0.0, 0.0, 0.0);
 	CETransform* 	t_translate = translate(0.0, 0.0, 0.0);
 
 	CEMesh*			t_mesh 		= newMesh();
@@ -296,6 +296,7 @@ void ChaoticEngine::loadModel(const char* p_path){
 	CESceneNode* nodeMesh 		= createNode(t_mesh, nodeTranslate);
 
 	t_mesh->loadResource(p_path);
+	return(nodeRotate);
 }
 
 void ChaoticEngine::variableForShader(){
@@ -366,7 +367,7 @@ void ChaoticEngine::getLightMatrix(){
 //*******************************************************************
 CESceneNode* ChaoticEngine::createCamera(bool p_setActive){
 	CETransform* 	t_rotate    = rotate(0.0, 0.0, 0.0);
-	CETransform* 	t_translate = translate(0.0, 0.0, 0.0);
+	CETransform* 	t_translate = translate(0.0, -0.5, -1.0);
 
 	CECamera*		t_camera 	= newCamera();
 
@@ -402,7 +403,8 @@ void ChaoticEngine::getViewMatrix(){
 		m_tempMatrix = m_tempMatrix * m_matrixStack.top();
 		m_matrixStack.pop();
 	}
-	m_viewMatrix = glm::inverse(m_tempMatrix);
+	//m_viewMatrix = glm::inverse(m_tempMatrix);
+	m_viewMatrix = m_tempMatrix;
 	std::cout << "VIEW MATRIX!" << std::endl;
 	showMatrix(m_viewMatrix);
 }

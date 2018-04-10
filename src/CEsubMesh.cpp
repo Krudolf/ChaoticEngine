@@ -17,9 +17,6 @@ CEsubMesh::CEsubMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indic
 CEsubMesh::~CEsubMesh(){}
 
 void CEsubMesh::subDraw(glm::mat4 p_modelMatrix, GLuint p_shaderProgram){
-	//GLuint t_locationModel = glGetUniformLocation(p_shaderProgram, "model");
-    //glUniformMatrix4fv(t_locationModel, 1, GL_FALSE, glm::value_ptr(p_modelMatrix));
-    //showMatrix2(p_modelMatrix);
 
     // Bind appropriate textures
 	GLuint diffuseNr  = 1;

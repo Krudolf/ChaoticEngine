@@ -11,7 +11,7 @@ int main(){
 	engine->createWindow(640, 480, "3KSC", false);
 
 	const char* model = "resources_prueba/fusfus/Plataforma_Fusfus.obj";
-	const char* model1 = "resources_prueba/cubo.obj";
+	const char* model1 = "resources_prueba/cubo/cubo.obj";
 	const char* model2 = "resources_prueba/life_tank/life_tank.obj";
 
 	GLuint t_shader = engine->loadShader();
@@ -20,7 +20,7 @@ int main(){
 
 	engine->createCamera();
 
-	CESceneNode* modelo = engine->loadModel(model2);
+	CESceneNode* modelo = engine->loadModel(model1);
 	CETransform* rotacion = static_cast<CETransform*>(modelo->getEntity());
 
 	while(engine->isWindowOpen()){

@@ -4,9 +4,9 @@
 //Por defecto crea una camara con perspectiva
 CECamera::CECamera() : CEEntity(){
 	m_isPerspective = true;
-	m_proyectionMatrix = glm::ortho(-1, 1, -1, 1, 1, -1);
-	//m_proyectionMatrix = glm::perspective(45.0f, 1.0f, 0.1f, 1.0f);
-	//m_proyectionMatrix = glm::perspective(90.0f, 1.0f, 0.1f, 100.0f);
+	m_projectionMatrix = glm::ortho(-1, 1, -1, 1, 1, -1);
+	//m_projectionMatrix = glm::perspective(45.0f, 1.0f, 0.1f, 1.0f);
+	//m_projectionMatrix = glm::perspective(90.0f, 1.0f, 0.1f, 100.0f);
 }
 
 CECamera::~CECamera(){}

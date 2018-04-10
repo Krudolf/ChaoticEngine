@@ -11,10 +11,10 @@ out vec4 FragColor;
 
 //Estructura para guardar la textura. Se guardan las propiedades difusas y especulares de la textura
 struct TMaterial{
-	Sampler2D Diffuse;
-	Sampler2D Specular;
+	sampler2D Diffuse;
+	sampler2D Specular;
 	float Shiniess;
-}
+};
 
 //Estructura para guardar las luces: Posicion y propiedades; ambiental, difusa y especular
 struct TLight{
@@ -22,10 +22,10 @@ struct TLight{
 	vec3 Ambient;
 	vec3 Diffuse;
 	vec3 Specular;
-}
+};
 
 //Estado de OpenGL: textura y luz de los tipos anteriores
-uniform TMaterial Texture;
+uniform TMaterial Material;
 uniform TLight Light;
 
 //Funcion para calculo de reflexion de Phong

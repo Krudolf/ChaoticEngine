@@ -11,17 +11,15 @@ out vec3 Position;
 out vec3 Normal;
 out vec2 TexCoords;
 
-//uniform mat4 view;
-//uniform mat4 model;
-//uniform mat4 projection;
 uniform mat4 ModelViewMatrix;
+uniform mat3 NormalMatrix;
 uniform mat4 MVP;
 
 void main()
 {
-	mat3 NormalMatrix = mat3(transpose(inverse(model)));
-    Position = vec3(model * view * vec4(VertexPosition, 1.0f));
+    Position = vec3(ModelViewMatrix * vec4(VertexPosition, 1.0f));
     Normal = normalize(NormalMatrix * VertexNormal);
+    TexCoords = TextureCoords;
 
-    gl_Position = model * view * projection * vec4(VertexPosition, 1.0f);
+    gl_Position = MVP * vec4(VertexPosition, 1.0f);
 }

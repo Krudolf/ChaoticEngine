@@ -11,24 +11,25 @@ public:
 	CECamera();
 	virtual ~CECamera();
 
-	void setPerspective(float p_angle, float p_aspect, float p_near = 0.1f, float p_far = 100.0f);
-	void setParallel(float p_left, float p_right, float p_bottom, float p_top, float p_near = 0.1f, float p_far = 100.0f);
+	void 		setPerspective(float p_angle, float p_aspect, float p_near = 0.1f, float p_far = 100.0f);
+	void 		setParallel(float p_left, float p_right, float p_bottom, float p_top, float p_near = 0.1f, float p_far = 100.0f);
 
-	glm::mat4 getMatrix();
+	glm::mat4 	getMatrix();
 
-	void beginDraw() override;
-	void endDraw() override;
+	void 		beginDraw() override;
+	void 		endDraw() override;
 
+	void 		setProjectionMatrix();
+	void 		setViewMatrix(glm::mat4 p_viewMatrix);
 	/*Preguntar por el lookAt() de GLM*/
 
 private:
-	glm::mat4 m_proyectionMatrix;
-
-    bool m_isPerspective;
+	glm::mat4	m_projection;
+    bool		m_isPerspective;
     
-    float m_near, m_far;
-    float m_angle, m_aspect;
-    float m_left, m_right, m_bottom, m_top;
+    float 		m_near, m_far;
+    float 		m_angle, m_aspect;
+    float 		m_left, m_right, m_bottom, m_top;
 };
 
 #endif

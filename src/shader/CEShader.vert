@@ -11,11 +11,11 @@ out vec3 Position;
 out vec3 Normal;
 out vec2 TexCoords;
 
-// Estado de OpenGl
-
-uniform mat4 view;
-uniform mat4 model;
-uniform mat4 projection;
+//uniform mat4 view;
+//uniform mat4 model;
+//uniform mat4 projection;
+uniform mat4 ModelViewMatrix;
+uniform mat4 MVP;
 
 void main()
 {

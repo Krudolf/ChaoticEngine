@@ -19,6 +19,7 @@ protected:
 	static glm::mat4 m_modelMatrix;
 	static glm::mat4 m_viewMatrix;
 	static glm::mat4 m_projectionMatrix;
+	static glm::mat4 m_normalMatrix;
 
 private:
 

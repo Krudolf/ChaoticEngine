@@ -188,8 +188,6 @@ CESceneNode* ChaoticEngine::getRootNode(){
 }
 
 void ChaoticEngine::draw(){
-	variableForShader();
-
 	m_root->draw();
 }
 
@@ -255,20 +253,6 @@ CESceneNode* ChaoticEngine::loadModel(const char* p_path){
 	return(nodeRotate);
 }
 
-void ChaoticEngine::variableForShader(){
-	float timeValue = glfwGetTime();
-	float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
-	int vertexColorLocation = glGetUniformLocation(m_shaderProgram, "ourColor");
-	glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
-
-    GLuint t_locationView = glGetUniformLocation(m_shaderProgram, "view");
-    glUniformMatrix4fv(t_locationView, 1, GL_FALSE, glm::value_ptr(m_viewMatrix));
-
-    GLuint t_locationProj = glGetUniformLocation(m_shaderProgram, "projection");
-    glUniformMatrix4fv(t_locationProj, 1, GL_FALSE, glm::value_ptr(getProjectionMatrix()));
-}
-
-
 //*******************************************************************
 //* 							LIGHTS 								*
 //*******************************************************************
@@ -323,7 +307,7 @@ void ChaoticEngine::getLightMatrix(){
 //*******************************************************************
 CESceneNode* ChaoticEngine::createCamera(bool p_setActive){
 	CETransform* 	t_rotate    = rotate(0.0, 0.0, 0.0);
-	CETransform* 	t_translate = translate(0.0, -0.5, -1.0);
+	CETransform* 	t_translate = translate(0.0, 0.0, 0.0);
 
 	CECamera*		t_camera 	= newCamera();
 
@@ -339,11 +323,12 @@ CESceneNode* ChaoticEngine::createCamera(bool p_setActive){
 
 void ChaoticEngine::setActiveCamera(CESceneNode* p_nodeCamera){
 	m_activeCamera = p_nodeCamera;
-	getViewMatrix();
+	CECamera* t_cameraNode = static_cast<CECamera*>(p_nodeCamera->getEntity());
+	t_cameraNode->setProjectionMatrix();
+	t_cameraNode->setViewMatrix(getViewMatrix());
 }
 
-void ChaoticEngine::getViewMatrix(){
-	//Look the vector of active lights
+glm::mat4 ChaoticEngine::getViewMatrix(){
 	glm::mat4 m_tempMatrix;
 	CESceneNode* t_node = m_activeCamera->getFather();
 	//Go through all the transforms until we reach the root
@@ -359,14 +344,6 @@ void ChaoticEngine::getViewMatrix(){
 		m_tempMatrix = m_tempMatrix * m_matrixStack.top();
 		m_matrixStack.pop();
 	}
-	//m_viewMatrix = glm::inverse(m_tempMatrix);
-	m_viewMatrix = m_tempMatrix;
-	std::cout << "VIEW MATRIX!" << std::endl;
-	showMatrix(m_viewMatrix);
-}
-
-glm::mat4 ChaoticEngine::getProjectionMatrix(){
-	CECamera* t_camera = (CECamera*)m_activeCamera->getEntity();
-	//showMatrix(t_camera->getMatrix());
-	return t_camera->getMatrix();
+	m_tempMatrix = glm::inverse(m_tempMatrix);
+	return m_tempMatrix;
 }

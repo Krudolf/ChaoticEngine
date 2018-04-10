@@ -12,23 +12,25 @@ public:
 	CESceneNode(CESceneNode* p_father, const char* p_name);
 	virtual ~CESceneNode();
 
-	void release();
+	void 			addChild(CESceneNode* p_child);
+	bool			removeChild(CESceneNode* p_child);
+	void 			removeAllChilds();
 
-	void 	addChild(CESceneNode* p_child);
-	bool	removeChild(CESceneNode* p_child);
-	void 	removeAllChilds();
-
-	void 	setEntity(CEEntity* p_entity);
+	void 			setEntity(CEEntity* p_entity);
 	
 	CEEntity*		getEntity();
 	CESceneNode* 	getFather();
 	void 			setFather(CESceneNode* p_father);
 
-	void draw();
+	void 			draw();
+	void 			release();
 
+	int 			getTotalChilds();
+	const char* 	getName();
 
-	int getTotalChilds();
-	const char* getName();
+	void			setScale(float p_x, float p_y, float p_z);
+	void			setRotation(float p_x, float p_y, float p_z);
+	void			setTranslation(float p_x, float p_y, float p_z);
 
 private:
 	CEEntity* 					m_entity;

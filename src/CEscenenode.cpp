@@ -91,3 +91,18 @@ int CESceneNode::getTotalChilds(){
 const char* CESceneNode::getName(){
 	return m_name;
 }
+
+void CESceneNode::setScale(float p_x, float p_y, float p_z){
+	CETransform* t_scaleNode = static_cast<CETransform*>(getFather()->getFather()->getFather()->getEntity());
+	t_scaleNode->scale(p_x, p_y, p_z);
+}
+
+void CESceneNode::setRotation(float p_x, float p_y, float p_z){
+	CETransform* t_rotationNode = static_cast<CETransform*>(getFather()->getFather()->getEntity());
+	t_rotationNode->rotate(p_x, p_y, p_z);
+}
+
+void CESceneNode::setTranslation(float p_x, float p_y, float p_z){
+	CETransform* t_translationNode = static_cast<CETransform*>(getFather()->getEntity());
+	t_translationNode->translate(p_x, p_y, p_z);
+}

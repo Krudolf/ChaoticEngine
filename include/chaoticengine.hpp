@@ -78,8 +78,6 @@ public:
 	void 			createMesh();
 	CESceneNode* 	loadModel(const char* p_path);
 
-	void 			variableForShader();
-
 	
 	CESceneNode* 	createLight(glm::vec3 p_intensities, float p_attenuation, bool p_setActive = true);
 	void 			setActiveLight(CESceneNode* p_nodeLight);
@@ -87,8 +85,7 @@ public:
 
 	CESceneNode* 	createCamera(bool p_setActive = true);
 	void 			setActiveCamera(CESceneNode* p_nodeCamera);
-	void 			getViewMatrix();
-	glm::mat4		getProjectionMatrix();
+	glm::mat4		getViewMatrix();
 
 private:
 	GLFWwindow* 				m_window;

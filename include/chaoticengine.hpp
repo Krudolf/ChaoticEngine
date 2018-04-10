@@ -50,7 +50,6 @@ public:
 
 	void terminate();
 
-	void createTriangle();
 	void drawTriangle();
 
 /* ----- ARBOL -----*/

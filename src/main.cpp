@@ -11,12 +11,12 @@ int main(){
 	engine->createWindow(640, 480, "3KSC", false);
 
 	const char* model = "resources_prueba/fusfus/Plataforma_Fusfus.obj";
-
+	const char* model1 = "resources_prueba/cubo.obj";
 	const char* model2 = "resources_prueba/life_tank/life_tank.obj";
 
 	GLuint t_shader = engine->loadShader();
 
-	engine->createLight(glm::vec3(), 0.0);
+	engine->createLight(glm::vec3(0.5, 0.5, 0.5), 0.0, true);
 
 	engine->createCamera();
 

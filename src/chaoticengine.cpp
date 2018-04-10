@@ -288,13 +288,14 @@ CESceneNode* ChaoticEngine::loadModel(const char* p_path){
 
 	CEMesh*			t_mesh 		= newMesh();
 
-	CESceneNode* nodeScale  	= createNode(t_scale , getRootNode());
-	CESceneNode* nodeRotate  	= createNode(t_rotate , nodeScale);
+	CESceneNode* nodeScale  	= createNode(t_scale, getRootNode());
+	CESceneNode* nodeRotate  	= createNode(t_rotate, nodeScale);
 	CESceneNode* nodeTranslate 	= createNode(t_translate, nodeRotate);
 	CESceneNode* nodeMesh 		= createNode(t_mesh, nodeTranslate);
 
 	t_mesh->loadResource(p_path);
-	return(nodeRotate);
+	
+	return nodeMesh;
 }
 
 //*******************************************************************

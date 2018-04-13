@@ -11,23 +11,56 @@ int main(){
 	engine->createWindow(640, 480, "3KSC", false);
 
 	const char* model = "resources_prueba/fusfus/Plataforma_Fusfus.obj";
-
 	const char* model2 = "resources_prueba/life_tank/life_tank.obj";
 
 	GLuint t_shader = engine->loadShader();
 
-	engine->createLight(glm::vec3(), 0.0);
-
-	engine->createCamera();
-
-	CESceneNode* modelo = engine->loadModel(model);
+	CESceneNode* light  = engine->createLight(glm::vec3(), 0.0);
+	CESceneNode* camera = engine->createCamera();
+	CESceneNode* modelo = engine->loadModel(model2);
 
 	while(engine->isWindowOpen()){
 		engine->processInput();
-		
-		engine->clearWindow(0.5f, 0.0f, 0.0f, 1.0f);
+		/* ++++ MODELO ++++ */
+		if(glfwGetKey(engine->getWindow(), GLFW_KEY_R) == GLFW_PRESS)
+			modelo->setRotation(0,3,0);
+		if(glfwGetKey(engine->getWindow(), GLFW_KEY_W) == GLFW_PRESS)
+			modelo->setTranslation(0,0.1,0);
+		if(glfwGetKey(engine->getWindow(), GLFW_KEY_S) == GLFW_PRESS)
+			modelo->setTranslation(0,-0.1,0);
+		if(glfwGetKey(engine->getWindow(), GLFW_KEY_D) == GLFW_PRESS)
+			modelo->setTranslation(0.1,0,0);
+		if(glfwGetKey(engine->getWindow(), GLFW_KEY_A) == GLFW_PRESS)
+			modelo->setTranslation(-0.1,0,0);
+		if(glfwGetKey(engine->getWindow(), GLFW_KEY_E) == GLFW_PRESS)
+			modelo->setTranslation(0,0,0.1);
+		if(glfwGetKey(engine->getWindow(), GLFW_KEY_Q) == GLFW_PRESS)
+			modelo->setTranslation(0,0,-0.1);
+		//modelo->getPosition();
 
-		modelo->setRotation(0,1,0);
+		/* ++++ CAMERA ++++ */
+		if(glfwGetKey(engine->getWindow(), GLFW_KEY_O) == GLFW_PRESS)
+			camera->setRotation(0,1,0);
+		if(glfwGetKey(engine->getWindow(), GLFW_KEY_UP) == GLFW_PRESS)
+			camera->setTranslation(0,0.1,0);
+		if(glfwGetKey(engine->getWindow(), GLFW_KEY_DOWN) == GLFW_PRESS)
+			camera->setTranslation(0,-0.1,0);
+		if(glfwGetKey(engine->getWindow(), GLFW_KEY_RIGHT) == GLFW_PRESS)
+			camera->setTranslation(0.1,0,0);
+		if(glfwGetKey(engine->getWindow(), GLFW_KEY_LEFT) == GLFW_PRESS)
+			camera->setTranslation(-0.1,0,0);
+		if(glfwGetKey(engine->getWindow(), GLFW_KEY_M) == GLFW_PRESS)
+			camera->setTranslation(0,0,0.1);
+		if(glfwGetKey(engine->getWindow(), GLFW_KEY_N) == GLFW_PRESS)
+			camera->setTranslation(0,0,-0.1);
+		if(glfwGetKey(engine->getWindow(), GLFW_KEY_P) == GLFW_PRESS)
+			static_cast<CECamera*>(camera->getEntity())->setPerspective(90.0f, 1.0f, 0.1f, 100.0f);
+		if(glfwGetKey(engine->getWindow(), GLFW_KEY_L) == GLFW_PRESS)
+			static_cast<CECamera*>(camera->getEntity())->setParallel(-1.0f, 1.0f, -1.0f, 1.0f, 0.1f, 100.0f);
+		//static_cast<CECamera*>(camera->getEntity())->setTarjet(modelo->getPosition());
+		engine->setActiveCamera(camera);
+
+		engine->clearWindow(0.5f, 0.0f, 0.0f, 1.0f);
 		engine->draw();
 
     	engine->swapBuffers();

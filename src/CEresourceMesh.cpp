@@ -10,8 +10,6 @@ CEResourceMesh::~CEResourceMesh(){}
 
 bool CEResourceMesh::loadFile(const char* p_name){
 	Assimp::Importer importer;
-	//| aiProcess_FlipUVs)
-	//const aiScene* scene = importer.ReadFile(p_name, aiProcess_Triangulate | aiProcess_FlipUVs);
     const aiScene* scene = importer.ReadFile(p_name, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
 	if(!scene || scene->mFlags && AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode){
@@ -19,9 +17,9 @@ bool CEResourceMesh::loadFile(const char* p_name){
 		return false;
 	}
 
-	std::string path   = p_name;
+	std::string path = p_name;
 	m_directory = path.substr(0, path.find_last_of('/'));
-	std::cout<<m_directory<<std::endl;
+	std::cout << m_directory << std::endl;
 
 	processNode(scene->mRootNode, scene);
 	return true;
@@ -29,28 +27,26 @@ bool CEResourceMesh::loadFile(const char* p_name){
 
 void CEResourceMesh::processNode(aiNode* p_node, const aiScene* p_scene){
 	// Process each mesh located at the current node
-	for(GLuint i = 0; i < p_node->mNumMeshes; i++){
+	for(unsigned int i = 0; i < p_node->mNumMeshes; i++){
 		// The node object only contains indices to index the actual objects in the scene. 
 		// The scene contains all the data
 		aiMesh* mesh = p_scene->mMeshes[p_node->mMeshes[i]];
-		this->m_meshes.push_back(this->processMesh(mesh, p_scene));
-		//processMesh(mesh, p_scene);
+		m_meshes.push_back(processMesh(mesh, p_scene));
 	}
 	// then do the same for each of its children
-    for(GLuint i = 0; i < p_node->mNumChildren; i++){
-        this->processNode(p_node->mChildren[i], p_scene);
+    for(unsigned int i = 0; i < p_node->mNumChildren; i++){
+        processNode(p_node->mChildren[i], p_scene);
     }
 }
 
 CEsubMesh CEResourceMesh::processMesh(aiMesh* p_mesh, const aiScene* p_scene){
 	// Data to fill
-	std::vector<Vertex> vertices;
-	std::vector<GLuint> indices;
+	std::vector<Vertex>  vertices;
+	std::vector<GLuint>  indices;
 	std::vector<Texture> textures;
 
 	// Walk through each of the mesh's vertices
-	for (GLuint i = 0; i < p_mesh->mNumVertices; i++)
-	{
+	for(unsigned int i = 0; i < p_mesh->mNumVertices; i++){
 		Vertex vertex;
 		glm::vec3 vector; 	//assimp dont uses vec3 class so we transfer the data first.
 		// Positions
@@ -63,9 +59,10 @@ CEsubMesh CEResourceMesh::processMesh(aiMesh* p_mesh, const aiScene* p_scene){
 		vector.y = p_mesh->mNormals[i].y;
 		vector.z = p_mesh->mNormals[i].z;
 		vertex.Normal = vector;
+		
 		// Texture Coordinates
-		if (p_mesh->mTextureCoords[0]) // Does the mesh contain texture coordinates?
-		{
+		// Does the mesh contain texture coordinates?
+		if(p_mesh->mTextureCoords[0]){
 			glm::vec2 vec;
 			// A vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't 
 			// use models where a vertex can have multiple texture coordinates so we always take the first set (0).
@@ -73,56 +70,47 @@ CEsubMesh CEResourceMesh::processMesh(aiMesh* p_mesh, const aiScene* p_scene){
 			vec.y = p_mesh->mTextureCoords[0][i].y;
 			vertex.TexCoords = vec;
 		}
-		else{
+		else
 			vertex.TexCoords = glm::vec2(0.0f, 0.0f);
-		}
+
 		vertices.push_back(vertex);
 	}
 	// Now wak through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
-	for (GLuint i = 0; i < p_mesh->mNumFaces; i++)
-	{
+	for(unsigned int i = 0; i < p_mesh->mNumFaces; i++){
 		aiFace face = p_mesh->mFaces[i];
 		// Retrieve all indices of the face and store them in the indices vector
-		for (GLuint j = 0; j < face.mNumIndices; j++)
+		for(unsigned int j = 0; j < face.mNumIndices; j++)
 			indices.push_back(face.mIndices[j]);
 	}
+	
 	// Process materials
-	if (p_mesh->mMaterialIndex >= 0)
-	{
+	if(p_mesh->mMaterialIndex >= 0){
 		aiMaterial* material = p_scene->mMaterials[p_mesh->mMaterialIndex];
 		// We assume a convention for sampler names in the shaders. Each diffuse texture should be named
 		// as 'texture_diffuseN' where N is a sequential number ranging from 1 to MAX_SAMPLER_NUMBER. 
 		// Same applies to other texture as the following list summarizes:
 		// Diffuse: texture_diffuseN
 		// Specular: texture_specularN
-		// Normal: texture_normalN
 
 		// 1. diffuse maps
-        vector<Texture> diffuseMaps = this->loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+        vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
         textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
         // 2. specular maps
-        vector<Texture> specularMaps = this->loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
+        vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
         textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-        // 3. normal maps
-        std::vector<Texture> normalMaps = this->loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
-        textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-        // 4. height maps
-        std::vector<Texture> heightMaps = this->loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
-        textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 	}
 
 	// Return a mesh object created from the extracted mesh data
-	return (CEsubMesh(vertices, indices, textures));
+	return CEsubMesh(vertices, indices, textures);
 }
 
-void CEResourceMesh::draw(glm::mat4 p_modelMatrix, GLuint p_shaderProgram){
+void CEResourceMesh::draw(GLuint p_shaderProgram){
 	for(GLuint i = 0; i < m_meshes.size(); i++){
-			m_meshes[i].subDraw(p_modelMatrix, p_shaderProgram);
+			m_meshes[i].subDraw(p_shaderProgram);
 	}
 }
 
 std::vector<Texture> CEResourceMesh::loadMaterialTextures(aiMaterial * p_mat, aiTextureType p_type, string p_typeName){
-
 	vector<Texture> textures;
     for(unsigned int i = 0; i < p_mat->GetTextureCount(p_type); i++){
         aiString str;
@@ -138,7 +126,7 @@ std::vector<Texture> CEResourceMesh::loadMaterialTextures(aiMaterial * p_mat, ai
         }
         if(!skip){   // if texture hasn't been loaded already, load it
             Texture texture;
-            texture.id = TextureFromFile(str.C_Str(), this->m_directory);
+            texture.id = TextureFromFile(str.C_Str(), m_directory);
             texture.type = p_typeName;
             texture.path = str.C_Str();
             textures.push_back(texture);
@@ -150,7 +138,6 @@ std::vector<Texture> CEResourceMesh::loadMaterialTextures(aiMaterial * p_mat, ai
 }
 
 GLint TextureFromFile(const char * p_path, std::string p_directory){
-
     string filename = string(p_path);
     filename = p_directory + '/' + filename;
 
@@ -159,13 +146,13 @@ GLint TextureFromFile(const char * p_path, std::string p_directory){
 
     int width, height, nrComponents;
     unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
-    if (data){
+    if(data){
         GLenum format;
-        if (nrComponents == 1)
+        if(nrComponents == 1)
             format = GL_RED;
-        else if (nrComponents == 3)
+        else if(nrComponents == 3)
             format = GL_RGB;
-        else if (nrComponents == 4)
+        else if(nrComponents == 4)
             format = GL_RGBA;
 
         glBindTexture(GL_TEXTURE_2D, textureID);

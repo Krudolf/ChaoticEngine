@@ -20,14 +20,14 @@ int main(){
 
 	engine->createCamera();
 
-	CESceneNode* modelo = engine->loadModel(model2);
+	CESceneNode* modelo = engine->loadModel(model);
 
 	while(engine->isWindowOpen()){
 		engine->processInput();
 		
 		engine->clearWindow(0.5f, 0.0f, 0.0f, 1.0f);
 
-		modelo->setRotation(0,5,0);
+		modelo->setRotation(0,1,0);
 		engine->draw();
 
     	engine->swapBuffers();

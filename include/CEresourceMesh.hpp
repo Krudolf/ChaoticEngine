@@ -19,7 +19,7 @@ public:
 	~CEResourceMesh();
 
 	bool loadFile(const char* p_name);
-	void draw(glm::mat4 p_modelMatrix, GLuint p_shaderProgram);
+	void draw(GLuint p_shaderProgram);
 
 private:
 	std::vector<CEsubMesh> m_meshes;

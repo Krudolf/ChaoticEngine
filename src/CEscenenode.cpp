@@ -106,3 +106,12 @@ void CESceneNode::setTranslation(float p_x, float p_y, float p_z){
 	CETransform* t_translationNode = static_cast<CETransform*>(getFather()->getEntity());
 	t_translationNode->translate(p_x, p_y, p_z);
 }
+
+glm::vec3 CESceneNode::getPosition(){
+	CETransform* t_translationNode = static_cast<CETransform*>(getFather()->getEntity());
+	glm::mat4 t_tempMatrix = glm::inverse(t_translationNode->getMatrix());
+	glm::vec3 t_pos = (glm::vec3)t_tempMatrix[3];
+	std::cout << "(" << t_pos.x << ", " << t_pos.y << ", " << t_pos.z << ")" << std::endl;
+
+	return t_pos;
+}

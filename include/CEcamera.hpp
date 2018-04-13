@@ -14,6 +14,9 @@ public:
 	void 		setPerspective(float p_angle, float p_aspect, float p_near = 0.1f, float p_far = 100.0f);
 	void 		setParallel(float p_left, float p_right, float p_bottom, float p_top, float p_near = 0.1f, float p_far = 100.0f);
 
+	void 		setTarjet(float p_x, float p_y, float p_z);
+	void 		setTarjet(glm::vec3 p_tarjet);
+
 	glm::mat4 	getMatrix();
 
 	void 		beginDraw() override;
@@ -25,6 +28,7 @@ public:
 
 private:
 	glm::mat4	m_projection;
+	glm::vec3   m_tarjet;
     bool		m_isPerspective;
     
     float 		m_near, m_far;

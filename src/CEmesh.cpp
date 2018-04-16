@@ -29,7 +29,6 @@ CEMesh::~CEMesh(){}
 
 void CEMesh::beginDraw(){
 	//PRECALCULAMOS LAS MATRICES Y LAS PASAMOS AL SHADER
-    Material.Shiniess = 0.2f;
 
 	glm::mat4 t_MVP = m_projectionMatrix * m_viewMatrix * m_modelMatrix;
     glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "MVP"), 1, GL_FALSE, glm::value_ptr(t_MVP));
@@ -38,19 +37,19 @@ void CEMesh::beginDraw(){
     glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "ModelViewMatrix"), 1, GL_FALSE, glm::value_ptr(t_modelView));
 
     glm::mat3 t_normal = transpose(inverse(m_modelMatrix));
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "NormalMatrix"), 1, GL_FALSE, glm::value_ptr(t_normal));
+    glUniformMatrix3fv(glGetUniformLocation(m_shaderProgram, "NormalMatrix"), 1, GL_FALSE, glm::value_ptr(t_normal));
 
 
-    float coso = 0.5f
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "Material.Shiniess"), 1, GL_FALSE, glm::value_ptr(coso));
+    /*GLfloat coso = 0.5f
+    glUniform1f(glGetUniformLocation(m_shaderProgram, "Material.Shiniess"), glm::value_ptr(coso));*/
 
-    glm::vec3 l_pos = glm::vec3(0, 0, 0);
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "Light.Position"), 1, GL_FALSE, glm::value_ptr(l_pos));
-    glm::vec3 l_amb = glm::vec3(0.5, 0.5, 0.5);
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "Light.Ambient"), 1, GL_FALSE, glm::value_ptr(l_amb));
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "Light.Diffuse"), 1, GL_FALSE, glm::value_ptr(l_amb));
+    glm::vec3 l_pos = glm::vec3(1, 0, 0);
+    glUniform3fv(glGetUniformLocation(m_shaderProgram, "Light.Position"), 1, glm::value_ptr(l_pos));
+    glm::vec3 l_amb = glm::vec3(1, 1, 1);
+    glUniform3fv(glGetUniformLocation(m_shaderProgram, "Light.Ambient"), 1, glm::value_ptr(l_amb));
+    glUniform3fv(glGetUniformLocation(m_shaderProgram, "Light.Diffuse"), 1, glm::value_ptr(l_amb));
     glm::vec3 l_spec = glm::vec3(0.7, 0.7, 0.7);
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "Light.Specular"), 1, GL_FALSE, glm::value_ptr(l_spec));
+    glUniform3fv(glGetUniformLocation(m_shaderProgram, "Light.Specular"), 1, glm::value_ptr(l_spec));
 
     if(m_mesh != NULL)
         m_mesh->draw(m_modelMatrix, m_shaderProgram);

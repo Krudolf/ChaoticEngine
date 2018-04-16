@@ -244,13 +244,14 @@ CESceneNode* ChaoticEngine::loadModel(const char* p_path){
 
 	CEMesh*			t_mesh 		= newMesh();
 
-	CESceneNode* nodeScale  	= createNode(t_scale , getRootNode());
-	CESceneNode* nodeRotate  	= createNode(t_rotate , nodeScale);
+	CESceneNode* nodeScale  	= createNode(t_scale, getRootNode());
+	CESceneNode* nodeRotate  	= createNode(t_rotate, nodeScale);
 	CESceneNode* nodeTranslate 	= createNode(t_translate, nodeRotate);
 	CESceneNode* nodeMesh 		= createNode(t_mesh, nodeTranslate);
 
 	t_mesh->loadResource(p_path);
-	return(nodeRotate);
+	
+	return nodeMesh;
 }
 
 //*******************************************************************
@@ -307,7 +308,7 @@ void ChaoticEngine::getLightMatrix(){
 //*******************************************************************
 CESceneNode* ChaoticEngine::createCamera(bool p_setActive){
 	CETransform* 	t_rotate    = rotate(0.0, 0.0, 0.0);
-	CETransform* 	t_translate = translate(0.0, 0.0, 0.0);
+	CETransform* 	t_translate = translate(0.0, 0.0, 2.0);
 
 	CECamera*		t_camera 	= newCamera();
 

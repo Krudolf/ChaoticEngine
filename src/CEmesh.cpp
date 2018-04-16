@@ -51,7 +51,7 @@ void CEMesh::beginDraw(){
     glUniform3fv(glGetUniformLocation(m_shaderProgram, "Light.Specular"), 1, glm::value_ptr(l_spec));
 
     if(m_mesh != NULL)
-        m_mesh->draw(m_modelMatrix, m_shaderProgram);
+        m_mesh->draw(m_shaderProgram);
 }
 
 void CEMesh::endDraw(){}

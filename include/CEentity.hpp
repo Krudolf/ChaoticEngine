@@ -3,7 +3,6 @@
 #define CEENTITY
 
 #include <stack>
-
 #include <glm.hpp>
 
 /*Virtual class*/

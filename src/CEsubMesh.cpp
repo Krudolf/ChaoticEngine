@@ -16,14 +16,12 @@ CEsubMesh::CEsubMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indic
 //Destructor
 CEsubMesh::~CEsubMesh(){}
 
-void CEsubMesh::subDraw(glm::mat4 p_modelMatrix, GLuint p_shaderProgram){
-
+void CEsubMesh::subDraw(GLuint p_shaderProgram){
     // Bind appropriate textures
 	GLuint diffuseNr  = 1;
 	GLuint specularNr = 1;
-	GLuint normalNr   = 1;
-    GLuint heightNr   = 1;
-	for (GLuint i = 0; i < this->m_textures.size(); i++){
+
+	for(unsigned int i = 0; i < m_textures.size(); i++){
         glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
         // retrieve texture number (the N in diffuse_textureN)
         string number;
@@ -43,13 +41,12 @@ void CEsubMesh::subDraw(glm::mat4 p_modelMatrix, GLuint p_shaderProgram){
 	glUniform1f(glGetUniformLocation(p_shaderProgram, "Material.Shininess"), 16.0f);
 
 	// Draw mesh
-	glBindVertexArray(this->m_VAO);
-	glDrawElements(GL_TRIANGLES, this->m_indices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(m_VAO);
+	glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
 	// Always good practice to set everything back to defaults once configured.
-	for (GLuint i = 0; i < this->m_textures.size(); i++)
-	{
+	for(unsigned int i = 0; i < m_textures.size(); i++){
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
@@ -66,17 +63,17 @@ void CEsubMesh::prepareBuffers(){
 	glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(Vertex), &m_vertices[0], GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(GLuint), &m_indices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(unsigned int), &m_indices[0], GL_STATIC_DRAW);
 
 	// Vertex Positions
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 	// Vertex Normals
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, Normal));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
 	// Vertex Texture Coords
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, TexCoords));
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
 
 	glBindVertexArray(0);
 }

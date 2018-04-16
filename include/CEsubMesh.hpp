@@ -10,24 +10,19 @@
 
 using namespace std;
 
-struct Vertex {
-	// Position of vertices from the mesh
-	glm::vec3 Position;
-	// Normals
-	glm::vec3 Normal;
-	// TexCoords
-	glm::vec2 TexCoords;
+struct Vertex{
+	glm::vec3 Position;		// Position of vertices from the mesh
+	glm::vec3 Normal;		// Normals
+	glm::vec2 TexCoords;	// TexCoords
 };
 
-struct Texture {
+struct Texture{
     GLuint id;
     std::string type;
     std::string path;
-}; 
+};
 
-class CEsubMesh
-{
-
+class CEsubMesh{
 public:
 	/*  Mesh Data  */
 	std::vector<Vertex> m_vertices;
@@ -37,7 +32,7 @@ public:
 	CEsubMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indices, std::vector<Texture> p_textures);
 	~CEsubMesh();
 
-	void subDraw(glm::mat4 p_modelMatrix, GLuint p_shaderProgram);
+	void subDraw(GLuint p_shaderProgram);
 
 private:
 	/*  Render data  */

@@ -91,3 +91,27 @@ int CESceneNode::getTotalChilds(){
 const char* CESceneNode::getName(){
 	return m_name;
 }
+
+void CESceneNode::setScale(float p_x, float p_y, float p_z){
+	CETransform* t_scaleNode = static_cast<CETransform*>(getFather()->getFather()->getFather()->getEntity());
+	t_scaleNode->scale(p_x, p_y, p_z);
+}
+
+void CESceneNode::setRotation(float p_x, float p_y, float p_z){
+	CETransform* t_rotationNode = static_cast<CETransform*>(getFather()->getFather()->getEntity());
+	t_rotationNode->rotate(p_x, p_y, p_z);
+}
+
+void CESceneNode::setTranslation(float p_x, float p_y, float p_z){
+	CETransform* t_translationNode = static_cast<CETransform*>(getFather()->getEntity());
+	t_translationNode->translate(p_x, p_y, p_z);
+}
+
+glm::vec3 CESceneNode::getPosition(){
+	CETransform* t_translationNode = static_cast<CETransform*>(getFather()->getEntity());
+	glm::mat4 t_tempMatrix = glm::inverse(t_translationNode->getMatrix());
+	glm::vec3 t_pos = (glm::vec3)t_tempMatrix[3];
+	std::cout << "(" << t_pos.x << ", " << t_pos.y << ", " << t_pos.z << ")" << std::endl;
+
+	return t_pos;
+}

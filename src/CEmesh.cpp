@@ -40,8 +40,7 @@ void CEMesh::beginDraw(){
     glUniformMatrix3fv(glGetUniformLocation(m_shaderProgram, "NormalMatrix"), 1, GL_FALSE, glm::value_ptr(t_normal));
 
 
-    /*GLfloat coso = 0.5f
-    glUniform1f(glGetUniformLocation(m_shaderProgram, "Material.Shiniess"), glm::value_ptr(coso));*/
+    glUniform1f(glGetUniformLocation(m_shaderProgram, "Material.Shiniess"), 12.0f);
 
     glm::vec3 l_pos = glm::vec3(1, 0, 0);
     glUniform3fv(glGetUniformLocation(m_shaderProgram, "Light.Position"), 1, glm::value_ptr(l_pos));

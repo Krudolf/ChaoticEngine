@@ -2,7 +2,6 @@
 #include <iostream>
 #include <iomanip>
 #include <stack>
-#include <glm.hpp>
 #include <gtc/type_ptr.hpp>
 
 #include <../include/CEmesh.hpp>
@@ -38,17 +37,6 @@ void CEMesh::beginDraw(){
 
     glm::mat3 t_normal = transpose(inverse(m_modelMatrix));
     glUniformMatrix3fv(glGetUniformLocation(m_shaderProgram, "NormalMatrix"), 1, GL_FALSE, glm::value_ptr(t_normal));
-
-
-    glUniform1f(glGetUniformLocation(m_shaderProgram, "Material.Shiniess"), 12.0f);
-
-    glm::vec3 l_pos = glm::vec3(1, 0, 0);
-    glUniform3fv(glGetUniformLocation(m_shaderProgram, "Light.Position"), 1, glm::value_ptr(l_pos));
-    glm::vec3 l_amb = glm::vec3(1, 1, 1);
-    glUniform3fv(glGetUniformLocation(m_shaderProgram, "Light.Ambient"), 1, glm::value_ptr(l_amb));
-    glUniform3fv(glGetUniformLocation(m_shaderProgram, "Light.Diffuse"), 1, glm::value_ptr(l_amb));
-    glm::vec3 l_spec = glm::vec3(0.7, 0.7, 0.7);
-    glUniform3fv(glGetUniformLocation(m_shaderProgram, "Light.Specular"), 1, glm::value_ptr(l_spec));
 
     if(m_mesh != NULL)
         m_mesh->draw(m_shaderProgram);

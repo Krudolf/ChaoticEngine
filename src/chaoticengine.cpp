@@ -173,6 +173,7 @@ CECamera* ChaoticEngine::newCamera(){
 
 CELight* ChaoticEngine::newLight(glm::vec3 p_intensities, float p_attenuation){
 	CELight* t_light = new CELight(p_intensities, p_attenuation);
+	t_light->setShader(m_shaderProgram);
 
 	return t_light;
 }

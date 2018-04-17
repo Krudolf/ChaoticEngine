@@ -1,5 +1,5 @@
 
-#version 330 core
+#version 420 core
 // Atributos
 layout (location = 0) in vec3 VertexPosition;
 layout (location = 1) in vec3 VertexNormal;

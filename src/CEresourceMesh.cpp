@@ -173,3 +173,26 @@ GLint TextureFromFile(const char * p_path, std::string p_directory){
 
     return textureID;
 }
+
+bool load_cube_map_side(GLuint texture, GLenum side_target, const char* file_name) {
+  glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
+
+  int x, y, n;
+  int force_channels = 4;
+  unsigned char*  image_data = stbi_load(file_name, &x, &y, &n, force_channels);
+  if (!image_data) {
+    fprintf(stderr, "ERROR: could not load %s\n", file_name);
+    return false;
+  }
+  // non-power-of-2 dimensions check
+  if ((x & (x - 1)) != 0 || (y & (y - 1)) != 0) {
+    fprintf(stderr,
+    	"WARNING: image %s is not power-of-2 dimensions\n",
+    	file_name);
+  }
+  
+  // copy image data into 'target' side of cube map
+  glTexImage2D(side_target, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
+  free(image_data);
+  return true;
+}

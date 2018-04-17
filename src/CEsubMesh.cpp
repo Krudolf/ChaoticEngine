@@ -38,7 +38,7 @@ void CEsubMesh::subDraw(GLuint p_shaderProgram){
     }
 
 	// Also set each mesh's shininess property to a default value (if you want you could extend this to another mesh property and possibly change this value)
-	glUniform1f(glGetUniformLocation(p_shaderProgram, "material.shininess"), 16.0f);
+	glUniform1f(glGetUniformLocation(p_shaderProgram, "Material.Shininess"), 16.0f);
 
 	// Draw mesh
 	glBindVertexArray(m_VAO);

@@ -115,50 +115,6 @@ void ChaoticEngine::terminate(){
 	glfwTerminate();
 }
 
-void ChaoticEngine::createTriangle(){
-	float vertices[] = {
-         0.5f,  0.5f, 0.0f,  // top right
-         0.5f, -0.5f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f,  // bottom left
-        -0.5f,  0.5f, 0.0f   // top left 
-    };
-    uint indices[] = {  // note that we start from 0!
-        0, 3, 1,  // first Triangle
-        1, 3, 2   // second Triangle
-    };
-    glGenVertexArrays(1, &m_VAO);
-    glGenBuffers(1, &m_VBO);
-    glGenBuffers(1, &m_EBO);
-
-    glBindVertexArray(m_VAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, vertices, GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 6, indices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0); 
-
-    glBindVertexArray(0); 
-}
-
-void ChaoticEngine::drawTriangle(){
-	/*float timeValue = glfwGetTime();
-	float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
-	int vertexColorLocation = glGetUniformLocation(m_shaderProgram, "ourColor");
-	//glUseProgram(m_shaderProgram);
-	glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);*/
-
-	glBindVertexArray(m_VAO);
-	//glDrawArrays(GL_TRIANGLES, 0, 6);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	//glBindVertexArray(0); //no need to unbind it every time 
-}
-
 /*
 	CALLBACKS
 */
@@ -217,6 +173,7 @@ CECamera* ChaoticEngine::newCamera(){
 
 CELight* ChaoticEngine::newLight(glm::vec3 p_intensities, float p_attenuation){
 	CELight* t_light = new CELight(p_intensities, p_attenuation);
+	t_light->setShader(m_shaderProgram);
 
 	return t_light;
 }

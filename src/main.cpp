@@ -19,7 +19,7 @@ int main(){
 	CESceneNode* light  = engine->createLight(glm::vec3(1,1,1), 0.0);
 	CESceneNode* camera = engine->createCamera();
 	CESceneNode* modelo = engine->loadModel(model);
-	CESceneNode* modelo1 = engine->loadModel(model1);
+	//CESceneNode* modelo1 = engine->loadModel(model1);
 
 	while(engine->isWindowOpen()){
 		engine->processInput();

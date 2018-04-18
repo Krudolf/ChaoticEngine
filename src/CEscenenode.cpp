@@ -4,20 +4,14 @@
 #include <../include/CEmesh.hpp>
 #include <../include/CElight.hpp>
 
-CESceneNode::CESceneNode(const char* p_name){
-	m_name = p_name;
+CESceneNode::CESceneNode(){
 	m_father = NULL;
 	m_entity = NULL;
-
-	std::cout << "Creado el nodo " << m_name << std::endl;
 }
 
-CESceneNode::CESceneNode(CESceneNode* p_father, const char* p_name){
-	m_name = p_name;
+CESceneNode::CESceneNode(CESceneNode* p_father){
 	m_father = p_father;
 	m_father->addChild(this);
-
-	std::cout << "Creado el nodo " << m_name << ". Su padre es " << m_father->getName() << std::endl;
 }
 
 //Si quiero puedo poner todos los atributos a 0 (no es necesario)
@@ -30,15 +24,12 @@ void CESceneNode::addChild(CESceneNode* p_child){
 
 /*Removes a child, and all the childs of his child.*/
 bool CESceneNode::removeChild(CESceneNode* p_child){
-	std::cout << this->getName() << " va a eliminar a su hijo " << p_child->getName() << std::endl;
 	for(int i = 0; i < m_childs.size(); i++){
 		if(m_childs.at(i) == p_child){
-			std::cout << p_child->getName() << " localizado." << std::endl;
 			m_childs.at(i)->removeAllChilds();
 			m_childs.at(i) = 0;
 			delete m_childs.at(i);
 			m_childs.erase(m_childs.begin()+(i));
-			std::cout << p_child->getName() << " borrado." << std::endl;
 			return true;
 		}
 	}
@@ -49,7 +40,6 @@ bool CESceneNode::removeChild(CESceneNode* p_child){
 void CESceneNode::removeAllChilds(){
 	for(int i = 0; i < m_childs.size(); i++){
 		m_childs.at(i)->removeAllChilds();
-		std::cout << m_childs.at(i)->getName() << " borrado." << std::endl;
 		m_childs.at(i) = 0;
 		delete m_childs.at(i);
 	}
@@ -73,45 +63,58 @@ void CESceneNode::setFather(CESceneNode* p_father){
 }
 
 void CESceneNode::draw(){
-	if(m_entity != NULL)
-		m_entity->beginDraw();
+	m_entity->beginDraw();
 	
 	for(int i = 0; i < m_childs.size(); i++){
 		m_childs.at(i)->draw();
 	}
 
-	if(m_entity != NULL)
-		m_entity->endDraw();
+	m_entity->endDraw();
 }
 
 int CESceneNode::getTotalChilds(){
 	return m_childs.size();
 }
 
-const char* CESceneNode::getName(){
-	return m_name;
+void CESceneNode::setRotation(float p_x, float p_y, float p_z){
+	static_cast<CETransform*>(getFather()->getFather()->getFather()->getEntity())->rotate(p_x, p_y, p_z);
 }
 
 void CESceneNode::setScale(float p_x, float p_y, float p_z){
-	CETransform* t_scaleNode = static_cast<CETransform*>(getFather()->getFather()->getFather()->getEntity());
-	t_scaleNode->scale(p_x, p_y, p_z);
-}
-
-void CESceneNode::setRotation(float p_x, float p_y, float p_z){
-	CETransform* t_rotationNode = static_cast<CETransform*>(getFather()->getFather()->getEntity());
-	t_rotationNode->rotate(p_x, p_y, p_z);
+	static_cast<CETransform*>(getFather()->getFather()->getEntity())->scale(p_x, p_y, p_z);
 }
 
 void CESceneNode::setTranslation(float p_x, float p_y, float p_z){
-	CETransform* t_translationNode = static_cast<CETransform*>(getFather()->getEntity());
-	t_translationNode->translate(p_x, p_y, p_z);
+	static_cast<CETransform*>(getFather()->getEntity())->translate(p_x, p_y, p_z);
 }
 
 glm::vec3 CESceneNode::getPosition(){
+	glm::mat4 				t_positionMatrix;
+	std::stack<glm::mat4>	t_matrixStack;
+	CESceneNode* t_node = this->getFather();
+	//Go through all the transforms until we reach the root
+	while(t_node != NULL){
+		if(dynamic_cast<CETransform*>(t_node->getEntity())){
+			CETransform* t_tempTransform = (CETransform*)t_node->getEntity();
+			t_matrixStack.push(t_tempTransform->getMatrix());
+		}
+		t_node = t_node->getFather();
+	}
+	//Calculate the lightmatrix
+	while(!t_matrixStack.empty()){
+		t_positionMatrix = t_positionMatrix * t_matrixStack.top();
+		t_matrixStack.pop();
+	}
+	t_positionMatrix = glm::inverse(t_positionMatrix);
+	glm::vec3 t_pos = (glm::vec3)t_positionMatrix[3];
+	std::cout << "(" << t_pos.x << ", " << t_pos.y << ", " << t_pos.z << ")" << std::endl;
+
+/*	
 	CETransform* t_translationNode = static_cast<CETransform*>(getFather()->getEntity());
 	glm::mat4 t_tempMatrix = glm::inverse(t_translationNode->getMatrix());
 	glm::vec3 t_pos = (glm::vec3)t_tempMatrix[3];
 	std::cout << "(" << t_pos.x << ", " << t_pos.y << ", " << t_pos.z << ")" << std::endl;
-
+*/
 	return t_pos;
 }
+

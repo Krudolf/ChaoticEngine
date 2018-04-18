@@ -22,7 +22,11 @@ void showMatrix(glm::mat4 p_matrix){
 
 
 ChaoticEngine::ChaoticEngine(){
-	m_root = new CESceneNode("root");
+	m_root = new CESceneNode();
+
+	m_rootEntity = new CETransform();
+	m_rootEntity->loadIdentity();
+	m_root->setEntity(m_rootEntity);
 
 	m_resourceManager = new CEResourceManager();
 
@@ -69,6 +73,10 @@ void ChaoticEngine::createWindow(int p_width, int p_height, const char* p_title,
 
 	std::cout << "VERSION OPENGL: " << glGetString(GL_VERSION) << std::endl;
 
+	//z-buffer
+	glEnable(GL_DEPTH_TEST);
+
+	//culling
     glFrontFace(GL_CCW);
     glCullFace(GL_BACK);
     glEnable(GL_CULL_FACE);
@@ -87,7 +95,7 @@ void ChaoticEngine::closeWindow(){
 
 void ChaoticEngine::clearWindow(float p_red, float p_green, float p_blue, float p_alpha){
 	glClearColor(p_red, p_green, p_blue, p_alpha);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 GLFWwindow* ChaoticEngine::getWindow(){
@@ -132,34 +140,28 @@ CESceneNode* ChaoticEngine::createNode(CEEntity* p_entity, CESceneNode* p_father
 	if(p_father == NULL)
 		p_father = getRootNode();
 
-	CESceneNode* t_node = new CESceneNode(p_father, "node");
+	CESceneNode* t_node = new CESceneNode(p_father);
 	t_node->setEntity(p_entity);
 
 	return t_node;
 }
 
-CETransform* ChaoticEngine::newTransform(){
-	CETransform* t_transform = new CETransform();
-
-	return t_transform;
-}
-
 CETransform* ChaoticEngine::translate(float p_tx, float p_ty, float p_tz){
-    CETransform* t_transform = newTransform();
+    CETransform* t_transform = new CETransform();
     t_transform->translate(p_tx, p_ty, p_tz);
 
 	return t_transform;
 }
 
 CETransform* ChaoticEngine::rotate(float p_rx, float p_ry, float p_rz){
-    CETransform* t_transform = newTransform();
+    CETransform* t_transform = new CETransform();
     t_transform->rotate(p_rx, p_ry, p_rz);
 
 	return t_transform;
 }
 
 CETransform* ChaoticEngine::scale(float p_sx, float p_sy, float p_sz){
-    CETransform* t_transform = newTransform();
+    CETransform* t_transform = new CETransform();
     t_transform->scale(p_sx, p_sy, p_sz);
 
 	return t_transform;
@@ -190,6 +192,8 @@ CESceneNode* ChaoticEngine::getRootNode(){
 
 void ChaoticEngine::draw(){
 	m_root->draw();
+
+	m_rootEntity->loadIdentity();
 }
 
 void ChaoticEngine::release(){
@@ -214,34 +218,10 @@ GLuint ChaoticEngine::loadShader(){
 	return m_shaderProgram;
 }
 
-void ChaoticEngine::createCube(){
-	CETransform* 	t_rotate    = rotate(0.0, 0.0, 0.0);
-	CETransform* 	t_translate = translate(0.0, 0.0, 0.0);
-
-	CEMesh*			t_mesh 		= newMesh();
-
-	CESceneNode* nodeRotate  	= createNode(t_rotate , getRootNode());
-	CESceneNode* nodeTranslate 	= createNode(t_translate, nodeRotate);
-	CESceneNode* nodeMesh 		= createNode(t_mesh, nodeTranslate);
-
-	t_mesh->loadResource("resources_prueba/life_tank.obj");
-}
-
-void ChaoticEngine::createMesh(){
-	CETransform* 	trans1  = rotate(0, 45, 0);
-	CETransform* 	trans11 = translate(200, 200, 200);
-
-	CEMesh*			mesh111 = newMesh();
-
-	CESceneNode* nodeTrans1  = createNode(trans1 , getRootNode());
-	CESceneNode* nodeTrans11 = createNode(trans11, nodeTrans1);
-	CESceneNode* nodeMesh111 = createNode(mesh111, nodeTrans11);
-}
-
 CESceneNode* ChaoticEngine::loadModel(const char* p_path){
-	CETransform* 	t_scale     = scale(0.25, 0.25, 0.25);
-	CETransform* 	t_rotate    = rotate(0.0, 0.0, 0.0);
-	CETransform* 	t_translate = translate(0.0, 0.0, 0.0);
+	CETransform* 	t_scale     = scale(1.0f, 1.0f, 1.0f);
+	CETransform* 	t_rotate    = rotate(0.0f, 0.0f, 0.0f);
+	CETransform* 	t_translate = translate(0.0f, 0.0f, 0.0f);
 
 	CEMesh*			t_mesh 		= newMesh();
 
@@ -309,7 +289,7 @@ void ChaoticEngine::getLightMatrix(){
 //*******************************************************************
 CESceneNode* ChaoticEngine::createCamera(bool p_setActive){
 	CETransform* 	t_rotate    = rotate(0.0, 0.0, 0.0);
-	CETransform* 	t_translate = translate(0.0, 0.0, 2.0);
+	CETransform* 	t_translate = translate(0.0, 0.0, -5.0);
 
 	CECamera*		t_camera 	= newCamera();
 

@@ -95,7 +95,6 @@ void ChaoticEngine::closeWindow(){
 
 void ChaoticEngine::clearWindow(float p_red, float p_green, float p_blue, float p_alpha){
 	glClearColor(p_red, p_green, p_blue, p_alpha);
-	glClear(GL_COLOR_BUFFER_BIT);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

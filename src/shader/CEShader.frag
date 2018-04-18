@@ -44,14 +44,10 @@ vec3 Phong(){
 	//Componente especular
 	vec3 Specular = Light.Specular * pow(max(dot(r, v), 0.0), Material.Shininess) * vec3(texture(Material.texture_specular, TexCoords));
 
-	//vec3 Ambient = Light.Ambient * vec3(0.2,0.2,0.2);
-	//vec3 Diffuse = Light.Diffuse * max(dot(s, n), 0.0) * vec3(0.5,0.5,0.5);
-	//vec3 Specular = Light.Specular * pow(max(dot(r, v), 0.0), 16.0f) * vec3(0.7,0.7,0.7);
-
 	return Ambient + Diffuse + Specular;
 }
 
 void main(){
 	
-	FragColor = vec4 (Phong(), 0.0);
+	FragColor = vec4 (Phong(), 1.0f);
 }

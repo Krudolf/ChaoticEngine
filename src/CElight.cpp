@@ -24,8 +24,10 @@ void CELight::beginDraw(){
 	glm::vec3 l_pos = glm::vec3(1, 0, 0);
     glUniform3fv(glGetUniformLocation(m_shaderProgram, "Light.Position"), 1, glm::value_ptr(l_pos));
 
-    glUniform3fv(glGetUniformLocation(m_shaderProgram, "Light.Ambient"), 1, glm::value_ptr(m_intensities));
-    glUniform3fv(glGetUniformLocation(m_shaderProgram, "Light.Diffuse"), 1, glm::value_ptr(m_intensities));
+    glm::vec3 t_ambient = glm::vec3(m_intensities.x/4, m_intensities.y/4, m_intensities.z/4);
+    glUniform3fv(glGetUniformLocation(m_shaderProgram, "Light.Ambient"), 1, glm::value_ptr(t_ambient));
+    glm::vec3 t_diffuse = glm::vec3(m_intensities.x/2, m_intensities.y/2, m_intensities.z/2);
+    glUniform3fv(glGetUniformLocation(m_shaderProgram, "Light.Diffuse"), 1, glm::value_ptr(t_diffuse));
     glUniform3fv(glGetUniformLocation(m_shaderProgram, "Light.Specular"), 1, glm::value_ptr(m_intensities));
 }
 

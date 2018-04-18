@@ -12,15 +12,12 @@ int main(){
 
 	const char* model = "resources_prueba/pelota/pelota.obj";
 	const char* model1 = "resources_prueba/cubo/cubo.obj";
-	const char* model2 = "resources_prueba/plataforma/Plataforma.obj";
-	const char* model3 = "resources_prueba/life_tank/life_tank.obj";
-	const char* model4 = "resources_prueba/mono.obj";
 
 	GLuint t_shader = engine->loadShader();
 
 	CESceneNode* light  = engine->createLight(glm::vec3(1,1,1), 0.0);
 	CESceneNode* camera = engine->createCamera();
-	CESceneNode* modelo = engine->loadModel(model2);
+	CESceneNode* modelo = engine->loadModel(model1);
 	//CESceneNode* modelo1 = engine->loadModel(model1);
 
 	while(engine->isWindowOpen()){

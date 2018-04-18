@@ -45,7 +45,6 @@ CEsubMesh CEResourceMesh::processMesh(aiMesh* p_mesh, const aiScene* p_scene){
 	std::vector<GLuint>  indices;
 	std::vector<Texture> textures;
 
-	std::cout<<p_mesh->mNumVertices<<std::endl;
 	// Walk through each of the mesh's vertices
 	for(unsigned int i = 0; i < p_mesh->mNumVertices; i++){
 		Vertex vertex;

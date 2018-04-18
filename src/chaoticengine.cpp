@@ -289,7 +289,7 @@ void ChaoticEngine::getLightMatrix(){
 //*******************************************************************
 CESceneNode* ChaoticEngine::createCamera(bool p_setActive){
 	CETransform* 	t_rotate    = rotate(0.0, 0.0, 0.0);
-	CETransform* 	t_translate = translate(0.0, 0.0, 2.0);
+	CETransform* 	t_translate = translate(0.0, 0.0, -5.0);
 
 	CECamera*		t_camera 	= newCamera();
 

@@ -73,10 +73,7 @@ public:
 	void 			setShadersPath(const char* vert_path, const char* frag_path);
 	GLuint 			loadShader();
 
-	void 			createCube();
-	void 			createMesh();
 	CESceneNode* 	loadModel(const char* p_path);
-
 	
 	CESceneNode* 	createLight(glm::vec3 p_intensities, float p_attenuation, bool p_setActive = true);
 	void 			setActiveLight(CESceneNode* p_nodeLight);
@@ -92,6 +89,7 @@ private:
 	sf::Clock					m_clock;
 
 	CESceneNode*				m_root;
+	CETransform* 				m_rootEntity;
 	CEResourceManager*			m_resourceManager;
 
 	CEGLShader* 				m_loader;

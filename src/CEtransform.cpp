@@ -12,7 +12,9 @@ glm::mat4 CEEntity::m_viewMatrix;
 glm::mat4 CEEntity::m_projectionMatrix;
 
 //Constructor
-CETransform::CETransform() : CEEntity(){}
+CETransform::CETransform() : CEEntity(){
+    loadIdentity();
+}
 
 //Destructor
 CETransform::~CETransform(){}
@@ -67,7 +69,7 @@ void CETransform::rotate(float p_rx, float p_ry, float p_rz){
 
 //Applies an scale to the matrix
 //Receives the ratio for each axis
-void CETransform::scale (float p_sx, float p_sy, float p_sz){
+void CETransform::scale(float p_sx, float p_sy, float p_sz){
     m_matrix = glm::scale(m_matrix, glm::vec3(p_sx, p_sy, p_sz));
 }
 
@@ -76,18 +78,11 @@ glm::mat4 CETransform::getMatrix(){
 }
 
 void CETransform::beginDraw(){
-    //std::cout << "Apilamos matriz de transformacion. Valor de la matrixModel apilada:" << std::endl;
     m_matrixStack.push(m_modelMatrix);
-    //showMatrix(m_modelMatrix);
-
-    //std::cout << "Valor de la nueva matrixModel:" << std::endl;
-    m_modelMatrix = m_modelMatrix * m_matrix;
-    //showMatrix(m_modelMatrix);
+    m_modelMatrix = m_matrix * m_modelMatrix;
 }
 
 void CETransform::endDraw(){
-    //std::cout << "Desapilamos matriz de transformacion. Valor de la matrixModel desapilada:" << std::endl;
     m_modelMatrix = m_matrixStack.top();
-    //showMatrix(m_modelMatrix);
     m_matrixStack.pop();
 }

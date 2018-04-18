@@ -8,8 +8,8 @@
 
 class CESceneNode{
 public:
-	CESceneNode(const char* p_name);
-	CESceneNode(CESceneNode* p_father, const char* p_name);
+	CESceneNode();
+	CESceneNode(CESceneNode* p_father);
 	virtual ~CESceneNode();
 
 	void 			addChild(CESceneNode* p_child);
@@ -26,7 +26,6 @@ public:
 	void 			release();
 
 	int 			getTotalChilds();
-	const char* 	getName();
 
 	void			setScale(float p_x, float p_y, float p_z);
 	void			setRotation(float p_x, float p_y, float p_z);
@@ -39,8 +38,6 @@ private:
 	CEEntity* 					m_entity;
 	std::vector<CESceneNode*>	m_childs;
 	CESceneNode* 				m_father;
-
-	const char* m_name;
 };
 
 #endif

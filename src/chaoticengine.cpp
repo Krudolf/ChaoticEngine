@@ -73,6 +73,10 @@ void ChaoticEngine::createWindow(int p_width, int p_height, const char* p_title,
 
 	std::cout << "VERSION OPENGL: " << glGetString(GL_VERSION) << std::endl;
 
+	//z-buffer
+	glEnable(GL_DEPTH_TEST);
+
+	//culling
     glFrontFace(GL_CCW);
     glCullFace(GL_BACK);
     glEnable(GL_CULL_FACE);
@@ -92,6 +96,7 @@ void ChaoticEngine::closeWindow(){
 void ChaoticEngine::clearWindow(float p_red, float p_green, float p_blue, float p_alpha){
 	glClearColor(p_red, p_green, p_blue, p_alpha);
 	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 GLFWwindow* ChaoticEngine::getWindow(){

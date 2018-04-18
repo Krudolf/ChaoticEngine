@@ -11,8 +11,8 @@ out vec4 FragColor;
 
 //Estructura para guardar la textura. Se guardan las propiedades difusas y especulares de la textura
 struct TMaterial{
-	sampler2D Diffuse;
-	sampler2D Specular;
+	sampler2D texture_diffuse;
+	sampler2D texture_specular;
 	float Shininess;
 };
 
@@ -38,15 +38,15 @@ vec3 Phong(){
 	vec3 r = reflect (-s, n);
 
 	//Componente ambiental
-	//vec3 Ambient = Light.Ambient * vec3(texture(Material.Diffuse, TexCoords));
+	vec3 Ambient = Light.Ambient * vec3(texture(Material.texture_diffuse, TexCoords));
 	//Componente difusa
-	//vec3 Diffuse = Light.Diffuse * max(dot(s, n), 0.0) * vec3(texture(Material.Diffuse, TexCoords));
+	vec3 Diffuse = Light.Diffuse * max(dot(s, n), 0.0) * vec3(texture(Material.texture_diffuse, TexCoords));
 	//Componente especular
-	//vec3 Specular = Light.Specular * pow(max(dot(r, v), 0.0), Material.Shininess) * vec3(texture(Material.Specular, TexCoords));
+	vec3 Specular = Light.Specular * pow(max(dot(r, v), 0.0), Material.Shininess) * vec3(texture(Material.texture_specular, TexCoords));
 
-	vec3 Ambient = Light.Ambient * vec3(0.2,0.2,0.2);
-	vec3 Diffuse = Light.Diffuse * max(dot(s, n), 0.0) * vec3(0.5,0.5,0.5);
-	vec3 Specular = Light.Specular * pow(max(dot(r, v), 0.0), 16.0f) * vec3(0.7,0.7,0.7);
+	//vec3 Ambient = Light.Ambient * vec3(0.2,0.2,0.2);
+	//vec3 Diffuse = Light.Diffuse * max(dot(s, n), 0.0) * vec3(0.5,0.5,0.5);
+	//vec3 Specular = Light.Specular * pow(max(dot(r, v), 0.0), 16.0f) * vec3(0.7,0.7,0.7);
 
 	return Ambient + Diffuse + Specular;
 }

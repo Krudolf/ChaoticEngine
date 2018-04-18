@@ -45,27 +45,29 @@ CEsubMesh CEResourceMesh::processMesh(aiMesh* p_mesh, const aiScene* p_scene){
 	std::vector<GLuint>  indices;
 	std::vector<Texture> textures;
 
+	std::cout<<p_mesh->mNumVertices<<std::endl;
 	// Walk through each of the mesh's vertices
 	for(unsigned int i = 0; i < p_mesh->mNumVertices; i++){
 		Vertex vertex;
 		glm::vec3 vector; 	//assimp dont uses vec3 class so we transfer the data first.
 		// Positions
-		vector.x = p_mesh->mVertices[i].x;
-		vector.y = p_mesh->mVertices[i].y;
-		vector.z = p_mesh->mVertices[i].z;
-		vertex.Position = vector;
+		if (p_mesh->HasPositions()) {
+			vector.x = p_mesh->mVertices[i].x;
+			vector.y = p_mesh->mVertices[i].y;
+			vector.z = p_mesh->mVertices[i].z;
+			vertex.Position = vector;
+		}
 		// Normals
-		vector.x = p_mesh->mNormals[i].x;
-		vector.y = p_mesh->mNormals[i].y;
-		vector.z = p_mesh->mNormals[i].z;
-		vertex.Normal = vector;
-		
+		if(p_mesh->HasNormals()){
+			vector.x = p_mesh->mNormals[i].x;
+			vector.y = p_mesh->mNormals[i].y;
+			vector.z = p_mesh->mNormals[i].z;
+			vertex.Normal = vector;
+		}
+
 		// Texture Coordinates
-		// Does the mesh contain texture coordinates?
 		if(p_mesh->mTextureCoords[0]){
 			glm::vec2 vec;
-			// A vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't 
-			// use models where a vertex can have multiple texture coordinates so we always take the first set (0).
 			vec.x = p_mesh->mTextureCoords[0][i].x;
 			vec.y = p_mesh->mTextureCoords[0][i].y;
 			vertex.TexCoords = vec;
@@ -75,9 +77,10 @@ CEsubMesh CEResourceMesh::processMesh(aiMesh* p_mesh, const aiScene* p_scene){
 
 		vertices.push_back(vertex);
 	}
-	// Now wak through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
+	// Now wak through each of the mesh's faces
 	for(unsigned int i = 0; i < p_mesh->mNumFaces; i++){
 		aiFace face = p_mesh->mFaces[i];
+
 		// Retrieve all indices of the face and store them in the indices vector
 		for(unsigned int j = 0; j < face.mNumIndices; j++)
 			indices.push_back(face.mIndices[j]);
@@ -86,8 +89,6 @@ CEsubMesh CEResourceMesh::processMesh(aiMesh* p_mesh, const aiScene* p_scene){
 	// Process materials
 	if(p_mesh->mMaterialIndex >= 0){
 		aiMaterial* material = p_scene->mMaterials[p_mesh->mMaterialIndex];
-		// We assume a convention for sampler names in the shaders. Each diffuse texture should be named
-		// as 'texture_diffuseN' where N is a sequential number ranging from 1 to MAX_SAMPLER_NUMBER. 
 		// Same applies to other texture as the following list summarizes:
 		// Diffuse: texture_diffuseN
 		// Specular: texture_specularN

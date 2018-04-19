@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <vector>
+#include <../include/CEresourceTexture.hpp>
 
 using namespace std;
 
@@ -16,20 +17,14 @@ struct Vertex{
 	glm::vec2 TexCoords;	// TexCoords
 };
 
-struct Texture{
-    GLuint id;
-    std::string type;
-    std::string path;
-};
-
 class CEsubMesh{
 public:
 	/*  Mesh Data  */
 	std::vector<Vertex> m_vertices;
 	std::vector<GLuint> m_indices;
-	std::vector<Texture> m_textures;
+	std::vector<CEResourceTexture*> m_textures;
 
-	CEsubMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indices, std::vector<Texture> p_textures);
+	CEsubMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indices, std::vector<CEResourceTexture*> p_textures);
 	~CEsubMesh();
 
 	void subDraw(GLuint p_shaderProgram);

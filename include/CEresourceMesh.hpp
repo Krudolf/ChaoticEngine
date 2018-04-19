@@ -1,6 +1,6 @@
  
-#ifndef CERESOURMESH
-#define CERESOURMESH
+#ifndef CERESOURCEMESH
+#define CERESOURCEMESH
 
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
@@ -10,8 +10,6 @@
 
 #include "manager/CEresource.hpp"
 #include "CEsubMesh.hpp"
-
-GLint TextureFromFile(const char* p_path, std::string p_directory);
 
 class CEResourceMesh: public CEResource{
 public:
@@ -23,12 +21,11 @@ public:
 
 private:
 	std::vector<CEsubMesh> m_meshes;
-	std::vector<Texture> m_textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
     std::string m_directory;
 	
 	void processNode(aiNode* p_node, const aiScene* p_scene);
 	CEsubMesh processMesh(aiMesh* p_mesh, const aiScene* p_scene);
-	std::vector<Texture> loadMaterialTextures(aiMaterial* p_mat, aiTextureType p_type, std::string p_typeName);
+	std::vector<CEResourceTexture*> loadMaterialTextures(aiMaterial* p_mat, aiTextureType p_type, std::string p_typeName);
 
 };
 

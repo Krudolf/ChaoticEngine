@@ -24,10 +24,6 @@ void CEResourceTexture::draw(GLuint p_shaderProgram){
 GLint CEResourceTexture::TextureFromFile(const char * p_path){
 
     std::string t_filename = p_path;
-    std::string t_directory = t_filename.substr(0, t_filename.find_last_of('/'));
-    std::cout<<"t_directory: "<< t_directory<<std::endl;
-
-    t_filename = t_directory + '/' + t_filename;
 
     unsigned int textureID = 0;
     glGenTextures(1, &textureID);

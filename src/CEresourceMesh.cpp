@@ -117,7 +117,8 @@ std::vector<CEResourceTexture*> CEResourceMesh::loadMaterialTextures(aiMaterial 
     for(unsigned int i = 0; i < p_mat->GetTextureCount(p_type); i++){
         aiString str;
         p_mat->GetTexture(p_type, i, &str);
-        CEResourceTexture* t_texture = static_cast<CEResourceTexture*>(t_manager->getResource(str.C_Str()));
+        std::string t_path = m_directory + '/' + str.C_Str();
+        CEResourceTexture* t_texture = static_cast<CEResourceTexture*>(t_manager->getResource(t_path.c_str()));
         t_texture->setTextureType(p_typeName);
         t_texture->setTexturePath(str.C_Str());
         t_textures.push_back(t_texture);

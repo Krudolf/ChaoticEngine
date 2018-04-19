@@ -5,7 +5,7 @@
 #include <algorithm>
 
 //Constructor
-CEsubMesh::CEsubMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indices, std::vector<CEResourceTexture> p_textures){
+CEsubMesh::CEsubMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indices, std::vector<CEResourceTexture*> p_textures){
 	m_vertices = p_vertices;
 	m_indices = p_indices;
 	m_textures = p_textures;
@@ -25,7 +25,7 @@ void CEsubMesh::subDraw(GLuint p_shaderProgram){
         glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
         // retrieve texture number (the N in diffuse_textureN)
         string number;
-        string name = m_textures[i].getTextureType();
+        string name = m_textures[i]->getTextureType();
         if(name == "texture_diffuse")
 			number = std::to_string(diffuseNr++);
 		else if(name == "texture_specular")
@@ -34,7 +34,7 @@ void CEsubMesh::subDraw(GLuint p_shaderProgram){
 		// now set the sampler to the correct texture unit
         glUniform1i(glGetUniformLocation(p_shaderProgram, (name + number).c_str()), i);
         // and finally bind the texture
-        glBindTexture(GL_TEXTURE_2D, m_textures[i].getTextureId());
+        glBindTexture(GL_TEXTURE_2D, m_textures[i]->getTextureId());
     }
 
 	// Also set each mesh's shininess property to a default value (if you want you could extend this to another mesh property and possibly change this value)

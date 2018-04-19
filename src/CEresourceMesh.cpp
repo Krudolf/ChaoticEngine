@@ -43,7 +43,7 @@ CEsubMesh CEResourceMesh::processMesh(aiMesh* p_mesh, const aiScene* p_scene){
 	// Data to fill
 	std::vector<Vertex>  vertices;
 	std::vector<GLuint>  indices;
-	std::vector<CEResourceTexture> textures;
+	std::vector<CEResourceTexture*> textures;
 
 	// Walk through each of the mesh's vertices
 	for(unsigned int i = 0; i < p_mesh->mNumVertices; i++){
@@ -112,26 +112,14 @@ void CEResourceMesh::draw(GLuint p_shaderProgram){
 
 std::vector<CEResourceTexture*> CEResourceMesh::loadMaterialTextures(aiMaterial * p_mat, aiTextureType p_type, string p_typeName){
     CEResourceManager* t_manager = CEResourceManager::instance();
-	vector<CEResourceTexture*> textures;
+	vector<CEResourceTexture*> t_textures;
     for(unsigned int i = 0; i < p_mat->GetTextureCount(p_type); i++){
         aiString str;
         p_mat->GetTexture(p_type, i, &str);
-        // check if texture was loaded before and if so, continue to next iteration: skip loading a new texture
-        bool skip = false;
-        for(unsigned int j = 0; j < m_textures_loaded.size(); j++){
-            if(std::strcmp(m_textures_loaded[j]->getTexturePath().data(), str.C_Str()) == 0){
-                textures.push_back(m_textures_loaded[j]);
-                skip = true; // a texture with the same filepath has already been loaded, continue to next one. (optimization)
-                break;
-            }
-        }
-        if(!skip){   // if texture hasn't been loaded already, load it
-            CEResourceTexture* texture = static_cast<CEResourceTexture*>(t_manager->getResource(str.C_Str()));
-            texture->setTextureType(p_typeName);
-            texture->setTexturePath(str.C_Str());
-            textures.push_back(texture);
-            m_textures_loaded.push_back(texture);  // store it as texture loaded for entire model, to ensure we won't unnecesery load duplicate textures.
-        }
+        CEResourceTexture* t_texture = static_cast<CEResourceTexture*>(t_manager->getResource(str.C_Str()));
+        t_texture->setTextureType(p_typeName);
+        t_texture->setTexturePath(str.C_Str());
+        t_textures.push_back(t_texture);
     }
-	return textures;
+	return t_textures;
 }

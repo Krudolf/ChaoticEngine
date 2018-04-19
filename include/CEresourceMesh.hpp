@@ -21,7 +21,6 @@ public:
 
 private:
 	std::vector<CEsubMesh> m_meshes;
-	std::vector<CEResourceTexture*> m_textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
     std::string m_directory;
 	
 	void processNode(aiNode* p_node, const aiScene* p_scene);

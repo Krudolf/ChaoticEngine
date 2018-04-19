@@ -22,9 +22,9 @@ public:
 	/*  Mesh Data  */
 	std::vector<Vertex> m_vertices;
 	std::vector<GLuint> m_indices;
-	std::vector<CEResourceTexture> m_textures;
+	std::vector<CEResourceTexture*> m_textures;
 
-	CEsubMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indices, std::vector<CEResourceTexture> p_textures);
+	CEsubMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indices, std::vector<CEResourceTexture*> p_textures);
 	~CEsubMesh();
 
 	void subDraw(GLuint p_shaderProgram);

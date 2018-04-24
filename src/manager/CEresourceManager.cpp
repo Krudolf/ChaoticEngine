@@ -1,8 +1,8 @@
 
 #include <iostream>
 
-#include <../../include/manager/CEresourceManager.hpp>
-#include <../../include/manager/CEresourceMesh.hpp>
+#include "../../include/manager/CEresourceManager.hpp"
+#include "../../include/manager/CEresourceMesh.hpp"
 
 //Instance initialization
 CEResourceManager* CEResourceManager::m_instance = 0;

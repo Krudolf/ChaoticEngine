@@ -2,8 +2,8 @@
 #include <glm.hpp>
 #include <iostream>
 
-#include <../../include/manager/CEresourceManager.hpp>
-#include <../../include/manager/CEresourceMesh.hpp>
+#include "../../include/manager/CEresourceManager.hpp"
+#include "../../include/manager/CEresourceMesh.hpp"
 
 //Constructor
 CEResourceMesh::CEResourceMesh() : CEResource(){}

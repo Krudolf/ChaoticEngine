@@ -1,10 +1,9 @@
 
-#include <../include/CEresourceTexture.hpp>
+#include <../../include/manager/CEresourceTexture.hpp>
 #include <iostream>
 
 //Constructor
 CEResourceTexture::CEResourceTexture() : CEResource(){}
-
 
 //Destructor
 CEResourceTexture::~CEResourceTexture(){}
@@ -17,12 +16,9 @@ bool CEResourceTexture::loadFile(const char* p_name){
     return true;
 }
 
-void CEResourceTexture::draw(GLuint p_shaderProgram){
-}
-
+void CEResourceTexture::draw(GLuint p_shaderProgram){}
 
 GLint CEResourceTexture::TextureFromFile(const char * p_path){
-
     std::string t_filename = p_path;
 
     unsigned int textureID = 0;

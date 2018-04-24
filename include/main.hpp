@@ -2,9 +2,9 @@
 #ifndef CEMAIN
 #define CEMAIN
 
-#include <iostream>
-#include <vector>
-
-#include <../include/chaoticengine.hpp>
+#include <fachada/CEWindow.hpp>
+#include <fachada/CEScene.hpp>
+#include <fachada/CESceneMesh.hpp>
+#include <fachada/CEShader.hpp>
 
 #endif

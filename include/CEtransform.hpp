@@ -2,7 +2,6 @@
 #ifndef CETRANSFORM
 #define CETRANSFORM
 
-#include <glm.hpp>
 #include <CEentity.hpp>
 
 /*La API de GLM la podeis ver aqui: http://glm.g-truc.net/0.9.8/api/modules.html*/

@@ -31,6 +31,7 @@ private:
 		"jpg", "tex", //Textures
 		"jpeg", "tex",
 		"png", "tex",
+		"tga", "tex",
 		"obj", "mesh", //Meshes
 		"3ds", "mesh",
 		"max", "mesh"

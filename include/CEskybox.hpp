@@ -2,24 +2,23 @@
 #ifndef CESKYBOX
 #define CESKYBOX
 
-#include <CEentity.hpp>
 #include <glew.h> 
 #include <glm.hpp>
+#include <CEentity.hpp>
+#include <CEresourceTexture.hpp>
 
 class CESkybox : public CEEntity{
 public:
 	CESkybox();
 	virtual ~CESkybox();
 
-	void makeSkyCube();
-
+	unsigned int loadCubemap(const char* p_texturesPath[6]);//0->right, 1->left, 2->top, 3->bottom, 4->front, 5->back
 	void beginDraw() override;
 	void endDraw() override;
 
 private:
 
-	void create_cube_map(const char* p_textures[6], GLuint* p_tex_cube);
-	bool load_cube_map_side(GLuint p_texture, GLenum p_side_target, const char* p_file_name);
+	CEResourceTexture* m_texturesFaces[6]; //0->right, 1->left, 2->top, 3->bottom, 4->front, 5->back
 };
 
 #endif

@@ -19,7 +19,6 @@ public:
 	void draw(GLuint p_shaderProgram);
 
 	GLint getTextureId(){return m_textureId;}
-	//void setTextureId(GLint p_id){m_textureId = p_id;}
 
 	unsigned char* getTextureData(){return m_textureData;}
 

@@ -1,119 +1,123 @@
 
 #include <../include/CEskybox.hpp>
 #include <iostream>
-#include "stb_image.h"
 
-//Constructor
-CESkybox::CESkybox() : CEEntity(){}
+unsigned int loadTexture(const char *path);
+unsigned int loadCubemap(vector<std::string> faces);
 
+CESkybox::CESkybox(){
 
-//Destructor
-CESkybox::~CESkybox(){}
+    float x = 1.0f;
+    float skyboxVertices[] = {
+        // positions          
+        -x,  x, -x,
+        -x, -x, -x,
+         x, -x, -x,
+         x, -x, -x,
+         x,  x, -x,
+        -x,  x, -x,
 
-void CESkybox::makeSkyCube(){
-  float x = 10.0f;
-  float points[] = {
-    -x,  x, -x,
-    -x, -x, -x,
-     x, -x, -x,
-     x, -x, -x,
-     x,  x, -x,
-    -x,  x, -x,
-    
-    -x, -x,  x,
-    -x, -x, -x,
-    -x,  x, -x,
-    -x,  x, -x,
-    -x,  x,  x,
-    -x, -x,  x,
-    
-     x, -x, -x,
-     x, -x,  x,
-     x,  x,  x,
-     x,  x,  x,
-     x,  x, -x,
-     x, -x, -x,
-     
-    -x, -x,  x,
-    -x,  x,  x,
-     x,  x,  x,
-     x,  x,  x,
-     x, -x,  x,
-    -x, -x,  x,
-    
-    -x,  x, -x,
-     x,  x, -x,
-     x,  x,  x,
-     x,  x,  x,
-    -x,  x,  x,
-    -x,  x, -x,
-    
-    -x, -x, -x,
-    -x, -x,  x,
-     x, -x, -x,
-     x, -x, -x,
-    -x, -x,  x,
-     x, -x,  x
-  };
-  GLuint vbo;
-  glGenBuffers(1, &vbo);
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
-  glBufferData(GL_ARRAY_BUFFER, 3 * 36 * sizeof(float), &points, GL_STATIC_DRAW);
+        -x, -x,  x,
+        -x, -x, -x,
+        -x,  x, -x,
+        -x,  x, -x,
+        -x,  x,  x,
+        -x, -x,  x,
 
-  GLuint vao;
-  glGenVertexArrays(1, &vao);
-  glBindVertexArray(vao);
-  glEnableVertexAttribArray(0);
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-}
+         x, -x, -x,
+         x, -x,  x,
+         x,  x,  x,
+         x,  x,  x,
+         x,  x, -x,
+         x, -x, -x,
 
-void CESkybox::create_cube_map(const char* p_textures[6], GLuint* p_tex_cube) {
-  //0-> front, 1->back, 2->top, 3->bottom, 4->left, 5->right
-  // generate a cube-map texture to hold all the sides
-  glActiveTexture(GL_TEXTURE0);
-  glGenTextures(1, p_tex_cube);
-  
-  // load each image and copy into a side of the cube-map texture
-  load_cube_map_side(*p_tex_cube, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, p_textures[0]);
-  load_cube_map_side(*p_tex_cube, GL_TEXTURE_CUBE_MAP_POSITIVE_Z, p_textures[1]);
-  load_cube_map_side(*p_tex_cube, GL_TEXTURE_CUBE_MAP_POSITIVE_Y, p_textures[2]);
-  load_cube_map_side(*p_tex_cube, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, p_textures[3]);
-  load_cube_map_side(*p_tex_cube, GL_TEXTURE_CUBE_MAP_NEGATIVE_X, p_textures[4]);
-  load_cube_map_side(*p_tex_cube, GL_TEXTURE_CUBE_MAP_POSITIVE_X, p_textures[5]);
-  // format cube map texture
-  glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-  glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-  glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-}
+        -x, -x,  x,
+        -x,  x,  x,
+         x,  x,  x,
+         x,  x,  x,
+         x, -x,  x,
+        -x, -x,  x,
 
-bool CESkybox::load_cube_map_side(GLuint p_texture, GLenum p_side_target, const char* p_file_name) {
-  glBindTexture(GL_TEXTURE_CUBE_MAP, p_texture);
+        -x,  x, -x,
+         x,  x, -x,
+         x,  x,  x,
+         x,  x,  x,
+        -x,  x,  x,
+        -x,  x, -x,
 
-  int x, y, n;
-  int force_channels = 4;
-  unsigned char*  image_data = stbi_load(p_file_name, &x, &y, &n, force_channels);
-
-  if (!image_data) {
-    fprintf(stderr, "ERROR: could not load %s\n", p_file_name);
-    return false;
-  }
-  // non-power-of-2 dimensions check
-  if ((x & (x - 1)) != 0 || (y & (y - 1)) != 0) {
-    fprintf(stderr,
-      "WARNING: image %s is not power-of-2 dimensions\n",
-      p_file_name);
-  }
-  
-  // copy image data into 'target' side of cube map
-  glTexImage2D(p_side_target, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
-  free(image_data);
-  return true;
+        -x, -x, -x,
+        -x, -x,  x,
+         x, -x, -x,
+         x, -x, -x,
+        -x, -x,  x,
+         x, -x,  x
+    };
+    // skybox VAO
+    unsigned int skyboxVAO, skyboxVBO;
+    glGenVertexArrays(1, &skyboxVAO);
+    glGenBuffers(1, &skyboxVBO);
+    glBindVertexArray(skyboxVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 }
 
 void CESkybox::beginDraw(){
+
+        glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
+        skyboxShader.use();
+        view = glm::mat4(glm::mat3(camera.GetViewMatrix())); // remove translation from the view matrix
+        skyboxShader.setMat4("view", view);
+        skyboxShader.setMat4("projection", projection);
+        // skybox cube
+        glBindVertexArray(skyboxVAO);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+        glBindVertexArray(0);
+        glDepthFunc(GL_LESS); // set depth function back to default
+  
 }
 
 void CESkybox::endDraw(){}
+
+// loads a cubemap texture from 6 individual texture faces
+// order:
+// +X (right)
+// -X (left)
+// +Y (top)
+// -Y (bottom)
+// +Z (front) 
+// -Z (back)
+// -------------------------------------------------------
+unsigned int loadCubemap(vector<std::string> faces)
+{
+    unsigned int textureID;
+    glGenTextures(1, &textureID);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+
+    int width, height, nrChannels;
+    for (unsigned int i = 0; i < faces.size(); i++)
+    {
+        unsigned char *data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
+        if (data)
+        {
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            stbi_image_free(data);
+        }
+        else
+        {
+            std::cout << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
+            stbi_image_free(data);
+        }
+    }
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+    return textureID;
+}
+

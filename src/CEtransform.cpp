@@ -1,9 +1,10 @@
 
-#include <../include/CEtransform.hpp>
 #include <gtc/matrix_transform.hpp> //For glm transformations
 #include <stack>
 #include <iostream>
 #include <iomanip>
+
+#include <../include/CEtransform.hpp>
 
 std::stack<glm::mat4> CEEntity::m_matrixStack;
 

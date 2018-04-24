@@ -1,13 +1,12 @@
 #ifndef CESUBMESH
 #define CESUBMESH
 
+#include <vector>
 #include <glew.h> 
 #include <glm.hpp>
 #include <gtc/type_ptr.hpp>
 
-#include <iostream>
-#include <vector>
-#include <../include/CEresourceTexture.hpp>
+#include <../include/manager/CEresourceTexture.hpp>
 
 using namespace std;
 

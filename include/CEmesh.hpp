@@ -2,10 +2,10 @@
 #ifndef CEMESH
 #define CEMESH
 
-#include <CEentity.hpp>
-#include <CEresourceMesh.hpp>
 #include <glew.h> 
-#include <glm.hpp>
+
+#include <CEentity.hpp>
+#include <manager/CEresourceMesh.hpp>
 
 class CEMesh : public CEEntity{
 public:

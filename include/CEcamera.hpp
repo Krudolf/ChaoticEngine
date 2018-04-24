@@ -1,9 +1,6 @@
 #ifndef CECAMERA
 #define CECAMERA
 
-#include <glm.hpp>
-#include <gtc/matrix_transform.hpp> //For glm transformations
-
 #include <CEentity.hpp>
 
 class CECamera : public CEEntity{

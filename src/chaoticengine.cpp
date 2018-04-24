@@ -32,8 +32,8 @@ ChaoticEngine::ChaoticEngine(){
 
 	m_loader = new CEGLShader();
 	m_shaderProgram = 0;
-	m_vertex_path = "src/shader/CEShader.vert";
-	m_fragment_path = "src/shader/CEShader.frag";
+	m_vertex_path = "src/shader/CEVertexPhong.vert";
+	m_fragment_path = "src/shader/CEFragmentPhong.frag";
 	
 	m_VBO = 0;
 	m_VAO = 0;

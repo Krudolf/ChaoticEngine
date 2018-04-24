@@ -1,5 +1,5 @@
 
-#version 420 core
+#version 400 core
 
 //Entrada desde el vertex shader
 in vec3 Position;

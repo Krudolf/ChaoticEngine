@@ -8,7 +8,7 @@
 
 class CESkybox : public CEEntity{
 public:
-	CESkybox GLuint p_shaderProgram();
+	CESkybox();
 	virtual ~CESkybox();
 
 	void makeSkyCube();
@@ -19,6 +19,7 @@ public:
 private:
 
 	void create_cube_map(const char* p_textures[6], GLuint* p_tex_cube);
+	bool load_cube_map_side(GLuint p_texture, GLenum p_side_target, const char* p_file_name);
 };
 
 #endif

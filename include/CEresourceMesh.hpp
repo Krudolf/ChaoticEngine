@@ -6,7 +6,6 @@
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <string>
-#include "stb_image.h"
 
 #include "manager/CEresource.hpp"
 #include "CEsubMesh.hpp"

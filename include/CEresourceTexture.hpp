@@ -19,7 +19,9 @@ public:
 	void draw(GLuint p_shaderProgram);
 
 	GLint getTextureId(){return m_textureId;}
-	void setTextureId(GLint p_id){m_textureId = p_id;}
+	//void setTextureId(GLint p_id){m_textureId = p_id;}
+
+	unsigned char* getTextureData(){return m_textureData;}
 
 	std::string getTextureType(){return m_type;}
 	void setTextureType(std::string p_type){m_type = p_type;}
@@ -27,12 +29,16 @@ public:
 	std::string getTexturePath(){return m_path;}
 	void setTexturePath(std::string p_path){m_path = p_path;}
 
+	void glBuffersTexture();
+
 private:
 
 	GLint m_textureId;
     std::string m_type;
     std::string m_path;
-	GLint TextureFromFile(const char* p_path);
+    int m_width, m_height, m_nrComponents;
+    unsigned char* m_textureData;
+	bool textureFromFile(const char* p_path);
 };
 
 #endif

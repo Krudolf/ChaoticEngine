@@ -17,9 +17,7 @@ CEScene::CEScene(){
 
 	m_resourceManager = new CEResourceManager();
 
-	const char* pathVertex		= "shader/CEvertex.vert";
-	const char* pathFragment	= "shader/CEfragment.frag";
-	m_shaderProgram = new CEShaderProgram(pathVertex, pathFragment);
+	m_shaderProgram = new CEShaderProgram("shader/CEvertex.vert", "shader/CEfragment.frag");
 }
 
 CEScene::~CEScene(){

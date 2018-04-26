@@ -22,8 +22,10 @@ void CELight::setAtenuation(float p_attenuation){
 }
 
 void CELight::beginDraw(){
-	glm::vec3 l_pos = glm::vec3(1, -2, -5);
-    glUniform3fv(glGetUniformLocation(m_shaderProgram, "Light.Position"), 1, glm::value_ptr(l_pos));
+	glm::mat4 t_modelView = m_viewMatrix * m_modelMatrix;
+	t_modelView = glm::inverse(t_modelView);
+	glm::vec3 t_pos = (glm::vec3)t_modelView[3];
+    glUniform3fv(glGetUniformLocation(m_shaderProgram, "Light.Position"), 1, glm::value_ptr(t_pos));
 
     glm::vec3 t_ambient = glm::vec3(m_intensities.x/4, m_intensities.y/4, m_intensities.z/4);
     glUniform3fv(glGetUniformLocation(m_shaderProgram, "Light.Ambient"), 1, glm::value_ptr(t_ambient));

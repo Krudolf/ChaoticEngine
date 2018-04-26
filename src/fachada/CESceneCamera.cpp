@@ -2,7 +2,7 @@
 #include <iostream>
 #include <gtc/matrix_transform.hpp> //For glm transformations
 
-#include <../../include/fachada/CESceneCamera.hpp>
+#include "../../include/fachada/CESceneCamera.hpp"
 
 CESceneCamera::CESceneCamera(CESceneNode* p_parent, bool p_isActive){
 	m_isActive = p_isActive;

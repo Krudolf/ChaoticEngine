@@ -1,7 +1,7 @@
 
 #include <iostream>
 
-#include <../../include/fachada/CESceneLight.hpp>
+#include "../../include/fachada/CESceneLight.hpp"
 
 CESceneLight::CESceneLight(CESceneNode* p_parent, glm::vec3 p_intensities, float p_attenuation, GLuint p_shaderProgram, bool p_isActive){
 	m_intensities = p_intensities;

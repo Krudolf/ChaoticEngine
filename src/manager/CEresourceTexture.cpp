@@ -1,6 +1,7 @@
 
-#include <../../include/manager/CEresourceTexture.hpp>
 #include <iostream>
+
+#include <../../include/manager/CEresourceTexture.hpp>
 
 //Constructor
 CEResourceTexture::CEResourceTexture() : CEResource(){}

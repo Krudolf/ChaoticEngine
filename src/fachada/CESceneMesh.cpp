@@ -2,7 +2,7 @@
 #include <iostream>
 #include <glm.hpp>
 
-#include <../../include/fachada/CESceneMesh.hpp>
+#include "../../include/fachada/CESceneMesh.hpp"
 
 CESceneMesh::CESceneMesh(CESceneNode* p_parent, const char* p_path, GLuint p_shaderProgram){
 	m_rotate    = new CETransform();

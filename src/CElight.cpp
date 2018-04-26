@@ -1,7 +1,7 @@
 
 #include <gtc/type_ptr.hpp>
 
-#include <../include/CElight.hpp>
+#include "../include/CElight.hpp"
 
 CELight::CELight(glm::vec3 p_intensities, float p_attenuation, GLuint p_shaderProgram) : CEEntity(){
 	m_intensities 	= p_intensities;

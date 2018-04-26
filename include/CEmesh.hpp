@@ -4,8 +4,8 @@
 
 #include <glew.h>
 
-#include <CEentity.hpp>
-#include <manager/CEresourceMesh.hpp>
+#include "CEentity.hpp"
+#include "manager/CEresourceMesh.hpp"
 
 class CEMesh : public CEEntity{
 public:

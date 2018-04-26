@@ -1,7 +1,7 @@
 
 #include <gtc/matrix_transform.hpp> //For glm transformations
 
-#include <../include/CEcamera.hpp>
+#include "../include/CEcamera.hpp"
 
 //Por defecto crea una camara con perspectiva
 CECamera::CECamera() : CEEntity(){

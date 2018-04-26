@@ -31,7 +31,6 @@ CEWindow::CEWindow(int p_width, int p_height, const char* p_title, bool p_fullsc
 
 	enableCulling();
 	enableZBuffer();
-	
 }
 
 CEWindow::~CEWindow(){}

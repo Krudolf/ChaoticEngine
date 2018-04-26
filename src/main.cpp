@@ -11,16 +11,19 @@ int main(){
 	CEWindow* window = new CEWindow(640, 480, "3KSC", false);
 
 	CEScene* scene = new CEScene();
-	scene->createCamera(true);
-	scene->createLight();
-	CESceneMesh* m_mesh = scene->createMesh("resources/pelota/pelota.obj");
+	CESceneCamera* m_camera	= scene->createCamera(true);
+	CESceneLight*  m_light	= scene->createLight();
+	CESceneMesh*   m_mesh	= scene->createMesh("resources/pelota/pelota.obj");
+	m_mesh->setScale(0.25, 0.25, 0.25);
 
 	while(window->isOpen()){
 		window->processInput();
 		
 		window->clear(0.5f, 0.0f, 0.0f, 1.0f);
 
+		m_light->processInput(window->getWindow());
 		m_mesh->processInput(window->getWindow());
+		m_light->getPosition();
 
 		scene->draw();
 

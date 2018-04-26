@@ -2,7 +2,7 @@
 #ifndef CEMESH
 #define CEMESH
 
-#include <glew.h> 
+#include <glew.h>
 
 #include <CEentity.hpp>
 #include <manager/CEresourceMesh.hpp>
@@ -15,7 +15,9 @@ public:
 	void loadResource(const char* p_urlSource);
 
 	void beginDraw() override;
-	void endDraw() override;
+	void endDraw()   override;
+
+	glm::mat4	getModelMatrix()	{ return m_modelMatrix;	};
 
 private:
 	CEResourceMesh* m_mesh;

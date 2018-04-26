@@ -1,7 +1,6 @@
 
 #include <../include/CEresourceMesh.hpp>
 #include <../include/manager/CEresourceManager.hpp>
-//#include "stb_image.h"
 
 //Constructor
 CEResourceMesh::CEResourceMesh() : CEResource(){}

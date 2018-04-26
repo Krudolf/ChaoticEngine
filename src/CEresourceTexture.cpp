@@ -62,3 +62,7 @@ void CEResourceTexture::glBuffersTexture(){
         m_textureId = textureID;
     }
 }
+
+void CEResourceTexture::freeTextureData(unsigned char* p_data){
+    stbi_image_free(p_data);
+}

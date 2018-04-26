@@ -29,6 +29,11 @@ public:
 	void setTexturePath(std::string p_path){m_path = p_path;}
 
 	void glBuffersTexture();
+	void freeTextureData(unsigned char* p_data);
+
+	int getTextureWidth(){return m_width;}
+	int getTextureHeight(){return m_height;}
+	int getTextureNrComponents(){return m_nrComponents;}
 
 private:
 

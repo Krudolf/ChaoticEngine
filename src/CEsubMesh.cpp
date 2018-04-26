@@ -37,7 +37,7 @@ void CEsubMesh::subDraw(GLuint p_shaderProgram){
         glBindTexture(GL_TEXTURE_2D, m_textures[i]->getTextureId());
     }
 
-	// Also set each mesh's shininess property to a default value (if you want you could extend this to another mesh property and possibly change this value)
+	// Also set each mesh's shininess property to a default value
 	glUniform1f(glGetUniformLocation(p_shaderProgram, "Material.Shininess"), 16.0f);
 
 	// Draw mesh

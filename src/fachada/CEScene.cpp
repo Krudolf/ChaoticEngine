@@ -17,7 +17,7 @@ CEScene::CEScene(){
 
 	m_resourceManager = new CEResourceManager();
 
-	m_shaderProgram = new CEShaderProgram("shader/CEvertex.vert", "shader/CEfragment.frag");
+	m_shaderProgram = new CEShaderProgram("shader/CEVertexPhong.vert", "shader/CEFragmentPhong.frag");
 }
 
 CEScene::~CEScene(){

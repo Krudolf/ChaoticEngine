@@ -11,6 +11,7 @@ CEShaderProgram::CEShaderProgram(const char* p_pathVertex, const char* p_pathFra
 	m_pathFragment 	= p_pathFragment;
 
 	loadShader();
+	useShaderProgram(m_shaderProgram);
 }
 
 CEShaderProgram::~CEShaderProgram(){}
@@ -20,7 +21,7 @@ void CEShaderProgram::loadShader(){
 }
 
 void CEShaderProgram::useShaderProgram(GLuint p_shader){
-	
+	m_shader->useShader(p_shader);
 }
 
 GLuint CEShaderProgram::getShaderProgram(){

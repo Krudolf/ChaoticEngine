@@ -64,21 +64,21 @@ CESkybox::~CESkybox(){}
 
 void CESkybox::beginDraw(){
 
-        //glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
+    glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
 
-        //TODO: usar el shader del skybox desde aqui
-        // TODO:: pasarle las matrices de vista y proyeccion
-        /*skyboxShader.use();
-        view = glm::mat4(glm::mat3(camera.GetViewMatrix())); // remove translation from the view matrix
-        skyboxShader.setMat4("view", view);
-        skyboxShader.setMat4("projection", projection);*/
+    //TODO: usar el shader del skybox desde aqui
 
-        // skybox cube
-       /* glBindVertexArray(m_skyboxVAO);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-        glBindVertexArray(0);
-        glDepthFunc(GL_LESS); // set depth function back to default*/
+    //set the View and Projection matrix to the shader
+    //glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "ViewMatrix"), 1, GL_FALSE, glm::value_ptr(m_viewMatrix));
+    //glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "ProjectionMatrix"), 1, GL_FALSE, glm::value_ptr(m_projectionMatrix));
+
+    // skybox cube
+   /* glBindVertexArray(m_skyboxVAO);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);*/
+    
+    glDepthFunc(GL_LESS); // set depth function back to default
 }
 
 void CESkybox::endDraw(){}

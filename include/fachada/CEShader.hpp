@@ -12,6 +12,7 @@ public:
 	~CEShaderProgram();
 
 	void	loadShader();
+	void 	useShaderProgram(GLuint p_shader);
 
 	GLuint	getShaderProgram();
 

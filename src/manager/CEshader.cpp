@@ -89,3 +89,7 @@ GLuint CEShader::LoadShader(const char *vertex_path, const char *fragment_path) 
 
     return program;
 }
+
+void CEShader::useShader(GLuint p_shader){
+    glUseProgram(p_shader);
+}

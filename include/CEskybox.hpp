@@ -4,8 +4,8 @@
 
 #include <glew.h> 
 #include <glm.hpp>
-#include <CEentity.hpp>
-#include <CEresourceTexture.hpp>
+#include "CEentity.hpp"
+#include "manager/CEresourceTexture.hpp"
 
 class CESkybox : public CEEntity{
 public:

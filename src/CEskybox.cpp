@@ -1,9 +1,9 @@
 
-#include <../include/CEskybox.hpp>
-#include <../include/manager/CEresourceManager.hpp>
+#include "../include/CEskybox.hpp"
+#include "../include/manager/CEresourceManager.hpp"
 #include <iostream>
 
-CESkybox::CESkybox(){
+CESkybox::CESkybox(): CEEntity(){
 
     float x = 1.0f;
     float skyboxVertices[] = {
@@ -60,9 +60,11 @@ CESkybox::CESkybox(){
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 }
 
+CESkybox::~CESkybox(){}
+
 void CESkybox::beginDraw(){
 
-        glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
+        //glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
 
         //TODO: usar el shader del skybox desde aqui
         // TODO:: pasarle las matrices de vista y proyeccion
@@ -72,11 +74,11 @@ void CESkybox::beginDraw(){
         skyboxShader.setMat4("projection", projection);*/
 
         // skybox cube
-        glBindVertexArray(m_skyboxVAO);
+       /* glBindVertexArray(m_skyboxVAO);
         glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
         glDrawArrays(GL_TRIANGLES, 0, 36);
         glBindVertexArray(0);
-        glDepthFunc(GL_LESS); // set depth function back to default
+        glDepthFunc(GL_LESS); // set depth function back to default*/
 }
 
 void CESkybox::endDraw(){}
@@ -90,7 +92,7 @@ void CESkybox::endDraw(){}
 // +Z (front) 
 // -Z (back)
 // -------------------------------------------------------
-unsigned int loadCubemap(const char* p_texturesPath[6])
+unsigned int CESkybox::loadCubemap(const char* p_texturesPath[6])
 {
     CEResourceManager* t_manager = CEResourceManager::instance();
 
@@ -98,9 +100,9 @@ unsigned int loadCubemap(const char* p_texturesPath[6])
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
-    for (unsigned int i = 0; i < p_texturesPath.size(); i++)
+    for (unsigned int i = 0; i < 6; i++)
     {
-        CEResourceTexture* t_texture = static_cast<CEResourceTexture*>(t_manager->getResource(p_texturesPath[i].c_str()));
+        CEResourceTexture* t_texture = static_cast<CEResourceTexture*>(t_manager->getResource(p_texturesPath[i]));
         unsigned char* data = t_texture->getTextureData(); 
         if (data)
         {
@@ -122,4 +124,3 @@ unsigned int loadCubemap(const char* p_texturesPath[6])
 
     return textureID;
 }
-

@@ -19,6 +19,10 @@ void CEShaderProgram::loadShader(){
 	m_shaderProgram = m_shader->LoadShader(m_pathVertex, m_pathFragment);
 }
 
+void CEShaderProgram::useShaderProgram(GLuint p_shader){
+	
+}
+
 GLuint CEShaderProgram::getShaderProgram(){
 	return m_shaderProgram;
 }

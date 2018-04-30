@@ -3,12 +3,8 @@
 #define CERESOURCETEXTURE
 
 #include "stb_image.h"
-#include <glew.h> 
-#include <glm.hpp>
-#include <string>
 
-#include "manager/CEresource.hpp"
-
+#include "CEresource.hpp"
 
 class CEResourceTexture: public CEResource{
 public:

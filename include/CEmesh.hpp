@@ -2,10 +2,10 @@
 #ifndef CEMESH
 #define CEMESH
 
-#include <CEentity.hpp>
-#include <CEresourceMesh.hpp>
-#include <glew.h> 
-#include <glm.hpp>
+#include <glew.h>
+
+#include "CEentity.hpp"
+#include "manager/CEresourceMesh.hpp"
 
 class CEMesh : public CEEntity{
 public:
@@ -15,7 +15,9 @@ public:
 	void loadResource(const char* p_urlSource);
 
 	void beginDraw() override;
-	void endDraw() override;
+	void endDraw()   override;
+
+	glm::mat4	getModelMatrix()	{ return m_modelMatrix;	};
 
 private:
 	CEResourceMesh* m_mesh;

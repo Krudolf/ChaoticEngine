@@ -1,25 +1,13 @@
-#include <../include/CEcamera.hpp>
 
-#include <iomanip>
-#include <iostream>
+#include <gtc/matrix_transform.hpp> //For glm transformations
 
-void showMat(glm::mat4 p_matrix){   
-    std::cout << std::fixed;
-    std::cout << std::setprecision(6);
-
-    for (int i = 0; i < 4; i++){
-        for (int j = 0; j < 4; j++){
-            std::cout << p_matrix[i][j] << "\t";
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
-}
+#include "../include/CEcamera.hpp"
 
 //Por defecto crea una camara con perspectiva
 CECamera::CECamera() : CEEntity(){
 	//setParallel(-1.0f, 1.0f, -1.0f, 1.0f, 0.1f, 100.0f);
 	setPerspective(90.0f, 1.0f, 0.1f, 100.0f);
+	m_tarjet = glm::vec3(0,0,0);
 }
 
 CECamera::~CECamera(){}
@@ -42,7 +30,6 @@ void CECamera::setParallel(float p_left, float p_right, float p_bottom, float p_
 	m_near	 		= p_near;
 	m_far 	 		= p_far;
 	m_projection 	= glm::ortho(m_left, m_right, m_bottom, m_top, m_near, m_far);
-	m_tarjet 		= glm::vec3(0,0,0);
 }
 
 void CECamera::setTarjet(float p_x, float p_y, float p_z){
@@ -59,8 +46,6 @@ glm::mat4 CECamera::getMatrix(){
 
 void CECamera::setProjectionMatrix(){
 	m_projectionMatrix = m_projection;
-	//std::cout << "PROJECTION:" << std::endl;
-	//showMat(m_projectionMatrix);
 }
 
 void CECamera::setViewMatrix(glm::mat4 p_viewMatrix){
@@ -72,8 +57,6 @@ void CECamera::setViewMatrix(glm::mat4 p_viewMatrix){
 	}
 	else
 		m_viewMatrix = p_viewMatrix;
-	//std::cout << "VIEW:" << std::endl;
-	//showMat(m_viewMatrix);
 }
 
 void CECamera::beginDraw(){}

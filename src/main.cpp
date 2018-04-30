@@ -1,73 +1,36 @@
 
 #include <../include/main.hpp>
+#include <iostream>
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include "../include/manager/stb_image.h"
 
 int main(){
 	std::cout << "*************************\n* TEST DE CHAOTICENGINE *\n*************************" << std::endl;
-	
-	ChaoticEngine* engine = new ChaoticEngine();
-	engine->createWindow(640, 480, "3KSC", false);
 
-	const char* model = "resources_prueba/pelota/pelota.obj";
-	const char* model1 = "resources_prueba/cubo/cubo.obj";
+	CEWindow* window = new CEWindow(640, 480, "3KSC", false);
 
-	GLuint t_shader = engine->loadShader();
+	CEScene* scene = new CEScene();
+	CESceneCamera* m_camera	= scene->createCamera(true);
+	CESceneLight*  m_light	= scene->createLight();
+	CESceneMesh*   m_mesh	= scene->createMesh("resources/pelota/pelota.obj");
+	m_mesh->setScale(0.25, 0.25, 0.25);
 
-	CESceneNode* light  = engine->createLight(glm::vec3(1,1,1), 0.0);
-	CESceneNode* camera = engine->createCamera();
-	CESceneNode* modelo = engine->loadModel(model1);
-	//CESceneNode* modelo1 = engine->loadModel(model1);
+	while(window->isOpen()){
+		window->processInput();
+		
+		window->clear(0.5f, 0.0f, 0.0f, 1.0f);
 
-	while(engine->isWindowOpen()){
-		engine->processInput();
-		/* ++++ MODELO ++++ */
-		if(glfwGetKey(engine->getWindow(), GLFW_KEY_R) == GLFW_PRESS)
-			modelo->setRotation(0,3,0);
-		if(glfwGetKey(engine->getWindow(), GLFW_KEY_W) == GLFW_PRESS)
-			modelo->setTranslation(0,0.1,0);
-		if(glfwGetKey(engine->getWindow(), GLFW_KEY_S) == GLFW_PRESS)
-			modelo->setTranslation(0,-0.1,0);
-		if(glfwGetKey(engine->getWindow(), GLFW_KEY_D) == GLFW_PRESS)
-			modelo->setTranslation(0.1,0,0);
-		if(glfwGetKey(engine->getWindow(), GLFW_KEY_A) == GLFW_PRESS)
-			modelo->setTranslation(-0.1,0,0);
-		if(glfwGetKey(engine->getWindow(), GLFW_KEY_E) == GLFW_PRESS)
-			modelo->setTranslation(0,0,0.1);
-		if(glfwGetKey(engine->getWindow(), GLFW_KEY_Q) == GLFW_PRESS)
-			modelo->setTranslation(0,0,-0.1);
-		//modelo->getPosition();
+		m_light->processInput(window->getWindow());
+		m_mesh->processInput(window->getWindow());
+		m_light->getPosition();
 
-		/* ++++ CAMERA ++++ */
-		if(glfwGetKey(engine->getWindow(), GLFW_KEY_O) == GLFW_PRESS)
-			camera->setRotation(0,1,0);
-		if(glfwGetKey(engine->getWindow(), GLFW_KEY_UP) == GLFW_PRESS)
-			camera->setTranslation(0,0.1,0);
-		if(glfwGetKey(engine->getWindow(), GLFW_KEY_DOWN) == GLFW_PRESS)
-			camera->setTranslation(0,-0.1,0);
-		if(glfwGetKey(engine->getWindow(), GLFW_KEY_RIGHT) == GLFW_PRESS)
-			camera->setTranslation(0.1,0,0);
-		if(glfwGetKey(engine->getWindow(), GLFW_KEY_LEFT) == GLFW_PRESS)
-			camera->setTranslation(-0.1,0,0);
-		if(glfwGetKey(engine->getWindow(), GLFW_KEY_M) == GLFW_PRESS)
-			camera->setTranslation(0,0,0.1);
-		if(glfwGetKey(engine->getWindow(), GLFW_KEY_N) == GLFW_PRESS)
-			camera->setTranslation(0,0,-0.1);
-		if(glfwGetKey(engine->getWindow(), GLFW_KEY_P) == GLFW_PRESS)
-			static_cast<CECamera*>(camera->getEntity())->setPerspective(90.0f, 1.0f, 0.1f, 100.0f);
-		if(glfwGetKey(engine->getWindow(), GLFW_KEY_L) == GLFW_PRESS)
-			static_cast<CECamera*>(camera->getEntity())->setParallel(-1.0f, 1.0f, -1.0f, 1.0f, 0.1f, 100.0f);
-		//static_cast<CECamera*>(camera->getEntity())->setTarjet(modelo->getPosition());
-		engine->setActiveCamera(camera);
+		scene->draw();
 
-		engine->clearWindow(0.5f, 0.0f, 0.0f, 1.0f);
-		engine->draw();
-
-    	engine->swapBuffers();
-		engine->pollEvents();
+    	window->swapBuffers();
+		window->pollEvents();
 	}
-	engine->release();
-
+	scene->release();
+	window->close();
 	return 0;
 }

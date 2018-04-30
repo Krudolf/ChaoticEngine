@@ -1,8 +1,10 @@
 
-#include "../include/CEsubMesh.hpp"
+#include <iostream>
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+
+#include "../../include/manager/CEsubMesh.hpp"
 
 //Constructor
 CEsubMesh::CEsubMesh(std::vector<Vertex> p_vertices, std::vector<GLuint> p_indices, std::vector<CEResourceTexture*> p_textures){

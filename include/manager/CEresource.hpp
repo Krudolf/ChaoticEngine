@@ -2,6 +2,10 @@
 #ifndef CERESOURCE
 #define CERESOURCE
 
+#include <glew.h>
+#include <vector>
+#include <string>
+
 class CEResource{
 public:
 	CEResource(){};

@@ -5,9 +5,8 @@
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
-#include <string>
 
-#include "manager/CEresource.hpp"
+#include "CEresource.hpp"
 #include "CEsubMesh.hpp"
 
 class CEResourceMesh: public CEResource{

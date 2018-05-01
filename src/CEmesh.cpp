@@ -1,8 +1,8 @@
 
 #include <gtc/type_ptr.hpp>
 
-#include <../include/CEmesh.hpp>
-#include <../include/manager/CEresourceManager.hpp>
+#include "../include/CEmesh.hpp"
+#include "../include/manager/CEresourceManager.hpp"
 
 CEMesh::CEMesh(GLuint p_shaderProgram) : CEEntity(){
     m_shaderProgram = p_shaderProgram;

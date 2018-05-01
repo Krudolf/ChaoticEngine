@@ -6,7 +6,7 @@
 #include <glm.hpp>
 #include <gtc/type_ptr.hpp>
 
-#include <../include/manager/CEresourceTexture.hpp>
+#include "../include/manager/CEresourceTexture.hpp"
 
 using namespace std;
 

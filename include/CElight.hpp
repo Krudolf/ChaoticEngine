@@ -3,7 +3,7 @@
 
 #include <glew.h>
 
-#include <CEentity.hpp>
+#include "CEentity.hpp"
 
 class CELight : public CEEntity{
 public:

@@ -1,7 +1,7 @@
 
 #include <iostream>
 
-#include <../../include/fachada/CEWindow.hpp>
+#include "../../include/fachada/CEWindow.hpp"
 
 CEWindow::CEWindow(int p_width, int p_height, const char* p_title, bool p_fullscreen){
 	glfwInit();
@@ -31,7 +31,6 @@ CEWindow::CEWindow(int p_width, int p_height, const char* p_title, bool p_fullsc
 
 	enableCulling();
 	enableZBuffer();
-	
 }
 
 CEWindow::~CEWindow(){}

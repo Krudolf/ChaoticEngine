@@ -1,7 +1,7 @@
 #ifndef CECAMERA
 #define CECAMERA
 
-#include <CEentity.hpp>
+#include "CEentity.hpp"
 
 class CECamera : public CEEntity{
 public:

@@ -18,6 +18,16 @@ public:
 
 	void 		activateCamera();
 
+	void 		setPerspective(float p_angle, float p_aspect, float p_near, float p_far);
+	void 		setParallel(float p_left, float p_right, float p_bottom, float p_top, float p_near, float p_far);
+	void		lookAt(float p_x, float p_y, float p_z);
+
+	void		setRotation(float p_x, float p_y, float p_z);
+	void		setPosition(float p_x, float p_y, float p_z);
+
+	void		setAbsoluteRotation(float p_x, float p_y, float p_z);
+	void		setAbsolutePosition(float p_x, float p_y, float p_z);
+	
 private:
 	CECamera*		m_camera;
 	CETransform*	m_rotate;

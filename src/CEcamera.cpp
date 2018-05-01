@@ -1,12 +1,13 @@
 
 #include <gtc/matrix_transform.hpp> //For glm transformations
 
-#include <../include/CEcamera.hpp>
+#include "../include/CEcamera.hpp"
 
 //Por defecto crea una camara con perspectiva
 CECamera::CECamera() : CEEntity(){
 	//setParallel(-1.0f, 1.0f, -1.0f, 1.0f, 0.1f, 100.0f);
 	setPerspective(90.0f, 1.0f, 0.1f, 100.0f);
+	m_tarjet = glm::vec3(0,0,0);
 }
 
 CECamera::~CECamera(){}
@@ -29,7 +30,6 @@ void CECamera::setParallel(float p_left, float p_right, float p_bottom, float p_
 	m_near	 		= p_near;
 	m_far 	 		= p_far;
 	m_projection 	= glm::ortho(m_left, m_right, m_bottom, m_top, m_near, m_far);
-	m_tarjet 		= glm::vec3(0,0,0);
 }
 
 void CECamera::setTarjet(float p_x, float p_y, float p_z){

@@ -25,6 +25,7 @@ public:
 
 	std::string getTextureDirectory(){return m_directory;}
 	void setTextureDirectory(std::string p_directory){m_directory = p_directory;}
+		GLint TextureFromFile(const char* p_path);
 
 private:
 
@@ -32,7 +33,7 @@ private:
     std::string m_type;
     std::string m_path;
     std::string m_directory;
-	GLint TextureFromFile(const char* p_path);
+
 };
 
 #endif

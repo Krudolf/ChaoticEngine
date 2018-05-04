@@ -29,6 +29,7 @@ GLint CEResourceTexture::TextureFromFile(const char * p_path){
     unsigned char *data = stbi_load(t_filename.c_str(), &width, &height, &nrComponents, 0);
     if(data){
         GLenum format;
+        
         if(nrComponents == 1)
             format = GL_RED;
         else if(nrComponents == 3)
@@ -38,7 +39,9 @@ GLint CEResourceTexture::TextureFromFile(const char * p_path){
 
         glBindTexture(GL_TEXTURE_2D, textureID);
         glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        std::cout<<1<<std::endl;
         glGenerateMipmap(GL_TEXTURE_2D);
+        std::cout<<2<<std::endl;
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -52,5 +55,6 @@ GLint CEResourceTexture::TextureFromFile(const char * p_path){
         stbi_image_free(data);
     }
 
+std::cout<<"esta es la id"<<textureID<<std::endl;
     return textureID;
 }

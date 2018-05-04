@@ -1,16 +1,25 @@
+/* #include <stdio.h>
+#include <stdlib.h>
 
-#include <iostream>
-#include <glm.hpp>
+#include <vector>
+#include <algorithm>
 
-#include "../../include/fachada/CEScene.hpp"
-#include "../../include/fachada/CESceneCamera.hpp"
-#include "../../include/fachada/CESceneLight.hpp"
-#include "../../include/fachada/CESceneMesh.hpp"
-#include "../../include/fachada/CEShader.hpp"
-#include "../../include/CEtransform.hpp"
-#include "../../include/texture.hpp"
-#include "../../include/manager/CEresourceTexture.hpp"
+#include <GL/glew.h>
 
+#include <glfw3.h>
+GLFWwindow* window;
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/norm.hpp>
+using namespace glm;
+
+
+#include <common/shader.hpp>
+#include <common/texture.hpp>
+#include <common/controls.hpp>
+
+// CPU representation of a particle
 struct Particle{
 	glm::vec3 pos, speed;
 	unsigned char r,g,b,a; // Color
@@ -27,19 +36,9 @@ struct Particle{
 const int MaxParticles = 100000;
 Particle ParticlesContainer[MaxParticles];
 int LastUsedParticle = 0;
-	static GLfloat* g_particule_position_size_data = new GLfloat[MaxParticles * 4];
-	static GLubyte* g_particule_color_data         = new GLubyte[MaxParticles * 4];
-		GLuint particles_position_buffer;
-			GLuint particles_color_buffer;
 
-	GLuint billboard_vertex_buffer;
-
-CEResourceTexture *managerTexture = new CEResourceTexture();
-			GLuint Texture;
-
-
-		
-
+// Finds a Particle in ParticlesContainer which isn't used yet.
+// (i.e. life < 0);
 int FindUnusedParticle(){
 
 	for(int i=LastUsedParticle; i<MaxParticles; i++){
@@ -63,104 +62,113 @@ void SortParticles(){
 	std::sort(&ParticlesContainer[0], &ParticlesContainer[MaxParticles]);
 }
 
-void poia(){
-	std::cout<<"poia"<<std::endl;
-}
+int main( void )
+{
+	// Initialise GLFW
+	if( !glfwInit() )
+	{
+		fprintf( stderr, "Failed to initialize GLFW\n" );
+		return -1;
+	}
+
+	glfwWindowHint(GLFW_SAMPLES, 4);
+	glfwWindowHint(GLFW_RESIZABLE,GL_FALSE);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+
+	// Open a window and create its OpenGL context
+	window = glfwCreateWindow( 1024, 768, "Tutorial 18 - Particules", NULL, NULL);
+	if( window == NULL ){
+		fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
+		glfwTerminate();
+		return -1;
+	}
+	glfwMakeContextCurrent(window);
+
+	glfwSetCursorPos(window, 1024/2, 768/2);
+	glfwSwapInterval(1);
+
+	// Initialize GLEW
+	glewExperimental = true; // Needed for core profile
+	if (glewInit() != GLEW_OK) {
+		fprintf(stderr, "Failed to initialize GLEW\n");
+		return -1;
+	}
+
+	// Ensure we can capture the escape key being pressed below
+	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+
+	// Dark blue background
+	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+
+	// Enable depth test
+	glEnable(GL_DEPTH_TEST);
+	// Accept fragment if it closer to the camera than the former one
+	glDepthFunc(GL_LESS);
+
+	GLuint VertexArrayID;
+	glGenVertexArrays(1, &VertexArrayID);
+	glBindVertexArray(VertexArrayID);
 
 
-CEScene::CEScene(){
-	m_root = new CESceneNode();
+	// Create and compile our GLSL program from the shaders
+	GLuint programID = LoadShaders( "Particle.vertexshader", "Particle.fragmentshader" );
+
+	// Vertex shader
+	GLuint CameraRight_worldspace_ID  = glGetUniformLocation(programID, "CameraRight_worldspace");
+	GLuint CameraUp_worldspace_ID  = glGetUniformLocation(programID, "CameraUp_worldspace");
+	GLuint ViewProjMatrixID = glGetUniformLocation(programID, "VP");
+
+	// fragment shader
+	GLuint TextureID  = glGetUniformLocation(programID, "myTextureSampler");
+
 	
-	CETransform* rootEntity = new CETransform();
-	m_root->setEntity(rootEntity);
-
-	m_resourceManager = new CEResourceManager();
-
-	m_shaderProgram = new CEShaderProgram("shader/CEvertex.vert", "shader/CEfragment.frag");
-
-		
-			//	std::cout<<TextureID<<std::endl;
+	static GLfloat* g_particule_position_size_data = new GLfloat[MaxParticles * 4];
+	static GLubyte* g_particule_color_data         = new GLubyte[MaxParticles * 4];
 
 	for(int i=0; i<MaxParticles; i++){
 		ParticlesContainer[i].life = -1.0f;
 		ParticlesContainer[i].cameradistance = -1.0f;
 	}
 
-		static const GLfloat g_vertex_buffer_data[] = {
-	-0.5f, -0.5f, 0.0f,
-	0.5f, -0.5f, 0.0f,
-	-0.5f, 0.5f, 0.0f,
-	0.5f, 0.5f, 0.0f,
+
+
+	GLuint Texture = loadDDS("particle.DDS");
+
+	// The VBO containing the 4 vertices of the particles.
+	// Thanks to instancing, they will be shared by all particles.
+	static const GLfloat g_vertex_buffer_data[] = { 
+		 -0.5f, -0.5f, 0.0f,
+		  0.5f, -0.5f, 0.0f,
+		 -0.5f,  0.5f, 0.0f,
+		  0.5f,  0.5f, 0.0f,
 	};
+	GLuint billboard_vertex_buffer;
 	glGenBuffers(1, &billboard_vertex_buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, billboard_vertex_buffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 
 	// The VBO containing the positions and sizes of the particles
-
+	GLuint particles_position_buffer;
 	glGenBuffers(1, &particles_position_buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, particles_position_buffer);
 	// Initialize with empty (NULL) buffer : it will be updated later, each frame.
 	glBufferData(GL_ARRAY_BUFFER, MaxParticles * 4 * sizeof(GLfloat), NULL, GL_STREAM_DRAW);
 
 	// The VBO containing the colors of the particles
-
+	GLuint particles_color_buffer;
 	glGenBuffers(1, &particles_color_buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, particles_color_buffer);
 	// Initialize with empty (NULL) buffer : it will be updated later, each frame.
 	glBufferData(GL_ARRAY_BUFFER, MaxParticles * 4 * sizeof(GLubyte), NULL, GL_STREAM_DRAW);
+
+
 	
- Texture= loadDDS("resources/particle.DDS");
-
-}
-
-CEScene::~CEScene(){
-	delete m_root;
-	m_root = nullptr;
-
-	delete m_resourceManager;
-	m_resourceManager = nullptr;
-
-	delete m_shaderProgram;
-	m_shaderProgram = nullptr;
-}
-
-CESceneCamera* CEScene::createCamera(bool p_isActive){
-	CESceneCamera* CEcamera = new CESceneCamera(m_root, p_isActive);
-	m_cameras.push_back(CEcamera);
-
-	if(p_isActive){
-		m_activeCamera = CEcamera;
-		m_activeCamera->activateCamera();
-	}
-
-	return CEcamera;
-}
-
-CESceneLight* CEScene::createLight(){
-	glm::vec3 	intensities = glm::vec3(1, 1, 1);
-	float 		attenuation = 0.0f;
-
-	CESceneLight* CElight = new CESceneLight(m_root, intensities, attenuation, m_shaderProgram->getShaderProgram());
-	m_lights.push_back(CElight);
-
-	return CElight;	
-}
-
-CESceneMesh* CEScene::createMesh(const char* p_path){
-	CESceneMesh* CEmesh = new CESceneMesh(m_root, p_path, m_shaderProgram->getShaderProgram());
-
-	return CEmesh;	
-}
-
-void CEScene::setActiveCamera(CESceneCamera* p_camera){
-	m_activeCamera = p_camera;
-	m_activeCamera->activateCamera();
-}
-
-void CEScene::draw(){
-
-	double lastTime = glfwGetTime()*0.9999;
+	double lastTime = glfwGetTime();
+	do
+	{
 		// Clear the screen
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -169,17 +177,17 @@ void CEScene::draw(){
 		lastTime = currentTime;
 
 
-		//computeMatricesFromInputs();
-		// glm::mat4 ProjectionMatrix = getProjectionMatrix();
-		// glm::mat4 ViewMatrix = getViewMatrix();
+		computeMatricesFromInputs();
+		glm::mat4 ProjectionMatrix = getProjectionMatrix();
+		glm::mat4 ViewMatrix = getViewMatrix();
 
 		// We will need the camera's position in order to sort the particles
 		// w.r.t the camera's distance.
 		// There should be a getCameraPosition() function in common/controls.cpp, 
 		// but this works too.
-		glm::vec3 CameraPosition = glm::vec3(0,0,2);
+		glm::vec3 CameraPosition(glm::inverse(ViewMatrix)[3]);
 
-		// glm::mat4 ViewProjectionMatrix = ProjectionMatrix * ViewMatrix;
+		glm::mat4 ViewProjectionMatrix = ProjectionMatrix * ViewMatrix;
 
 
 		// Generate 10 new particule each millisecond,
@@ -223,7 +231,7 @@ void CEScene::draw(){
 		// Simulate all particles
 		int ParticlesCount = 0;
 		for(int i=0; i<MaxParticles; i++){
-			//std::cout<<i<<std::endl;
+
 			Particle& p = ParticlesContainer[i]; // shortcut
 
 			if(p.life > 0.0f){
@@ -235,7 +243,7 @@ void CEScene::draw(){
 					// Simulate simple physics : gravity only, no collisions
 					p.speed += glm::vec3(0.0f,-9.81f, 0.0f) * (float)delta * 0.5f;
 					p.pos += p.speed * (float)delta;
-					p.cameradistance = glm::length( p.pos - CameraPosition );
+					p.cameradistance = glm::length2( p.pos - CameraPosition );
 					//ParticlesContainer[i].pos += glm::vec3(0.0f,10.0f, 0.0f) * (float)delta;
 
 					// Fill the GPU buffer
@@ -285,19 +293,19 @@ void CEScene::draw(){
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		// Use our shader
-		glUseProgram(m_shaderProgram->getShaderProgram());
+		glUseProgram(programID);
 
 		// Bind our texture in Texture Unit 0
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, Texture);
 		// Set our "myTextureSampler" sampler to user Texture Unit 0
-	//	glUniform1i(TextureID, 0);
+		glUniform1i(TextureID, 0);
 
 		// Same as the billboards tutorial
-		// glUniform3f(CameraRight_worldspace_ID, ViewMatrix[0][0], ViewMatrix[1][0], ViewMatrix[2][0]);
-		// glUniform3f(CameraUp_worldspace_ID   , ViewMatrix[0][1], ViewMatrix[1][1], ViewMatrix[2][1]);
+		glUniform3f(CameraRight_worldspace_ID, ViewMatrix[0][0], ViewMatrix[1][0], ViewMatrix[2][0]);
+		glUniform3f(CameraUp_worldspace_ID   , ViewMatrix[0][1], ViewMatrix[1][1], ViewMatrix[2][1]);
 
-		//glUniformMatrix4fv(ViewProjMatrixID, 1, GL_FALSE, &ViewProjectionMatrix[0][0]);
+		glUniformMatrix4fv(ViewProjMatrixID, 1, GL_FALSE, &ViewProjectionMatrix[0][0]);
 
 		// 1rst attribute buffer : vertices
 		glEnableVertexAttribArray(0);
@@ -355,15 +363,28 @@ void CEScene::draw(){
 		glDisableVertexAttribArray(2);
 
 		// Swap buffers
-		// glfwSwapBuffers(window);
-		// glfwPollEvents();
-	m_root->draw();
-}
+		glfwSwapBuffers(window);
+		glfwPollEvents();
 
-void CEScene::release(){
-	m_root->removeAllChilds();
-	m_resourceManager->deleteResources();
+	} // Check if the ESC key was pressed or the window was closed
+	while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
+		   glfwWindowShouldClose(window) == 0 );
 
-	delete m_resourceManager;
-	delete m_root;
+
+	delete[] g_particule_position_size_data;
+
+	// Cleanup VBO and shader
+	glDeleteBuffers(1, &particles_color_buffer);
+	glDeleteBuffers(1, &particles_position_buffer);
+	glDeleteBuffers(1, &billboard_vertex_buffer);
+	glDeleteProgram(programID);
+	glDeleteTextures(1, &Texture);
+	glDeleteVertexArrays(1, &VertexArrayID);
+	
+
+	// Close OpenGL window and terminate GLFW
+	glfwTerminate();
+
+	return 0;
 }
+ */

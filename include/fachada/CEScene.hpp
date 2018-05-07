@@ -6,6 +6,7 @@
 
 #include "../CEscenenode.hpp"
 #include "../manager/CEresourceManager.hpp"
+#include "../../include/CEskybox.hpp"
 
 class CESceneCamera;
 class CESceneLight;

@@ -1,7 +1,6 @@
 
 #include "../include/CEskybox.hpp"
 #include "../include/manager/CEresourceManager.hpp"
-#include "../include/fachada/CEScene.hpp"
 #include <iostream>
 
 CESkybox::CESkybox(): CEEntity(){
@@ -96,6 +95,8 @@ void CESkybox::endDraw(){}
 unsigned int CESkybox::loadCubemap(const char* p_texturesPath[6])
 {
     CEResourceManager* t_manager = CEResourceManager::instance();
+
+    std::cout<<"holaaaaaaaaaaaaaaaaaaaaaaaaaaa" << std::endl;
 
     unsigned int textureID;
     glGenTextures(1, &textureID);

@@ -60,8 +60,8 @@ CESceneMesh* CEScene::createMesh(const char* p_path){
 	return CEmesh;	
 }
 
-CEskybox* CEScene::createSkybox(const char* p_texturesPath[6]){
-	CEskybox* CEsky = new CESkybox();
+CESkybox* CEScene::createSkybox(const char* p_texturesPath[6]){
+	CESkybox* CEsky = new CESkybox();
 	CEsky->loadCubemap(p_texturesPath);
 
 	return	CEsky;

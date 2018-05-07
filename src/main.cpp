@@ -21,7 +21,7 @@ int main(){
 								"resources/skybox/cloudtop_dn.tga",
 								"resources/skybox/cloudtop_ft.tga",
 								"resources/skybox/cloudtop_bk.tga"};
-	scene->createSkybox(t_skyPath);
+	//scene->createSkybox(t_skyPath);
 	m_mesh->setScale(0.25, 0.25, 0.25);
 
 	while(window->isOpen()){

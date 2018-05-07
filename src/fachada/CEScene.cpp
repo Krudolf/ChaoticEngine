@@ -18,6 +18,7 @@ CEScene::CEScene(){
 	m_resourceManager = new CEResourceManager();
 
 	m_shaderProgram = new CEShaderProgram("shader/CEVertexPhong.vert", "shader/CEFragmentPhong.frag");
+	m_shaderProgram->loadShader("shader/CEVertexSkybox.vert", "shader/CEFragmentSkybox.frag");
 }
 
 CEScene::~CEScene(){
@@ -47,16 +48,23 @@ CESceneLight* CEScene::createLight(){
 	glm::vec3 	intensities = glm::vec3(1, 1, 1);
 	float 		attenuation = 0.0f;
 
-	CESceneLight* CElight = new CESceneLight(m_root, intensities, attenuation, m_shaderProgram->getShaderProgram());
+	CESceneLight* CElight = new CESceneLight(m_root, intensities, attenuation, m_shaderProgram->getShaderProgram(0));
 	m_lights.push_back(CElight);
 
 	return CElight;	
 }
 
 CESceneMesh* CEScene::createMesh(const char* p_path){
-	CESceneMesh* CEmesh = new CESceneMesh(m_root, p_path, m_shaderProgram->getShaderProgram());
+	CESceneMesh* CEmesh = new CESceneMesh(m_root, p_path, m_shaderProgram->getShaderProgram(0));
 
 	return CEmesh;	
+}
+
+CEskybox* CEScene::createSkybox(const char* p_texturesPath[6]){
+	CEskybox* CEsky = new CESkybox();
+	CEsky->loadCubemap(p_texturesPath);
+
+	return	CEsky;
 }
 
 void CEScene::setActiveCamera(CESceneCamera* p_camera){

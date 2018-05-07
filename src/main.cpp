@@ -14,6 +14,14 @@ int main(){
 	CESceneCamera* m_camera	= scene->createCamera(true);
 	CESceneLight*  m_light	= scene->createLight();
 	CESceneMesh*   m_mesh	= scene->createMesh("resources/pelota/pelota.obj");
+	//0->right, 1->left, 2->top, 3->bottom, 4->front, 5->back
+	const char* t_skyPath[6] = {"resources/skybox/cloudtop_rf.tga", 
+								"resources/skybox/cloudtop_lf.tga", 
+								"resources/skybox/cloudtop_up.tga", 
+								"resources/skybox/cloudtop_dn.tga",
+								"resources/skybox/cloudtop_ft.tga",
+								"resources/skybox/cloudtop_bk.tga"};
+	scene->createSkybox(t_skyPath);
 	m_mesh->setScale(0.25, 0.25, 0.25);
 
 	while(window->isOpen()){

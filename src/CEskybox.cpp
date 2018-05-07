@@ -1,6 +1,7 @@
 
 #include "../include/CEskybox.hpp"
 #include "../include/manager/CEresourceManager.hpp"
+#include "../include/fachada/CEScene.hpp"
 #include <iostream>
 
 CESkybox::CESkybox(): CEEntity(){

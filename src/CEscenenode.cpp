@@ -3,6 +3,7 @@
 #include "../include/CEtransform.hpp"
 #include "../include/CEmesh.hpp"
 #include "../include/CElight.hpp"
+#include "../include/CEskybox.hpp"
 
 CESceneNode::CESceneNode(){
 	m_father = NULL;

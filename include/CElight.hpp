@@ -1,18 +1,17 @@
 #ifndef CELIGHT
 #define CELIGHT
 
-#include <glm.hpp>
-#include <glew.h> 
-#include <CEentity.hpp>
+#include <glew.h>
+
+#include "CEentity.hpp"
 
 class CELight : public CEEntity{
 public:
-	CELight(glm::vec3 m_intensities, float m_attenuation);
+	CELight(glm::vec3 m_intensities, float m_attenuation, GLuint p_shaderProgram);
 	virtual ~CELight();
 
 	void setIntensities(glm::vec3 p_intensities);
 	void setAtenuation(float p_attenuation);
-	void setShader(GLuint p_shaderProgram){ m_shaderProgram = p_shaderProgram;}
 
 	void beginDraw() override;
 	void endDraw() override;

@@ -1,24 +1,8 @@
 
-#include <iostream>
-#include <iomanip>
-#include <stack>
 #include <gtc/type_ptr.hpp>
 
-#include <../include/CEmesh.hpp>
-#include <../include/manager/CEresourceManager.hpp>
-
-void showMatrix2(glm::mat4 p_matrix){   
-    std::cout << std::fixed;
-    std::cout << std::setprecision(6);
-
-    for (int i = 0; i < 4; i++){
-        for (int j = 0; j < 4; j++){
-            std::cout << p_matrix[i][j] << "\t";
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
-}
+#include "../include/CEmesh.hpp"
+#include "../include/manager/CEresourceManager.hpp"
 
 CEMesh::CEMesh(GLuint p_shaderProgram) : CEEntity(){
     m_shaderProgram = p_shaderProgram;

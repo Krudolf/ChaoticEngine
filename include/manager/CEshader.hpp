@@ -4,11 +4,12 @@
 #include <glew.h>
 #include <string>
 
-class CEGLShader{
+class CEShader{
 public:
-	CEGLShader();
-	virtual ~CEGLShader();
+	CEShader();
+	virtual ~CEShader();
     GLuint LoadShader(const char *vertex_path, const char *fragment_path);
+    void useShader(GLuint p_shader);
 
 private:
 	std::string readFile(const char *filePath);

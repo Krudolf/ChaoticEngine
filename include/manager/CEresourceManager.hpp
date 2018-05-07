@@ -2,12 +2,6 @@
 #ifndef CERESOURCEMANAGER
 #define CERESOURCEMANAGER
 
-#include <vector>
-#include <iostream>
-
-#include <glew.h>
-#include <glut.h>
-
 #include "CEresource.hpp"
 
 class CEResourceManager{
@@ -31,6 +25,7 @@ private:
 		"jpg", "tex", //Textures
 		"jpeg", "tex",
 		"png", "tex",
+		"tga", "tex",
 		"obj", "mesh", //Meshes
 		"3ds", "mesh",
 		"max", "mesh"

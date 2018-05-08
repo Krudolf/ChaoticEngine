@@ -30,6 +30,7 @@ bool CEResourceTexture::textureFromFile(const char * p_path){
     else{
         std::cout << "Texture failed to load at path: " << p_path << std::endl;
         stbi_image_free(data);
+        m_textureData = NULL;
     }
     return false;
 }

@@ -61,8 +61,26 @@ CESceneMesh* CEScene::createMesh(const char* p_path){
 }
 
 CESkybox* CEScene::createSkybox(const char* p_texturesPath[6]){
-	CESkybox* CEsky = new CESkybox();
+	CETransform* m_rotate    = new CETransform();
+	CETransform* m_scale	 = new CETransform();
+	CETransform* m_translate = new CETransform(); 
+	CESkybox* CEsky = new CESkybox(m_shaderProgram->getShaderProgram(1));
+	
+	m_rotate->rotate(0, 0, 0);
+	m_scale->scale(1,1,1);
+	m_translate->translate(0, 0, 0);
 	CEsky->loadCubemap(p_texturesPath);
+
+	CESceneNode* t_nodeRotate 	 = new CESceneNode(m_root);
+	CESceneNode* t_nodeScale 	 = new CESceneNode(t_nodeRotate);
+	CESceneNode* t_nodeTranslate = new CESceneNode(t_nodeScale);
+	CESceneNode* t_nodeMesh 	 = new CESceneNode(t_nodeTranslate);
+	t_nodeRotate->setEntity(m_rotate);
+	t_nodeScale->setEntity(m_scale);
+	t_nodeTranslate->setEntity(m_translate);
+	t_nodeMesh->setEntity(CEsky);
+
+
 
 	return	CEsky;
 }

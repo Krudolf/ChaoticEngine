@@ -15,13 +15,13 @@ int main(){
 	CESceneLight*  m_light	= scene->createLight();
 	CESceneMesh*   m_mesh	= scene->createMesh("resources/pelota/pelota.obj");
 	//0->right, 1->left, 2->top, 3->bottom, 4->front, 5->back
-	const char* t_skyPath[6] = {"resources/skybox/cloudtop_rf.tga", 
-								"resources/skybox/cloudtop_lf.tga", 
-								"resources/skybox/cloudtop_up.tga", 
-								"resources/skybox/cloudtop_dn.tga",
-								"resources/skybox/cloudtop_ft.tga",
-								"resources/skybox/cloudtop_bk.tga"};
-	//scene->createSkybox(t_skyPath);
+	const char* t_skyPath[6] = {"resources/skybox/stratosphere_ft.tga", 
+								"resources/skybox/stratosphere_bk.tga", 
+								"resources/skybox/stratosphere_up.tga", 
+								"resources/skybox/stratosphere_dn.tga",
+								"resources/skybox/stratosphere_rt.tga",
+								"resources/skybox/stratosphere_lf.tga"};
+	scene->createSkybox(t_skyPath);
 	m_mesh->setScale(0.25, 0.25, 0.25);
 
 	while(window->isOpen()){
@@ -31,7 +31,7 @@ int main(){
 
 		m_light->processInput(window->getWindow());
 		m_mesh->processInput(window->getWindow());
-		m_light->getPosition();
+		//m_light->getPosition();
 
 		scene->draw();
 

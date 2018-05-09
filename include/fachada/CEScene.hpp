@@ -23,7 +23,7 @@ public:
 	CESceneLight*	createLight();
 	CESceneMesh*	createMesh(const char* p_path);
 	CESkybox*		createSkybox(const char* p_texturesPath[6]);//0->right, 1->left, 2->top, 3->bottom, 4->front, 5->back
-	CEEmitter*		createEmitter();
+	CEEmitter*		createEmitter(const char* p_url);
 
 	void			setActiveCamera(CESceneCamera* p_camera);
 

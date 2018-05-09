@@ -69,13 +69,12 @@ CESkybox* CEScene::createSkybox(const char* p_texturesPath[6]){
 	return	CEsky;
 }
 
-CEEmitter* CEScene::createEmitter()
-{
-	std::cout << "CREAMOS" << std::endl;
-	CETransform*	m_rotate    = new CETransform();
-	CETransform* m_scale	    = new CETransform();
-	CETransform* m_translate = new CETransform(); 
-	CEEmitter* emitter = new CEEmitter(m_shaderProgram->getShaderProgram(2));
+CEEmitter* CEScene::createEmitter(const char* p_url){
+	std::cout << "CREAMOS EMITTER" << std::endl;
+	CETransform* 	m_rotate    = new CETransform();
+	CETransform* 	m_scale	    = new CETransform();
+	CETransform* 	m_translate = new CETransform(); 
+	CEEmitter*		m_emitter 	= new CEEmitter(p_url, m_shaderProgram->getShaderProgram(2));
 	
 	m_rotate->rotate(0, 0, 0);
 	m_scale->scale(1, 1, 1);
@@ -88,10 +87,9 @@ CEEmitter* CEScene::createEmitter()
 	t_nodeRotate->setEntity(m_rotate);
 	t_nodeScale->setEntity(m_scale);
 	t_nodeTranslate->setEntity(m_translate);
-	t_nodeEmitter->setEntity(emitter);
-	//m_shaderProgram
+	t_nodeEmitter->setEntity(m_emitter);
 
-	return emitter;
+	return m_emitter;
 }
 
 void CEScene::setActiveCamera(CESceneCamera* p_camera){

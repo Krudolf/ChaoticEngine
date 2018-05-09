@@ -11,6 +11,7 @@ CEMesh::CEMesh(GLuint p_shaderProgram) : CEEntity(){
 CEMesh::~CEMesh(){}
 
 void CEMesh::beginDraw(){
+    glUseProgram(m_shaderProgram);
 	//PRECALCULAMOS LAS MATRICES Y LAS PASAMOS AL SHADER
 
 	glm::mat4 t_MVP = m_projectionMatrix * m_viewMatrix * m_modelMatrix;

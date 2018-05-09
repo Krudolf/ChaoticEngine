@@ -66,3 +66,4 @@ void CEResourceTexture::glBuffersTexture(){
 void CEResourceTexture::freeTextureData(unsigned char* p_data){
     stbi_image_free(p_data);
 }
+

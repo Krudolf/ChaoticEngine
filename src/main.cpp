@@ -1,6 +1,5 @@
 
 #include <../include/main.hpp>
-#include <iostream>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "../include/manager/stb_image.h"
@@ -14,6 +13,9 @@ int main(){
 	CESceneCamera* m_camera	= scene->createCamera(true);
 	CESceneLight*  m_light	= scene->createLight();
 	CESceneMesh*   m_mesh	= scene->createMesh("resources/pelota/pelota.obj");
+	//CEEmitter*     m_emitter = scene->createEmitter("resources/particula.jpg");
+	CEEmitter*     m_emitter = scene->createEmitter("resources/particle.bin");
+
 	//0->right, 1->left, 2->top, 3->bottom, 4->front, 5->back
 	const char* t_skyPath[6] = {"resources/skybox/stratosphere_ft.tga", 
 								"resources/skybox/stratosphere_bk.tga", 
@@ -26,12 +28,12 @@ int main(){
 
 	while(window->isOpen()){
 		window->processInput();
-		
-		window->clear(0.5f, 0.0f, 0.0f, 1.0f);
+		//window->clear(0.5f, 0.0f, 0.0f, 1.0f);
+		window->clear(0.0f, 0.5f, 0.0f, 1.0f);
 
-		m_light->processInput(window->getWindow());
+		//m_light->processInput(window->getWindow());
 		m_mesh->processInput(window->getWindow());
-		//m_light->getPosition();
+		m_emitter->Update();
 
 		scene->draw();
 

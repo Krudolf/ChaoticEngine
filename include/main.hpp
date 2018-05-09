@@ -8,5 +8,6 @@
 #include "fachada/CESceneCamera.hpp"
 #include "fachada/CESceneLight.hpp"
 #include "fachada/CEShader.hpp"
+#include "CEemitter.hpp"
 
 #endif

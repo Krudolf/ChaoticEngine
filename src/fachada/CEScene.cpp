@@ -7,6 +7,7 @@
 #include "../../include/fachada/CESceneLight.hpp"
 #include "../../include/fachada/CESceneMesh.hpp"
 #include "../../include/fachada/CEShader.hpp"
+#include "../../include/CEemitter.hpp"
 #include "../../include/CEtransform.hpp"
 
 CEScene::CEScene(){
@@ -19,6 +20,7 @@ CEScene::CEScene(){
 
 	m_shaderProgram = new CEShaderProgram("shader/CEVertexPhong.vert", "shader/CEFragmentPhong.frag");
 	m_shaderProgram->loadShader("shader/CEVertexSkybox.vert", "shader/CEFragmentSkybox.frag");
+	m_shaderProgram->loadShader("shader/CEVertexParticle.vert", "shader/CEFragmentParticle.frag");
 }
 
 CEScene::~CEScene(){
@@ -83,6 +85,29 @@ CESkybox* CEScene::createSkybox(const char* p_texturesPath[6]){
 
 
 	return	CEsky;
+}
+
+CEEmitter* CEScene::createEmitter(const char* p_url){
+	std::cout << "CREAMOS EMITTER" << std::endl;
+	CETransform* 	m_rotate    = new CETransform();
+	CETransform* 	m_scale	    = new CETransform();
+	CETransform* 	m_translate = new CETransform(); 
+	CEEmitter*		m_emitter 	= new CEEmitter(p_url, m_shaderProgram->getShaderProgram(2));
+	
+	m_rotate->rotate(0, 0, 0);
+	m_scale->scale(1, 1, 1);
+	m_translate->translate(0, 0, 0);
+
+	CESceneNode* t_nodeRotate 	 = new CESceneNode(m_root);
+	CESceneNode* t_nodeScale 	 = new CESceneNode(t_nodeRotate);
+	CESceneNode* t_nodeTranslate = new CESceneNode(t_nodeScale);
+	CESceneNode* t_nodeEmitter 	 = new CESceneNode(t_nodeTranslate);
+	t_nodeRotate->setEntity(m_rotate);
+	t_nodeScale->setEntity(m_scale);
+	t_nodeTranslate->setEntity(m_translate);
+	t_nodeEmitter->setEntity(m_emitter);
+
+	return m_emitter;
 }
 
 void CEScene::setActiveCamera(CESceneCamera* p_camera){

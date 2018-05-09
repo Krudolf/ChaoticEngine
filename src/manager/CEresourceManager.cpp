@@ -39,6 +39,7 @@ CEResource* CEResourceManager::getResource(const char* p_name){
 			m_resources.push_back(t_resource);
 		}
 	}
+	
 	return t_resource;
 }
 

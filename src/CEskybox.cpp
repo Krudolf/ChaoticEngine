@@ -94,7 +94,7 @@ void CESkybox::endDraw(){}
 // +Z (front) 
 // -Z (back)
 // -------------------------------------------------------
-unsigned int CESkybox::loadCubemap(const char* p_texturesPath[6])
+void CESkybox::loadCubemap(const char* p_texturesPath[6])
 {
     CEResourceManager* t_manager = CEResourceManager::instance();
 
@@ -120,5 +120,4 @@ unsigned int CESkybox::loadCubemap(const char* p_texturesPath[6])
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
     m_textureID = textureID;
-    return textureID;
 }

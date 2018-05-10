@@ -1,44 +1,47 @@
 
-#include <../include/main.hpp>
+#include "include/main.hpp"
 #include <iostream>
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "../include/manager/stb_image.h"
+#include "include/ChaoticEngine/manager/stb_image.h"
 
-int main(){
-	std::cout << "*************************\n* TEST DE CHAOTICENGINE *\n*************************" << std::endl;
+int main(){    
+	std::cout << "*************************\n* TEST DE CHAOTICENGINE *\n*************************" << std::endl; 
+	CEWindow* m_window = new CEWindow(640, 480, "3KSC", false); 
+	CEScene*  m_scene  = new CEScene();
 
-	CEWindow* window = new CEWindow(640, 480, "3KSC", false);
+	float 		t_lightIntensity[]	= {0.8, 0.8, 0.8};
+	float 		t_lightAtenuation	= 1.0f;
+	const char* t_skyboxPath[6]		= {
+		"assets/skyboxes/fusfus_skybox/stratosphere_ft.tga",  
+    	"assets/skyboxes/fusfus_skybox/stratosphere_bk.tga",  
+    	"assets/skyboxes/fusfus_skybox/stratosphere_up.tga",  
+    	"assets/skyboxes/fusfus_skybox/stratosphere_dn.tga", 
+    	"assets/skyboxes/fusfus_skybox/stratosphere_rt.tga", 
+    	"assets/skyboxes/fusfus_skybox/stratosphere_lf.tga"
+	}; 
 
-	CEScene* scene = new CEScene();
-	CESceneCamera* m_camera	= scene->createCamera(true);
-	CESceneLight*  m_light	= scene->createLight();
-	CESceneMesh*   m_mesh	= scene->createMesh("resources/pelota/pelota.obj");
-	//0->right, 1->left, 2->top, 3->bottom, 4->front, 5->back
-	const char* t_skyPath[6] = {"resources/skybox/stratosphere_ft.tga", 
-								"resources/skybox/stratosphere_bk.tga", 
-								"resources/skybox/stratosphere_up.tga", 
-								"resources/skybox/stratosphere_dn.tga",
-								"resources/skybox/stratosphere_rt.tga",
-								"resources/skybox/stratosphere_lf.tga"};
-	scene->createSkybox(t_skyPath);
-	m_mesh->setScale(0.25, 0.25, 0.25);
+	CESceneCamera*			m_camera 	= m_scene->createCamera(true);
+	CESceneLight*			m_light		= m_scene->createLight(t_lightIntensity, t_lightAtenuation);
+	CESceneMesh*			m_mesh		= m_scene->createMesh("assets/sparky/sparky.obj");
+	CESceneSkybox*			m_skybox	= m_scene->createSkybox(t_skyboxPath, 50);
+	CESceneParticleSystem* 	m_system	= m_scene->createParticleSystem("assets/awesome.bin", 500);
+	
+	while(m_window->isOpen()){ 
+		m_window->processInput();
+		m_window->clear(0.5f, 0.0f, 0.0f, 1.0f); 
 
-	while(window->isOpen()){
-		window->processInput();
-		
-		window->clear(0.5f, 0.0f, 0.0f, 1.0f);
+		m_mesh->processInput(m_window->getWindow());
+		m_system->update();
 
-		m_light->processInput(window->getWindow());
-		m_mesh->processInput(window->getWindow());
-		//m_light->getPosition();
+		m_scene->draw(); 
 
-		scene->draw();
-
-    	window->swapBuffers();
-		window->pollEvents();
+		m_window->swapBuffers(); 
+		m_window->pollEvents(); 
 	}
-	scene->release();
-	window->close();
-	return 0;
+
+	m_scene->release(); 
+	m_window->close(); 
+
+	return 0; 
 }

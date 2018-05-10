@@ -1,0 +1,12 @@
+ 
+#include "ChaoticEngine/fachada/CEScene.hpp"
+#include "ChaoticEngine/fachada/CESceneCamera.hpp"
+#include "ChaoticEngine/fachada/CESceneLight.hpp"
+#include "ChaoticEngine/fachada/CESceneMesh.hpp"
+#include "ChaoticEngine/fachada/CESceneQuad.hpp"
+#include "ChaoticEngine/fachada/CESceneSprite.hpp"
+#include "ChaoticEngine/fachada/CESceneParticleSystem.hpp"
+#include "ChaoticEngine/fachada/CESceneSkybox.hpp"
+#include "ChaoticEngine/fachada/CEShader.hpp"
+#include "ChaoticEngine/fachada/CEWindow.hpp"
+#include "ChaoticEngine/CEtransform.hpp"

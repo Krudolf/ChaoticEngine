@@ -4,7 +4,7 @@ HDRDIR	:= include/
 LIBDIR  := lib/
 INCDIR  := lib/include/
 OBJDIR	:= obj/
-SUBDIRS := $(OBJDIR) $(OBJDIR)manager $(OBJDIR)fachada
+SUBDIRS := $(OBJDIR) $(OBJDIR)ChaoticEngine $(OBJDIR)ChaoticEngine/fachada $(OBJDIR)ChaoticEngine/manager
 
 #Files
 SOURCES := $(shell find $(SRCDIR) -name '*.cpp')

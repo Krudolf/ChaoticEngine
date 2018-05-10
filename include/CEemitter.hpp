@@ -26,7 +26,7 @@ public:
     // Constructor
     CEEmitter(const char* p_url, GLuint p_shaderProgram);
     // Update all particles
-    void Update(GLfloat dt = 0.025f, GLuint newParticles = 20, glm::vec2 offset = glm::vec2(0.75f, 1.25f));
+    void Update(GLfloat dt = 0.025f, GLuint newParticles = 1, glm::vec2 offset = glm::vec2(0.75f, 1.25f));
     // Render all particles
     void beginDraw();
     void endDraw();

@@ -8,7 +8,7 @@
 
 CEEmitter::CEEmitter(const char* p_url, GLuint p_shaderProgram) : CEEntity(){
     m_shaderProgram = p_shaderProgram;
-    m_amount = 1000;
+    m_amount = 100;
 
     loadResource(p_url);
     m_texture->glBuffersTexture();
@@ -119,17 +119,20 @@ GLuint CEEmitter::firstUnusedParticle(){
 }
 
 void CEEmitter::respawnParticle(Particle &particle, glm::vec2 offset){
-    GLfloat random = ((rand() % 100) - 50) / 10.0f;
+    GLfloat random = ((rand() % 10) - 5) / 1.0f;
+    GLfloat randvel = ((rand() % 1) - 0.5) / 0.1f;
+    GLfloat randlife = ((rand() % 2) - 0.5);
+    std::cout << "vida " << randlife << std::endl;
     GLfloat rColor = 0.5 + ((rand() % 100) / 100.0f);
     
     glm::vec2 Position = glm::vec2(0.0f,0.0f);
-    glm::vec2 Velocity = glm::vec2(0.0f,-5.0f);
+    glm::vec2 Velocity = glm::vec2(random,randvel);
     
     //particle.Position   = Position + random + offset;
     particle.Position   = Position;
     particle.Color      = glm::vec4(rColor, rColor, rColor, 1.0f);
-    particle.Life       = 1.0f;
-    particle.Velocity   = Velocity * 1.0f;
+    particle.Life       = 2.0f;
+    particle.Velocity   = Velocity;
 }
 
 void CEEmitter::loadResource(const char* p_urlSource){

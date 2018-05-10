@@ -20,8 +20,7 @@ void CEResourceTexture::draw(GLuint p_shaderProgram){
 
 bool CEResourceTexture::textureFromFile(const char * p_path){
 
-    std::string t_filename = p_path;
-
+    std::string t_filename = p_path; 
     unsigned char *data = stbi_load(t_filename.c_str(), &m_width, &m_height, &m_nrComponents, 0);
     if(data){
         m_textureData = data;
@@ -39,7 +38,7 @@ void CEResourceTexture::glBuffersTexture(){
 
     if(m_textureData){
         unsigned int textureID = 0;
-        glGenTextures(1, &textureID);
+        glGenTextures(1, &m_textureId);
 
         GLenum format;
         if(m_nrComponents == 1)
@@ -49,7 +48,7 @@ void CEResourceTexture::glBuffersTexture(){
         else if(m_nrComponents == 4)
             format = GL_RGBA;
 
-        glBindTexture(GL_TEXTURE_2D, textureID);
+        glBindTexture(GL_TEXTURE_2D, m_textureId);
         glTexImage2D(GL_TEXTURE_2D, 0, format, m_width, m_height, 0, format, GL_UNSIGNED_BYTE, m_textureData);
         glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -59,8 +58,6 @@ void CEResourceTexture::glBuffersTexture(){
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         stbi_image_free(m_textureData);
-
-        m_textureId = textureID;
     }
 }
 

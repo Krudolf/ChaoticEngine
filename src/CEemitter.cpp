@@ -17,11 +17,11 @@ CEEmitter::CEEmitter(const char* p_url, GLuint p_shaderProgram) : CEEntity(){
 
 void CEEmitter::init(){
     GLfloat t_vertices[] = { 
-        // Pos      // Tex
-        0.0f, 0.0f, 0.0f, 0.0f, 
-        0.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 0.0f
+        // Pos          // Tex
+        0.0f, 0.0f,     0.05f, 0.05f, 
+        0.0f, 1.0f,     0.05f, 0.95f,
+        1.0f, 1.0f,     0.95f, 0.95f,
+        1.0f, 0.0f,     0.95f, 0.05f
     };
 
     unsigned int m_indices[] = {
@@ -70,7 +70,7 @@ void CEEmitter::beginDraw(){
             glBindTexture(GL_TEXTURE_2D, m_texture->getTextureId());
 
             glBindVertexArray(m_VAO);
-            //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
             glBindVertexArray(0);
         }

@@ -33,7 +33,7 @@ public:
 
 private:
 
-	GLint m_textureId;
+	GLuint m_textureId;
     std::string m_type;
     std::string m_path;
     int m_width, m_height, m_nrComponents;

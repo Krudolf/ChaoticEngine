@@ -11,6 +11,7 @@ CEEmitter::CEEmitter(const char* p_url, GLuint p_shaderProgram) : CEEntity(){
     m_amount = 1000;
 
     loadResource(p_url);
+    m_texture->glBuffersTexture();
     init();
 }
 
@@ -137,7 +138,6 @@ void CEEmitter::loadResource(const char* p_urlSource){
     CEResource* t_resource = t_manager->getResource(p_urlSource);
     if(t_resource != 0){
         m_texture = (CEResourceTexture*)t_resource;
-        m_texture->glBuffersTexture();
     }
 
 }

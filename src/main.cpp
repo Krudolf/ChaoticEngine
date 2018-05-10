@@ -14,7 +14,7 @@ int main(){
 	CESceneLight*  m_light	= scene->createLight();
 	CESceneMesh*   m_mesh	= scene->createMesh("resources/pelota/pelota.obj");
 	//CEEmitter*     m_emitter = scene->createEmitter("resources/particula.jpg");
-	CEEmitter*     m_emitter = scene->createEmitter("resources/particle.bin");
+	CEEmitter*     m_emitter = scene->createEmitter("resources/awesome.bin");
 
 	//0->right, 1->left, 2->top, 3->bottom, 4->front, 5->back
 	const char* t_skyPath[6] = {"resources/skybox/stratosphere_ft.tga", 

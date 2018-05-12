@@ -45,18 +45,6 @@ void CESceneLight::processInput(GLFWwindow* p_window){
 		setPosition(-0.1,0,0);
 }
 
-void CESceneLight::setIntensities(float p_x, float p_y, float p_z){
-	m_light->setIntensities(glm::vec3(p_x, p_y, p_z));
-}
-
-void CESceneLight::setAtenuation(float p_attenuation){
-	m_light->setAtenuation(p_attenuation);
-}
-
-void CESceneLight::setRotation(float p_x, float p_y, float p_z){
-	m_rotate->rotate(p_x, p_y, p_z);
-}
-
 void CESceneLight::setPosition(float p_x, float p_y, float p_z){
 	m_translate->translate(p_x, p_y, p_z);
 }

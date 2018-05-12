@@ -5,8 +5,7 @@ layout (location = 1) in vec3 VertexNormal;
 layout (location = 2) in vec2 TextureCoords;
 
 // Salida para el fragment
-
-out vec3 Position; 
+out vec3 Position;
 out vec3 Normal;
 out vec2 TexCoords;
 
@@ -20,5 +19,5 @@ void main()
     Normal = normalize(NormalMatrix * VertexNormal);
     TexCoords = TextureCoords;
 
-    gl_Position = MVP * vec4(VertexPosition, 1.0f);
+    gl_Position = MVP * vec4(Position, 1.0f);
 }

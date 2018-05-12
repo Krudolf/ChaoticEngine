@@ -18,6 +18,11 @@ public:
 
 	glm::mat4 getMVP()	{ return m_MVP; }
 
+	
+	glm::vec3 getAmbient()	{ return glm::vec3(m_intensities.x/4, m_intensities.y/4, m_intensities.z/4); }
+	glm::vec3 getDiffuse()	{ return m_intensities; }
+	glm::vec3 getSpecular()	{ return m_intensities; }
+
 private:
     glm::vec3 m_intensities; //(0-1)red, green and blue intensities 
     GLuint m_shaderProgram;

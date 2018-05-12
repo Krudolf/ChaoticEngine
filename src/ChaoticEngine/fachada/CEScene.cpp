@@ -10,6 +10,7 @@
 #include "../../include/ChaoticEngine/fachada/CESceneSprite.hpp"
 #include "../../include/ChaoticEngine/fachada/CESceneParticleSystem.hpp"
 #include "../../include/ChaoticEngine/fachada/CESceneSkybox.hpp"
+#include "../../include/ChaoticEngine/fachada/CESceneBillboard.hpp"
 #include "../../include/ChaoticEngine/fachada/CEShader.hpp"
 #include "../../include/ChaoticEngine/CEtransform.hpp"
 
@@ -56,11 +57,13 @@ CESceneCamera* CEScene::createCamera(bool p_isActive){
 	return CEcamera;
 }
 
-CESceneLight* CEScene::createLight(float p_lightIntensity[3], float p_lightAtenuation){
+CESceneLight* CEScene::createLight(float p_lightIntensity[3], float p_lightAtenuation, float p_position[3]){
 	glm::vec3 	intensities = glm::vec3(p_lightIntensity[0], p_lightIntensity[1], p_lightIntensity[2]);
 	float 		attenuation = p_lightAtenuation;
 
 	CESceneLight* CElight = new CESceneLight(m_root, intensities, attenuation, m_shaderProgram->getShaderProgram(0));
+	CElight->setPosition(p_position[0], p_position[1], p_position[2]);
+	
 	m_lights.push_back(CElight);
 
 	return CElight;	
@@ -85,6 +88,16 @@ CESceneSprite* CEScene::createSprite(const char* p_path, float p_width, float p_
 	return CEsprite;
 }
 
+CESceneBillboard* CEScene::createBillboard(const char* p_path, float p_width, float p_height, CESceneNode* p_parent){
+	CESceneBillboard* CEbillboard;
+	if(p_parent == NULL)
+		CEbillboard = new CESceneBillboard(m_root, p_path, p_width, p_height, m_shaderProgram->getShaderProgram(2));
+	else
+		CEbillboard = new CESceneBillboard(p_parent, p_path, p_width, p_height, m_shaderProgram->getShaderProgram(2));
+
+	return CEbillboard;
+}
+
 CESceneParticleSystem* CEScene::createParticleSystem(const char* p_path, int p_amount){
 	CESceneParticleSystem* CEemitter = new CESceneParticleSystem(m_root, p_path, p_amount, m_shaderProgram->getShaderProgram(3));
 
@@ -102,7 +115,32 @@ void CEScene::setActiveCamera(CESceneCamera* p_camera){
 	m_activeCamera->activateCamera();
 }
 
+void CEScene::calculateLights(){
+	GLuint t_shaderProgram = m_shaderProgram->getShaderProgram(0);
+	glUseProgram(m_shaderProgram->getShaderProgram(0));
+	std::string t_light		= "Light[";
+	std::string t_position	= "].Position";
+	std::string t_ambient	= "].Ambient";
+	std::string t_diffuse	= "].Diffuse";
+	std::string t_specular	= "].Specular";
+	std::string t_result;
+
+	glUniform3fv(glGetUniformLocation(t_shaderProgram, "viewPos"), 1, glm::value_ptr(m_activeCamera->getPosition()));
+	
+	for(int i = 0; i < m_lights.size(); i++){
+		t_result = t_light + std::to_string(i);
+	    glUniform3fv(glGetUniformLocation(t_shaderProgram, (t_result + t_position).c_str()), 1, glm::value_ptr(m_lights[i]->getPosition()));
+
+	    glUniform3fv(glGetUniformLocation(t_shaderProgram, (t_result + t_ambient).c_str()), 1, glm::value_ptr(m_lights[i]->getAmbient()));
+
+	    glUniform3fv(glGetUniformLocation(t_shaderProgram, (t_result + t_diffuse).c_str()), 1, glm::value_ptr(m_lights[i]->getDiffuse()));
+	    
+	    glUniform3fv(glGetUniformLocation(t_shaderProgram, (t_result + t_specular).c_str()), 1, glm::value_ptr(m_lights[i]->getSpecular()));
+	}
+}
+
 void CEScene::draw(){
+	calculateLights();
 	m_root->draw();
 }
 

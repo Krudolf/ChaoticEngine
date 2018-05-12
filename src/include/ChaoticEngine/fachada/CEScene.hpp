@@ -14,6 +14,7 @@ class CESceneQuad;
 class CESceneSprite;
 class CESceneParticleSystem;
 class CESceneSkybox;
+class CESceneBillboard;
 class CEShaderProgram;
 
 class CEScene{
@@ -26,6 +27,7 @@ public:
 	CESceneMesh*			createMesh(const char* p_path);
 	CESceneQuad*			createQuad(float p_vertex[4][2]);
 	CESceneSprite*			createSprite(const char* p_path, float p_width, float p_height);
+	CESceneBillboard*		createBillboard(const char* p_path, float p_width, float p_height, CESceneNode* p_parent = NULL);
 	CESceneParticleSystem*	createParticleSystem(const char* p_path, int p_amount);
 	CESceneSkybox*			createSkybox(const char* p_path[6], float p_scale);
 

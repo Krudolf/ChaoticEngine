@@ -10,6 +10,7 @@
 #include "../../include/ChaoticEngine/fachada/CESceneSprite.hpp"
 #include "../../include/ChaoticEngine/fachada/CESceneParticleSystem.hpp"
 #include "../../include/ChaoticEngine/fachada/CESceneSkybox.hpp"
+#include "../../include/ChaoticEngine/fachada/CESceneBillboard.hpp"
 #include "../../include/ChaoticEngine/fachada/CEShader.hpp"
 #include "../../include/ChaoticEngine/CEtransform.hpp"
 
@@ -83,6 +84,16 @@ CESceneSprite* CEScene::createSprite(const char* p_path, float p_width, float p_
 	CESceneSprite* CEsprite = new CESceneSprite(m_root, p_path, p_width, p_height, m_shaderProgram->getShaderProgram(2));
 
 	return CEsprite;
+}
+
+CESceneBillboard* CEScene::createBillboard(const char* p_path, float p_width, float p_height, CESceneNode* p_parent){
+	CESceneBillboard* CEbillboard;
+	if(p_parent == NULL)
+		CEbillboard = new CESceneBillboard(m_root, p_path, p_width, p_height, m_shaderProgram->getShaderProgram(2));
+	else
+		CEbillboard = new CESceneBillboard(p_parent, p_path, p_width, p_height, m_shaderProgram->getShaderProgram(2));
+
+	return CEbillboard;
 }
 
 CESceneParticleSystem* CEScene::createParticleSystem(const char* p_path, int p_amount){

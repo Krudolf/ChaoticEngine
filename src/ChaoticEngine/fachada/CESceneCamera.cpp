@@ -84,10 +84,3 @@ void CESceneCamera::setAbsolutePosition(float p_x, float p_y, float p_z){
 	m_translate->translate(p_x, p_y, p_z);
 	m_camera->setViewMatrix(this->getViewMatrix());
 }
-
-void CESceneCamera::getPosition(){
-	glm::mat4 t_matrix = m_translate->getModelMatrix();
-	t_matrix = glm::inverse(t_matrix);
-	glm::vec3 t_pos = (glm::vec3)t_matrix[3];
-	std::cout << "(" << t_pos.x << ", " << t_pos.y << ", " << t_pos.z << ")" << std::endl;
-}

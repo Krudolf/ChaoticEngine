@@ -16,10 +16,14 @@ public:
 	void beginDraw() override;
 	void endDraw() override;
 
+	glm::mat4 getMVP()	{ return m_MVP; }
+
 private:
     glm::vec3 m_intensities; //(0-1)red, green and blue intensities 
     GLuint m_shaderProgram;
     float m_attenuation;
+
+	glm::mat4	m_MVP;
 };
 
 #endif

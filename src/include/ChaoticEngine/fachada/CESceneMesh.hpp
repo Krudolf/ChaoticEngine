@@ -24,9 +24,10 @@ public:
 	void 	setAbsoluteRotation(float p_x, float p_y, float p_z);
 	void 	setAbsolutePosition(float p_x, float p_y, float p_z);
 
-	void	getPosition();
+	glm::vec3	getPosition() { return glm::vec3(glm::inverse(m_mesh->getMVP())[3]); }
 
-	CESceneNode* getTopNode(){return m_nodeRotate;}
+	CESceneNode* getTopNode()	{ return m_nodeRotate; }
+	CESceneNode* getNode()		{ return m_nodeMesh; }
 
 private:
 	CEMesh*			m_mesh;
@@ -35,6 +36,7 @@ private:
 	CETransform*	m_translate;
 
 	CESceneNode* 	m_nodeRotate;
+	CESceneNode*	m_nodeMesh;
 
 };
 

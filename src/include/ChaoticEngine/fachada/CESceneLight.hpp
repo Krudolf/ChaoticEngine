@@ -29,7 +29,7 @@ public:
 	void		setAbsoluteRotation(float p_x, float p_y, float p_z);
 	void		setAbsolutePosition(float p_x, float p_y, float p_z);
 
-	void 		getPosition();
+	glm::vec3	getPosition() { return glm::vec3(glm::inverse(m_light->getMVP())[3]); }
 
 private:
 	CELight*		m_light;

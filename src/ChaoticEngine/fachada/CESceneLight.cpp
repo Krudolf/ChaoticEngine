@@ -70,10 +70,3 @@ void CESceneLight::setAbsolutePosition(float p_x, float p_y, float p_z){
 	m_translate->loadIdentity();
 	m_translate->translate(p_x, p_y, p_z);	
 }
-
-void CESceneLight::getPosition(){
-	glm::mat4 t_matrix = m_translate->getMatrix();
-	t_matrix = glm::inverse(t_matrix);
-	glm::vec3 t_pos = (glm::vec3)t_matrix[3];
-	std::cout << "(" << t_pos.x << ", " << t_pos.y << ", " << t_pos.z << ")" << std::endl;
-}

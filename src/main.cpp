@@ -25,13 +25,14 @@ int main(){
 	CESceneLight*			m_light		= m_scene->createLight(t_lightIntensity, t_lightAtenuation);
 	CESceneMesh*			m_mesh		= m_scene->createMesh("assets/sparky/sparky.obj");
 	CESceneSkybox*			m_skybox	= m_scene->createSkybox(t_skyboxPath, 50);
-	CESceneParticleSystem* 	m_system	= m_scene->createParticleSystem("assets/awesome.bin", 500);
+	CESceneParticleSystem* 	m_system	= m_scene->createParticleSystem("assets/awesome.bin", 50);
 	
 	while(m_window->isOpen()){ 
 		m_window->processInput();
 		m_window->clear(0.5f, 0.0f, 0.0f, 1.0f); 
 
 		m_mesh->processInput(m_window->getWindow());
+		std::cout << m_camera->getPosition().x << " , " << m_camera->getPosition().y << " , " << m_camera->getPosition().z << std::endl;
 		m_system->update();
 
 		m_scene->draw(); 

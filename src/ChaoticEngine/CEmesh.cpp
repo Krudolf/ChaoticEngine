@@ -29,8 +29,8 @@ void CEMesh::beginDraw(){
     glUseProgram(m_shaderProgram);
     
 	//PRECALCULAMOS LAS MATRICES Y LAS PASAMOS AL SHADER
-	glm::mat4 t_MVP = m_projectionMatrix * m_viewMatrix * m_modelMatrix;
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "MVP"), 1, GL_FALSE, glm::value_ptr(t_MVP));
+	m_MVP = m_projectionMatrix * m_viewMatrix * m_modelMatrix;
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "MVP"), 1, GL_FALSE, glm::value_ptr(m_MVP));
     
 	glm::mat4 t_modelView = m_viewMatrix * m_modelMatrix;
     glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "ModelViewMatrix"), 1, GL_FALSE, glm::value_ptr(t_modelView));

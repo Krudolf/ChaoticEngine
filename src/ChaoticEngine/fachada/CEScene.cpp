@@ -34,7 +34,7 @@ CEScene::CEScene(){
 	//[ 4 ] - Shader for the skybox
 	m_shaderProgram->loadShader("src/ChaoticEngine/shader/CEvertSkybox.vert", "src/ChaoticEngine/shader/CEfragSkybox.frag");
 	
-	//[ 5 ] - Shader for the silueta
+	//[ 5 ] - Shader for the cartoon
 	m_shaderProgram->loadShader("src/ChaoticEngine/shader/CEvertSilueta.vert", "src/ChaoticEngine/shader/CEfragSilueta.frag");
 	//[ 6 ] - Shader for the cartoon
 	m_shaderProgram->loadShader("src/ChaoticEngine/shader/CEvertCartoon.vert", "src/ChaoticEngine/shader/CEfragCartoon.frag");
@@ -132,6 +132,7 @@ void CEScene::calculateLights(){
 	std::string t_result;
 
 	glUniform3fv(glGetUniformLocation(t_shaderProgram, "viewPos"), 1, glm::value_ptr(m_activeCamera->getPosition()));
+	glUniform3fv(glGetUniformLocation(t_shaderProgram, "lightPos"), 1, glm::value_ptr(m_lights[0]->getPosition()));
 	
 	for(int i = 0; i < m_lights.size(); i++){
 		t_result = t_light + std::to_string(i);

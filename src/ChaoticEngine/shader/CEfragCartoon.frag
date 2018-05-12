@@ -2,7 +2,6 @@
 #version 330
 
 uniform sampler2D	colorTexture;	//diffuse texture
-uniform vec3		baseColor;		//shading color
 uniform float		numShades;		//number of shades
 
 // inputs from vertex shader
@@ -27,8 +26,9 @@ float specularSimple(vec3 L,vec3 N,vec3 H){
 }
 
 void main(void){
+   vec3 baseColor = vec3(1.0f,1.0f,1.0f);
    // sample color from diffuse texture
-   vec3 colfromtex = texture( colorTexture, texcoord ).rgb;
+   vec3 colfromtex = texture(colorTexture, texcoord).rgb;
 
    // calculate total intensity of lighting
    vec3 halfVector = normalize( directionToLight + directionToCamera );
@@ -40,12 +40,8 @@ void main(void){
    // quantize intensity for cel shading
    float shadeIntensity = ceil(intensity * numShades) / numShades;
 
-   // use base color
-   FragColor.xyz = baseColor * shadeIntensity ; 
    // or use color from texture
    FragColor.xyz = colfromtex * shadeIntensity ;
-   // or use mixed colors
-   FragColor.xyz = baseColor * colfromtex*shadeIntensity ; 
 
    FragColor.w = 1.0;
 }

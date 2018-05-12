@@ -32,8 +32,13 @@ void CEMesh::beginDraw(){
 	m_MVP = m_projectionMatrix * m_viewMatrix * m_modelMatrix;
     glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "MVP"), 1, GL_FALSE, glm::value_ptr(m_MVP));
     
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "ModelMatrix"), 1, GL_FALSE, glm::value_ptr(m_modelMatrix));
+    
 	glm::mat4 t_modelView = m_viewMatrix * m_modelMatrix;
     glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "ModelViewMatrix"), 1, GL_FALSE, glm::value_ptr(t_modelView));
+
+    glm::mat4 t_viewProj = m_viewMatrix * m_projectionMatrix;
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "ViewProjection"), 1, GL_FALSE, glm::value_ptr(t_viewProj));
 
     glm::mat3 t_normal = transpose(inverse(m_modelMatrix));
     glUniformMatrix3fv(glGetUniformLocation(m_shaderProgram, "NormalMatrix"), 1, GL_FALSE, glm::value_ptr(t_normal));

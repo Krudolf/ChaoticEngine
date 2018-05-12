@@ -43,39 +43,14 @@ void CEsubMesh::subDraw(GLuint p_shaderProgram){
 
 	// Also set each mesh's shininess property to a default value (if you want you could extend this to another mesh property and possibly change this value)
 	glUniform1f(glGetUniformLocation(p_shaderProgram, "Material.Shininess"), 16.0f);
+	
+	glUniform1f(glGetUniformLocation(p_shaderProgram, "numShades"), 7.0f);
 
 	// Draw mesh
-	/*
 	glBindVertexArray(m_VAO);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
-	*/
-
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-	// RENDER BLACK ENLARGED MESH
-	glm::vec3 t_black(0.0, 0.0, 0.0);
-	glBindVertexArray(m_VAO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-	glEnable(GL_CULL_FACE); // enable culling
-	glCullFace(GL_CCW); // enable culling of front faces
-	glDepthMask(GL_TRUE); // enable writes to Z-buffer
-	glUniform3fv(glGetUniformLocation(p_shaderProgram, "color"), 1, glm::value_ptr(t_black)); // black colour
-	glUniform1f(glGetUniformLocation(p_shaderProgram, "offset"), 0.65f); // offset along normal
-	glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0); // draw mesh
-
-	// RENDER WHITE NORMAL SIZE MESH
-	glm::vec3 t_white(1.0, 1.0, 1.0);
-	glCullFace(GL_CW); // enable culling of back faces
-	glDepthMask(GL_FALSE); // disable writes to Z-buffer
-	glUniform3fv(glGetUniformLocation(p_shaderProgram, "color"), 1, glm::value_ptr(t_white)); // white color
-	glUniform1f(glGetUniformLocation(p_shaderProgram, "offset"), 0.0f); // no offset
-	glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0); // draw mesh
-	glBindVertexArray(0);
-
-	glCullFace(GL_CCW); // enable culling of front faces
-	glDepthMask(GL_TRUE); // enable writes to Z-buffer
 
 	// Always good practice to set everything back to defaults once configured.
 	for(unsigned int i = 0; i < m_textures.size(); i++){

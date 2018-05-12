@@ -16,7 +16,7 @@ struct TMaterial{
 };
 
 //Estructura para guardar las luces: Posicion y propiedades; ambiental, difusa y especular
-#define NR_POINT_LIGHTS 1
+#define NR_POINT_LIGHTS 5
 struct PointLight{
 	vec3 Position;
 

@@ -27,8 +27,9 @@ private:
 
 	glm::mat4	m_MVP;
 
-	double lastTime;
- 	int nbFrames;
+	double m_lastTime;
+	float m_frameTime;
+ 	int m_currentFrame;
 };
 
 #endif

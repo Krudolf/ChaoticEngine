@@ -35,8 +35,6 @@ CEScene::CEScene(){
 	m_shaderProgram->loadShader("src/ChaoticEngine/shader/CEvertSkybox.vert", "src/ChaoticEngine/shader/CEfragSkybox.frag");
 	
 	//[ 5 ] - Shader for the cartoon
-	m_shaderProgram->loadShader("src/ChaoticEngine/shader/CEvertSilueta.vert", "src/ChaoticEngine/shader/CEfragSilueta.frag");
-	//[ 6 ] - Shader for the cartoon
 	m_shaderProgram->loadShader("src/ChaoticEngine/shader/CEvertCartoon.vert", "src/ChaoticEngine/shader/CEfragCartoon.frag");
 }
 
@@ -53,6 +51,8 @@ CEScene::~CEScene(){
 
 CESceneCamera* CEScene::createCamera(bool p_isActive){
 	CESceneCamera* CEcamera = new CESceneCamera(m_root, p_isActive);
+	CEcamera->setPosition(0,2,5);
+
 	m_cameras.push_back(CEcamera);
 
 	if(p_isActive){

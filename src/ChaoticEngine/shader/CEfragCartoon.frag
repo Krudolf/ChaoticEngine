@@ -1,47 +1,68 @@
 
 #version 330
 
-uniform sampler2D	colorTexture;	//diffuse texture
-uniform float		numShades;		//number of shades
+layout(location = 0) out vec4 out_color;
 
-// inputs from vertex shader
-in vec3 normal;
-in vec2 texcoord;
-in vec3 directionToLight;
-in vec3 directionToCamera;
+struct TMaterial{
+	float Shininess;
+};
 
-layout (location = 0) out vec4 FragColor;
+uniform sampler2D colorTexture;
 
-// calculate diffuse component of lighting
-float diffuseSimple(vec3 L, vec3 N){
-	return clamp(dot(L, N), 0.0, 1.0);
-}
+uniform vec3 lightPos;
+uniform vec3 viewPos;
+uniform TMaterial 	Material;
 
-// calculate specular component of lighting
-float specularSimple(vec3 L,vec3 N,vec3 H){
-	if(dot(N,L) > 0){
-		return pow(clamp(dot(H, N), 0.0, 1.0), 64.0);
-	}
-	return 0.0;
-}
+uniform int texture_diffuse;
+uniform int texture_specular;
 
-void main(void){
-   vec3 baseColor = vec3(1.0f,1.0f,1.0f);
-   // sample color from diffuse texture
-   vec3 colfromtex = texture(colorTexture, texcoord).rgb;
+const vec3 ambinet = vec3(0.90, 0.0, 0.20);
+//const vec3 Kd = vec3(0.30,0.80,0.10);
 
-   // calculate total intensity of lighting
-   vec3 halfVector = normalize( directionToLight + directionToCamera );
-   float iambi = 0.1;
-   float idiff = diffuseSimple(directionToLight, normal);
-   float ispec = specularSimple(directionToLight, normal, halfVector);
-   float intensity = iambi + idiff + ispec;
+in vec3 Position;
+in vec3 Normal;
+in vec2 TexCoords;
 
-   // quantize intensity for cel shading
-   float shadeIntensity = ceil(intensity * numShades) / numShades;
+const int levels = 5;
+const float scaleFactor = 1.0 / levels;
 
-   // or use color from texture
-   FragColor.xyz = colfromtex * shadeIntensity ;
+void main(){
+	vec3 color= texture(colorTexture, TexCoords).rgb;
 
-   FragColor.w = 1.0;
+	vec3 Kd = vec3(0.30,0.80,0.10);
+	
+	vec3 L = normalize(lightPos - Position);
+	vec3 V = normalize(viewPos - Position);
+
+	float difuza = max(0, dot(L,Normal));
+	Kd = Kd * texture_diffuse* floor(difuza * levels) * scaleFactor;
+
+	vec3 H = normalize(L + V);
+
+	float speculara = 0;
+
+	if(dot(L,Normal) > 0.0){
+        speculara = texture_specular * pow( max(0, dot( H, Normal)), Material.Shininess);
+	}	
+	
+	float specMask = (pow(dot(H, Normal), Material.Shininess) > 0.4) ? 1 : 0;
+	float edgeMask;
+	
+	if(dot(V, Normal) >= 1)
+		edgeMask = 1;
+	else if(dot(V, Normal) > 0.75)
+		edgeMask = 0.75;
+	else if(dot(V, Normal) > 0.50)
+		edgeMask = 0.50;
+	else if(dot(V, Normal) > 0.25)
+		edgeMask = 0.25;
+	else
+		edgeMask = 0.0;
+
+
+	//float edgeMask = (dot(V, Normal) >  0.2) ? 1 : 0;
+	
+	color = edgeMask * (color + Kd + speculara * specMask);
+
+	out_color = vec4(color,1);
 }

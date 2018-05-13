@@ -10,7 +10,7 @@ int main(){
 	CEWindow* m_window = new CEWindow(640, 480, "3KSC", false); 
 	CEScene*  m_scene  = new CEScene();
 
-	float 		t_position[]		= {0.0, 25.0, 0.0};
+	float 		t_position[]		= {0.0, -10.0, 10.0};
 	float 		t_position2[] 		= {-50.0, 0.0, 0.0};
 	float 		t_lightIntensity[]	= {0.8, 0.8, 0.8};
 	float 		t_lightAtenuation	= 1.0f;

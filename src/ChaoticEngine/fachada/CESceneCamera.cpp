@@ -12,7 +12,7 @@ CESceneCamera::CESceneCamera(CESceneNode* p_parent, bool p_isActive){
 	m_camera 	= new CECamera();
 	
 	m_rotate->rotate(0, 0, 0);
-	m_translate->translate(0, 0, 20.0f);
+	m_translate->translate(0, 0, 0.0f);
 
 	CESceneNode* t_nodeRotate 	 = new CESceneNode(p_parent);
 	CESceneNode* t_nodeTranslate = new CESceneNode(t_nodeRotate);

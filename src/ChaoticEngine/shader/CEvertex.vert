@@ -19,5 +19,5 @@ void main()
     Normal = normalize(NormalMatrix * VertexNormal);
     TexCoords = TextureCoords;
 
-    gl_Position = MVP * vec4(Position, 1.0f);
+    gl_Position = MVP * vec4(VertexPosition, 1.0f);
 }

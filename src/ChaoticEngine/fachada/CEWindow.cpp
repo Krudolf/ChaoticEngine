@@ -45,7 +45,8 @@ void CEWindow::enableCulling(){
 }
 
 void CEWindow::enableZBuffer(){
-	glEnable(GL_DEPTH_TEST);	
+	glEnable(GL_DEPTH_TEST);
+	glDepthMask(GL_TRUE);
 }
 
 bool CEWindow::isOpen(){

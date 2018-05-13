@@ -1,4 +1,5 @@
 
+#include <gtc/type_ptr.hpp>
 #include <iostream>
 #include <glm.hpp>
 
@@ -32,6 +33,9 @@ CEScene::CEScene(){
 	m_shaderProgram->loadShader("src/ChaoticEngine/shader/CEvertParticle.vert", "src/ChaoticEngine/shader/CEfragParticle.frag");
 	//[ 4 ] - Shader for the skybox
 	m_shaderProgram->loadShader("src/ChaoticEngine/shader/CEvertSkybox.vert", "src/ChaoticEngine/shader/CEfragSkybox.frag");
+	
+	//[ 5 ] - Shader for the cartoon
+	m_shaderProgram->loadShader("src/ChaoticEngine/shader/CEvertCartoon.vert", "src/ChaoticEngine/shader/CEfragCartoon.frag");
 }
 
 CEScene::~CEScene(){
@@ -47,6 +51,8 @@ CEScene::~CEScene(){
 
 CESceneCamera* CEScene::createCamera(bool p_isActive){
 	CESceneCamera* CEcamera = new CESceneCamera(m_root, p_isActive);
+	CEcamera->setPosition(0,2,5);
+
 	m_cameras.push_back(CEcamera);
 
 	if(p_isActive){
@@ -71,7 +77,7 @@ CESceneLight* CEScene::createLight(float p_lightIntensity[3], float p_lightAtenu
 
 CESceneMesh* CEScene::createMesh(const char* p_path){
 	//std::cout << "Cargamos malla: " << p_path << std::endl;
-	CESceneMesh* CEmesh = new CESceneMesh(m_root, p_path, m_shaderProgram->getShaderProgram(0));
+	CESceneMesh* CEmesh = new CESceneMesh(m_root, p_path, m_shaderProgram->getShaderProgram(5));
 
 	return CEmesh;	
 }
@@ -126,6 +132,7 @@ void CEScene::calculateLights(){
 	std::string t_result;
 
 	glUniform3fv(glGetUniformLocation(t_shaderProgram, "viewPos"), 1, glm::value_ptr(m_activeCamera->getPosition()));
+	glUniform3fv(glGetUniformLocation(t_shaderProgram, "lightPos"), 1, glm::value_ptr(m_lights[0]->getPosition()));
 	
 	for(int i = 0; i < m_lights.size(); i++){
 		t_result = t_light + std::to_string(i);

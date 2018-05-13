@@ -9,7 +9,14 @@ struct TMaterial{
 	float Shininess;
 };
 
-//Estructura para guardar las luces: Posicion y propiedades; ambiental, difusa y especular
+struct DirectionalLight{
+    vec3 Direction;
+
+    vec3 Ambient;
+    vec3 Diffuse;
+    vec3 Specular;    
+};
+
 #define NR_POINT_LIGHTS 5
 struct PointLight{
 	vec3 Position;
@@ -17,6 +24,10 @@ struct PointLight{
 	vec3 Ambient;
 	vec3 Diffuse;
 	vec3 Specular;
+
+    float Constant;
+    float Linear;
+    float Quadratic;
 };
 
 //Estado de OpenGL: textura y luz de los tipos anteriores
@@ -55,23 +66,21 @@ vec3 calcPointLight(PointLight light, vec3 normal, vec3 position, vec3 viewDir){
     float diff = max(dot(normal, lightDir), 0.0);
     
     // specular shading
-    vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), Material.Shininess);
+    vec3  reflectDir  = reflect(-lightDir, normal);
+    float spec        = pow(max(dot(viewDir, reflectDir), 0.0), Material.Shininess);
     
     // attenuation
-    float distance = length(light.Position - position);
+    float distance    = length(light.Position - position);
+    float attenuation = 1.0 / (light.Constant + light.Linear * distance + light.Quadratic * (distance * distance));
+    //float attenuation = 1.0;
     
-    //float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
-    float attenuation = 1.0f;
     // combine results
-    vec3 ambient = light.Ambient * vec3(texture(Material.texture_diffuse, TexCoords));
-    
-    vec3 diffuse = light.Diffuse * diff * vec3(texture(Material.texture_diffuse, TexCoords));
-    
+    vec3 ambient  = light.Ambient  * vec3(texture(Material.texture_diffuse, TexCoords));
+    vec3 diffuse  = light.Diffuse  * diff * vec3(texture(Material.texture_diffuse, TexCoords));
     vec3 specular = light.Specular * spec * vec3(texture(Material.texture_specular, TexCoords));
     
-    ambient *= attenuation;
-    diffuse *= attenuation;
+    ambient  *= attenuation;
+    diffuse  *= attenuation;
     specular *= attenuation;
     
     return (ambient + diffuse + specular);

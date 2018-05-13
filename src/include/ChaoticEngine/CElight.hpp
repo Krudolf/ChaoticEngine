@@ -16,19 +16,30 @@ public:
 	void beginDraw() override;
 	void endDraw() override;
 
-	glm::mat4 getMVP()	{ return m_MVP; }
+	glm::mat4 	getMVP()		{ return m_MVP; }
 
-	
-	glm::vec3 getAmbient()	{ return glm::vec3(m_intensities.x/4, m_intensities.y/4, m_intensities.z/4); }
-	glm::vec3 getDiffuse()	{ return m_intensities; }
-	glm::vec3 getSpecular()	{ return m_intensities; }
+	glm::vec3 	getAmbient()	{ return m_ambient;		}
+	glm::vec3 	getDiffuse()	{ return m_diffuse;		}
+	glm::vec3 	getSpecular()	{ return m_specular;	}
+
+	float		getLinear()		{ return m_linear;		}
+	float		getConstant()	{ return m_constant;	}
+	float		getQuadratic()	{ return m_quadratic;	}
 
 private:
-    glm::vec3 m_intensities; //(0-1)red, green and blue intensities 
-    GLuint m_shaderProgram;
-    float m_attenuation;
-
+    GLuint 		m_shaderProgram;
+    glm::vec3 	m_intensities; //(0-1)red, green and blue intensities 
 	glm::mat4	m_MVP;
+
+	glm::vec3	m_ambient;
+	glm::vec3	m_diffuse;
+	glm::vec3	m_specular;
+    
+    float		m_linear;
+    float 		m_constant;
+    float 		m_quadratic;
+
+    float 		m_attenuation;
 };
 
 #endif

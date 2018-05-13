@@ -28,9 +28,13 @@ public:
 
 	glm::vec3	getPosition() { return glm::vec3(glm::inverse(m_light->getMVP())[3]); }
 
-	glm::vec3	getAmbient()	{ return m_light->getAmbient();};
-	glm::vec3	getDiffuse()	{ return m_light->getDiffuse();};
-	glm::vec3	getSpecular()	{ return m_light->getSpecular();};
+	glm::vec3	getAmbient()	{ return m_light->getAmbient();		};
+	glm::vec3	getDiffuse()	{ return m_light->getDiffuse();		};
+	glm::vec3	getSpecular()	{ return m_light->getSpecular();	};
+
+	float		getLinear()		{ return m_light->getLinear();		}
+	float		getConstant()	{ return m_light->getConstant();	}
+	float		getQuadratic()	{ return m_light->getQuadratic();	}
 
 	void		setIntensities(float p_x, float p_y, float p_z)	{ m_light->setIntensities(glm::vec3(p_x, p_y, p_z)); }
 	void		setAtenuation(float p_attenuation)	{ m_light->setAtenuation(p_attenuation); }

@@ -77,7 +77,7 @@ CESceneLight* CEScene::createLight(float p_lightIntensity[3], float p_lightAtenu
 
 CESceneMesh* CEScene::createMesh(const char* p_path){
 	//std::cout << "Cargamos malla: " << p_path << std::endl;
-	CESceneMesh* CEmesh = new CESceneMesh(m_root, p_path, m_shaderProgram->getShaderProgram(5));
+	CESceneMesh* CEmesh = new CESceneMesh(m_root, p_path, m_shaderProgram->getShaderProgram(0));
 
 	return CEmesh;	
 }
@@ -129,6 +129,9 @@ void CEScene::calculateLights(){
 	std::string t_ambient	= "].Ambient";
 	std::string t_diffuse	= "].Diffuse";
 	std::string t_specular	= "].Specular";
+	std::string t_constant	= "].Constant";
+	std::string t_linear	= "].Linear";
+	std::string t_quadratic	= "].Quadratic";
 	std::string t_result;
 
 	glUniform3fv(glGetUniformLocation(t_shaderProgram, "viewPos"), 1, glm::value_ptr(m_activeCamera->getPosition()));
@@ -138,11 +141,13 @@ void CEScene::calculateLights(){
 		t_result = t_light + std::to_string(i);
 	    glUniform3fv(glGetUniformLocation(t_shaderProgram, (t_result + t_position).c_str()), 1, glm::value_ptr(m_lights[i]->getPosition()));
 
-	    glUniform3fv(glGetUniformLocation(t_shaderProgram, (t_result + t_ambient).c_str()), 1, glm::value_ptr(m_lights[i]->getAmbient()));
-
-	    glUniform3fv(glGetUniformLocation(t_shaderProgram, (t_result + t_diffuse).c_str()), 1, glm::value_ptr(m_lights[i]->getDiffuse()));
-	    
+	    glUniform3fv(glGetUniformLocation(t_shaderProgram, (t_result + t_ambient).c_str()),  1, glm::value_ptr(m_lights[i]->getAmbient()));
+	    glUniform3fv(glGetUniformLocation(t_shaderProgram, (t_result + t_diffuse).c_str()),  1, glm::value_ptr(m_lights[i]->getDiffuse()));
 	    glUniform3fv(glGetUniformLocation(t_shaderProgram, (t_result + t_specular).c_str()), 1, glm::value_ptr(m_lights[i]->getSpecular()));
+
+		glUniform1f(glGetUniformLocation(t_shaderProgram, (t_result + t_constant).c_str()),  m_lights[i]->getConstant());
+		glUniform1f(glGetUniformLocation(t_shaderProgram, (t_result + t_linear).c_str()), 	 m_lights[i]->getLinear());
+		glUniform1f(glGetUniformLocation(t_shaderProgram, (t_result + t_quadratic).c_str()), m_lights[i]->getQuadratic());
 	}
 }
 

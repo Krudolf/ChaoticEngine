@@ -52,14 +52,14 @@ void CEAnimatedMesh::beginDraw(){
 
     double t_time = glfwGetTime();
 
-    if ( t_time - m_lastTime >= 1.0 ){ // If last prinf() was more than 1 sec ago
+    if ( t_time - m_lastTime >= 1.0 ){ 
          m_currentFrame++;
          m_lastTime += 1.0;
     }
     if(m_currentFrame > m_currentAnimation->getNumFrames() - 1){
         m_currentFrame = 0;
     }
-    std::cout << m_currentFrame << std::endl;
+    //std::cout << m_currentFrame << std::endl;
     if(m_currentAnimation != NULL){
         m_currentAnimation->draw(m_shaderProgram, m_currentFrame);
     }
@@ -74,12 +74,12 @@ void CEAnimatedMesh::loadResource(const char* p_urlSource){
     if(t_resource != NULL)
         t_animation = (CEResourceAnimation*)t_resource;
         m_animations.push_back(t_animation);
-        setCurrentAnimation(0);
 }
 
 void CEAnimatedMesh::setCurrentAnimation(int p_current){
     if(p_current < m_animations.size()){
         m_currentAnimation = m_animations[p_current];
+        m_currentFrame = 0;
         /*m_frameTime = (float)(1/m_currentAnimation->getNumFrames());
         std::cout << m_frameTime << std::endl;*/
     }

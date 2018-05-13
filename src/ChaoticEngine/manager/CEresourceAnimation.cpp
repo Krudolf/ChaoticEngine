@@ -26,8 +26,9 @@ bool CEResourceAnimation::loadFile(const char* p_name){
             continue;
 
         t_path = t_line.c_str();
-        //CEResourceMesh* t_mesh = static_cast<CEResourceMesh*>(t_manager->getResource(t_path));
-        m_meshes.push_back(static_cast<CEResourceMesh*>(t_manager->getResource(t_path)));
+        CEResourceMesh* t_mesh = static_cast<CEResourceMesh*>(t_manager->getResource(t_path));
+        if(t_mesh != NULL)
+        	m_meshes.push_back(t_mesh);
     }
     meshList();
 }

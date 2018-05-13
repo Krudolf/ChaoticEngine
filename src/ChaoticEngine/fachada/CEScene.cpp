@@ -7,6 +7,7 @@
 #include "../../include/ChaoticEngine/fachada/CESceneCamera.hpp"
 #include "../../include/ChaoticEngine/fachada/CESceneLight.hpp"
 #include "../../include/ChaoticEngine/fachada/CESceneMesh.hpp"
+#include "../../include/ChaoticEngine/fachada/CESceneAnimation.hpp"
 #include "../../include/ChaoticEngine/fachada/CESceneQuad.hpp"
 #include "../../include/ChaoticEngine/fachada/CESceneSprite.hpp"
 #include "../../include/ChaoticEngine/fachada/CESceneParticleSystem.hpp"
@@ -76,10 +77,15 @@ CESceneLight* CEScene::createLight(float p_lightIntensity[3], float p_lightAtenu
 }
 
 CESceneMesh* CEScene::createMesh(const char* p_path){
-	//std::cout << "Cargamos malla: " << p_path << std::endl;
 	CESceneMesh* CEmesh = new CESceneMesh(m_root, p_path, m_shaderProgram->getShaderProgram(5));
 
 	return CEmesh;	
+}
+
+CESceneAnimation* CEScene::createAnimatedMesh(const char* p_path){
+	CESceneAnimation* CEanimMesh = new CESceneAnimation(m_root, p_path, m_shaderProgram->getShaderProgram(5));
+
+	return CEanimMesh;	
 }
 
 CESceneQuad* CEScene::createQuad(float p_vertex[4][2]){

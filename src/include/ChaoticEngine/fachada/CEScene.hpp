@@ -10,6 +10,7 @@
 class CESceneCamera;
 class CESceneLight;
 class CESceneMesh;
+class CESceneAnimation;
 class CESceneQuad;
 class CESceneSprite;
 class CESceneParticleSystem;
@@ -25,6 +26,7 @@ public:
 	CESceneCamera*			createCamera(bool p_isActive = false);
 	CESceneLight*			createLight(float p_lightIntensity[3], float p_lightAtenuation, float p_position[3]);
 	CESceneMesh*			createMesh(const char* p_path);
+	CESceneAnimation*		createAnimatedMesh(const char* p_path);
 	CESceneQuad*			createQuad(float p_vertex[4][2]);
 	CESceneSprite*			createSprite(const char* p_path, float p_width, float p_height);
 	CESceneBillboard*		createBillboard(const char* p_path, float p_width, float p_height, CESceneNode* p_parent = NULL);

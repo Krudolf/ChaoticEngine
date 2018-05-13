@@ -11,8 +11,8 @@ public:
 	CEResourceManager();
 	~CEResourceManager();
 
-	CEResource* getResource(const char* p_name);
-	CEResource* checkFormat(const char* p_name);
+	CEResource& getResource(const char* p_name);
+	CEResource& checkFormat(const char* p_name);
 	void deleteResources();
 	void showResources();
 
@@ -29,7 +29,8 @@ private:
 		"tga", "tex",
 		"obj", "mesh", //Meshes
 		"3ds", "mesh",
-		"max", "mesh"
+		"max", "mesh",
+		"anim", "animation" //Animations
 	};
 };
 

@@ -55,7 +55,7 @@ void main(){
 	else if(dot(V, Normal) > 0.25)
 		edgeMask = 0.25;
 	else
-		edgeMask = 0.0;
+		edgeMask = 0.25;
 
 
 	//float edgeMask = (dot(V, Normal) >  0.2) ? 1 : 0;

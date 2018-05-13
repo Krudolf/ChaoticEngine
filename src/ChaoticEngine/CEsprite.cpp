@@ -85,9 +85,9 @@ void CESprite::endDraw(){}
 
 void CESprite::loadResource(const char* p_urlSource){
     CEResourceManager* t_manager = CEResourceManager::instance();
-    CEResource* t_resource = t_manager->getResource(p_urlSource);
+    CEResourceTexture* t_resource = (CEResourceTexture*)&t_manager->getResource(p_urlSource);
     if(t_resource != NULL){
-        m_texture = (CEResourceTexture*)t_resource;
+        m_texture = t_resource;
         m_texture->glBuffersTexture();
     }
 }

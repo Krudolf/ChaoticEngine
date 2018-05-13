@@ -25,7 +25,7 @@ CEAnimatedMesh::CEAnimatedMesh(GLuint p_shaderProgram) : CEEntity(){
     m_shaderProgram = p_shaderProgram;
     m_lastTime = glfwGetTime();
     m_currentFrame = 0;
-    m_frameTime = 0;
+    m_frameTime = 0.04f;//25 fps
 }
 
 CEAnimatedMesh::~CEAnimatedMesh(){}
@@ -51,15 +51,16 @@ void CEAnimatedMesh::beginDraw(){
     //showMat(m_modelMatrix);
 
     double t_time = glfwGetTime();
+    m_frameTime = 1.0; //así ira a 1 fps (quitar para aumentar a 25 fps)
 
-    if ( t_time - m_lastTime >= 1.0 ){ 
-         m_currentFrame++;
-         m_lastTime += 1.0;
+    if (t_time - m_lastTime >= m_frameTime){ 
+        m_currentFrame++;
+        m_lastTime += m_frameTime;
     }
     if(m_currentFrame > m_currentAnimation->getNumFrames() - 1){
         m_currentFrame = 0;
     }
-    //std::cout << m_currentFrame << std::endl;
+    std::cout << m_currentFrame << std::endl;
     if(m_currentAnimation != NULL){
         m_currentAnimation->draw(m_shaderProgram, m_currentFrame);
     }
@@ -80,7 +81,5 @@ void CEAnimatedMesh::setCurrentAnimation(int p_current){
     if(p_current < m_animations.size()){
         m_currentAnimation = m_animations[p_current];
         m_currentFrame = 0;
-        /*m_frameTime = (float)(1/m_currentAnimation->getNumFrames());
-        std::cout << m_frameTime << std::endl;*/
     }
 }

@@ -1,11 +1,5 @@
+
 #version 330 core
-
-//Entrada desde el vertex shader
-in vec3 Position;
-in vec3 Normal;
-in vec2 TexCoords;  
-
-out vec4 FragColor;
 
 //Estructura para guardar la textura. Se guardan las propiedades difusas y especulares de la textura
 struct TMaterial{
@@ -30,6 +24,14 @@ uniform vec3 		viewPos;
 uniform TMaterial 	Material;
 uniform PointLight 	Light[NR_POINT_LIGHTS];
 
+//Entrada desde el vertex shader
+in vec3 Position;
+in vec3 Normal;
+in vec2 TexCoords;  
+
+out vec4 FragColor;
+
+//Functions
 vec3 calcPointLight(PointLight light, vec3 normal, vec3 position, vec3 viewDir);
 
 void main(){

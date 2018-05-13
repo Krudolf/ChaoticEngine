@@ -1,11 +1,11 @@
 
 #version 330
 
-layout(location = 0) out vec4 out_color;
-
 struct TMaterial{
 	float Shininess;
 };
+
+layout(location = 0) out vec4 out_color;
 
 uniform sampler2D colorTexture;
 
@@ -16,14 +16,12 @@ uniform TMaterial 	Material;
 uniform int texture_diffuse;
 uniform int texture_specular;
 
-const vec3 ambinet = vec3(0.90, 0.0, 0.20);
-//const vec3 Kd = vec3(0.30,0.80,0.10);
-
 in vec3 Position;
 in vec3 Normal;
 in vec2 TexCoords;
 
-const int levels = 5;
+const vec3	ambinet = vec3(0.90, 0.0, 0.20);
+const int	levels = 5;
 const float scaleFactor = 1.0 / levels;
 
 void main(){

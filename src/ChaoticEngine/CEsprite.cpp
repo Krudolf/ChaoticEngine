@@ -69,6 +69,9 @@ void CESprite::beginDraw(){
     glm::vec3 t_color = glm::vec3(1.0f, 1.0f, 1.0f);
     glUniform3f(glGetUniformLocation(m_shaderProgram, "spriteColor"), t_color.x, t_color.y, t_color.z);
 
+    glEnable (GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_texture->getTextureId());
 

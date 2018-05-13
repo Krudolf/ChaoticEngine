@@ -35,7 +35,7 @@ CEScene::CEScene(){
 	m_shaderProgram->loadShader("src/ChaoticEngine/shader/CEvertSkybox.vert", "src/ChaoticEngine/shader/CEfragSkybox.frag");
 	
 	//[ 5 ] - Shader for the cartoon
-	m_shaderProgram->loadShader("src/ChaoticEngine/shader/CEvertCartoon.vert", "src/ChaoticEngine/shader/CEfragCartoon.frag");
+	m_shaderProgram->loadShader("src/ChaoticEngine/shader/CEvertex.vert", "src/ChaoticEngine/shader/CEfragCartoon.frag");
 }
 
 CEScene::~CEScene(){

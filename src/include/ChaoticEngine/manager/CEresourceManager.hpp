@@ -29,7 +29,8 @@ private:
 		"tga", "tex",
 		"obj", "mesh", //Meshes
 		"3ds", "mesh",
-		"max", "mesh"
+		"max", "mesh",
+		"anim", "animation" //Animations
 	};
 };
 

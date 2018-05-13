@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "../../include/ChaoticEngine/manager/CEresourceManager.hpp"
-#include "../../include/ChaoticEngine/manager/CEresourceMesh.hpp"
+#include "../../include/ChaoticEngine/manager/CEresourceAnimation.hpp"
 
 //Instance initialization
 CEResourceManager* CEResourceManager::m_instance = 0;
@@ -61,6 +61,9 @@ CEResource* CEResourceManager::checkFormat(const char* p_name){
 			}
 			else if (!m_types.at(i + 1).compare("tex")) {//file contains a texture
 				t_resourceObject = new CEResourceTexture();
+			}
+			else if (!m_types.at(i + 1).compare("animation")) {//file contains a texture
+				t_resourceObject = new CEResourceAnimation();
 			}
 		}
 		i += 2;

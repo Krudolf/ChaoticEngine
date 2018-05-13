@@ -25,7 +25,7 @@ CEAnimatedMesh::CEAnimatedMesh(GLuint p_shaderProgram) : CEEntity(){
     m_shaderProgram = p_shaderProgram;
     m_lastTime = glfwGetTime();
     m_currentFrame = 0;
-    m_frameTime = 0.04f;//25 fps
+    m_frameTime = 0.041666f;//24 fps
 }
 
 CEAnimatedMesh::~CEAnimatedMesh(){}
@@ -60,7 +60,7 @@ void CEAnimatedMesh::beginDraw(){
     if(m_currentFrame > m_currentAnimation->getNumFrames() - 1){
         m_currentFrame = 0;
     }
-    std::cout << m_currentFrame << std::endl;
+    
     if(m_currentAnimation != NULL){
         m_currentAnimation->draw(m_shaderProgram, m_currentFrame);
     }
@@ -70,11 +70,9 @@ void CEAnimatedMesh::endDraw(){}
 
 void CEAnimatedMesh::loadResource(const char* p_urlSource){
     CEResourceManager* t_manager = CEResourceManager::instance();
-    CEResource* t_resource = t_manager->getResource(p_urlSource);
-    CEResourceAnimation* t_animation;
+    CEResourceAnimation* t_resource = (CEResourceAnimation*)&t_manager->getResource(p_urlSource);
     if(t_resource != NULL)
-        t_animation = (CEResourceAnimation*)t_resource;
-        m_animations.push_back(t_animation);
+        m_animations.push_back(t_resource);
 }
 
 void CEAnimatedMesh::setCurrentAnimation(int p_current){

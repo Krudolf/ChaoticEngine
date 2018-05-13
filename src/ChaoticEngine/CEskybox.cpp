@@ -104,7 +104,7 @@ void CESkybox::loadCubemap(const char* p_texturesPath[6]){
     glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
     for (unsigned int i = 0; i < 6; i++){
-        CEResourceTexture* t_texture = static_cast<CEResourceTexture*>(t_manager->getResource(p_texturesPath[i]));
+        CEResourceTexture* t_texture = (CEResourceTexture*)&t_manager->getResource(p_texturesPath[i]);
         unsigned char* data = t_texture->getTextureData(); 
         if(data){
             glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, t_texture->getTextureWidth(), t_texture->getTextureHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, data);

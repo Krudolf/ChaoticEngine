@@ -20,17 +20,19 @@ bool CEResourceAnimation::loadFile(const char* p_name){
 	std::ifstream t_file(p_name);
     std::string t_line;
     const char* t_path;
+    CEResourceMesh* t_mesh;
 
     while(std::getline(t_file, t_line)){
         if(t_line == "" || t_line[0] == '#')// Skip everything and continue with the next line
             continue;
 
         t_path = t_line.c_str();
-        CEResourceMesh* t_mesh = static_cast<CEResourceMesh*>(t_manager->getResource(t_path));
+        //t_mesh = static_cast<CEResourceMesh*>(t_manager->getResource(t_path));
+        t_mesh = (CEResourceMesh*)&t_manager->getResource(t_path);
         if(t_mesh != NULL)
         	m_meshes.push_back(t_mesh);
     }
-    meshList();
+    //meshList();
 }
 
 void CEResourceAnimation::meshList(){

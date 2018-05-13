@@ -11,8 +11,8 @@ public:
 	CEResourceManager();
 	~CEResourceManager();
 
-	CEResource* getResource(const char* p_name);
-	CEResource* checkFormat(const char* p_name);
+	CEResource& getResource(const char* p_name);
+	CEResource& checkFormat(const char* p_name);
 	void deleteResources();
 	void showResources();
 

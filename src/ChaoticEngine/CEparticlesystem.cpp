@@ -136,9 +136,9 @@ void CEParticleSystem::respawnParticle(Particle &particle){
 void CEParticleSystem::loadResource(const char* p_urlSource){
     std::cout << p_urlSource << std::endl;
     CEResourceManager* t_manager = CEResourceManager::instance();
-    CEResource* t_resource = t_manager->getResource(p_urlSource);
+    CEResourceTexture* t_resource = (CEResourceTexture*)&t_manager->getResource(p_urlSource);
     if(t_resource != 0){
-        m_texture = (CEResourceTexture*)t_resource;
+        m_texture = t_resource;
         m_texture->glBuffersTexture();
     }
 }

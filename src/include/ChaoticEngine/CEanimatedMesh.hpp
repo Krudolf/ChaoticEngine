@@ -21,6 +21,7 @@ public:
 
 private:
 	std::vector<CEResourceAnimation*> m_animations;
+	CEResourceAnimation* m_currentAnimation;
 	GLuint m_shaderProgram;
 
 	glm::mat4	m_MVP;

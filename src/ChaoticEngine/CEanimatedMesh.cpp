@@ -47,8 +47,9 @@ void CEAnimatedMesh::beginDraw(){
 
     //TODO aqui hay que hacer el ajuste del tiempo para calcular el frame
 
-    /*if(m_animations[i] != NULL)
-        m_animations[i]->draw(m_shaderProgram);*/
+    if(m_currentAnimation != NULL){
+        m_currentAnimation->draw(m_shaderProgram);
+    }
 }
 
 void CEAnimatedMesh::endDraw(){}
@@ -56,6 +57,9 @@ void CEAnimatedMesh::endDraw(){}
 void CEAnimatedMesh::loadResource(const char* p_urlSource){
     CEResourceManager* t_manager = CEResourceManager::instance();
     CEResource* t_resource = t_manager->getResource(p_urlSource);
+    CEResourceAnimation* t_animation;
     if(t_resource != NULL)
-        m_animations.push_back((CEResourceAnimation*)t_resource);
+        t_animation = (CEResourceAnimation*)t_resource;
+        m_animations.push_back(t_animation);
+        m_currentAnimation = t_animation;
 }

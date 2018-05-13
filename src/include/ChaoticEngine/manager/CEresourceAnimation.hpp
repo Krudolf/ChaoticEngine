@@ -16,10 +16,11 @@ public:
 
 	bool loadFile(const char* p_name);
 	void draw(GLuint p_shaderProgram);
+	int getNumFrames(){return m_meshes.size();};
 
 private:
 	std::vector<CEResourceMesh*> m_meshes;
-    std::string m_directory;
+    void meshList();
 };
 
 #endif

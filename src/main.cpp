@@ -28,6 +28,7 @@ int main(){
 	//CESceneLight*			m_light2	= m_scene->createLight(t_lightIntensity, t_lightAtenuation, t_position2);
 	//CESceneMesh*			m_mesh		= m_scene->createMesh("assets/sparky/sparky.obj");
 	CESceneAnimation*		m_animation	= m_scene->createAnimatedMesh("assets/Anim/cubo_color.anim");
+	m_animation->loadAnimation("assets/Anim/cubo_tam.anim");
 	CESceneSkybox*			m_skybox	= m_scene->createSkybox(t_skyboxPath, 50);
 	//CESceneParticleSystem* 	m_system	= m_scene->createParticleSystem("assets/awesome.bin", 50);
 	//CESceneSprite*			m_sprite	= m_scene->createSprite("assets/awesome.bin", 10, 10);

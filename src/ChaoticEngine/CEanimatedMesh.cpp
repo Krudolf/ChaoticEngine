@@ -2,6 +2,8 @@
 #include <gtc/type_ptr.hpp>
 #include <iomanip>
 #include <iostream>
+#include <glew.h>
+#include <glfw3.h>
 
 #include "../include/ChaoticEngine/CEanimatedMesh.hpp"
 #include "../include/ChaoticEngine/manager/CEresourceManager.hpp"
@@ -21,6 +23,8 @@
 
 CEAnimatedMesh::CEAnimatedMesh(GLuint p_shaderProgram) : CEEntity(){
     m_shaderProgram = p_shaderProgram;
+    lastTime = glfwGetTime();
+    nbFrames = 0;
 }
 
 CEAnimatedMesh::~CEAnimatedMesh(){}
@@ -46,9 +50,18 @@ void CEAnimatedMesh::beginDraw(){
     //showMat(m_modelMatrix);
 
     //TODO aqui hay que hacer el ajuste del tiempo para calcular el frame
+    double t_time = glfwGetTime();
+    nbFrames++;
+
+    if ( t_time - lastTime >= 1.0 ){ // If last prinf() was more than 1 sec ago
+         // printf and reset timer
+         printf("%f ms/frame\n", 1000.0/double(nbFrames));
+         nbFrames = 0;
+         lastTime += 1.0;
+     }
 
     if(m_currentAnimation != NULL){
-        m_currentAnimation->draw(m_shaderProgram);
+        m_currentAnimation->draw(m_shaderProgram, 0);
     }
 }
 
@@ -62,4 +75,10 @@ void CEAnimatedMesh::loadResource(const char* p_urlSource){
         t_animation = (CEResourceAnimation*)t_resource;
         m_animations.push_back(t_animation);
         m_currentAnimation = t_animation;
+}
+
+void CEAnimatedMesh::setCurrentAnimation(int p_current){
+    if(p_current < m_animations.size()){
+        m_currentAnimation = m_animations[p_current];
+    }
 }

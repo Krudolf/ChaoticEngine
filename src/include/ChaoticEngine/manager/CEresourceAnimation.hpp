@@ -15,7 +15,7 @@ public:
 	~CEResourceAnimation();
 
 	bool loadFile(const char* p_name);
-	void draw(GLuint p_shaderProgram);
+	void draw(GLuint p_shaderProgram, int p_frame);
 	int getNumFrames(){return m_meshes.size();};
 
 private:

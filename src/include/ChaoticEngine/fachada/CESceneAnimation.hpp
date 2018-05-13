@@ -15,6 +15,8 @@ public:
 	~CESceneAnimation();
 
 	void 	processInput(GLFWwindow* p_window);
+	void 	loadAnimation(const char* p_path);
+	void 	changeCurrentAnimation(int p_current);
 
 	void 	setScale(float p_x, float p_y, float p_z);
 	void 	setRotation(float p_x, float p_y, float p_z);

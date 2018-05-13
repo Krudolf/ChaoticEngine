@@ -13,6 +13,7 @@ public:
 	virtual ~CEAnimatedMesh();
 
 	void loadResource(const char* p_urlSource);
+	void setCurrentAnimation(int p_current);
 
 	void beginDraw() override;
 	void endDraw()   override;
@@ -25,6 +26,9 @@ private:
 	GLuint m_shaderProgram;
 
 	glm::mat4	m_MVP;
+
+	double lastTime;
+ 	int nbFrames;
 };
 
 #endif

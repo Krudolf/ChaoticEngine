@@ -55,6 +55,18 @@ void CESceneAnimation::processInput(GLFWwindow* p_window){
 		setPosition(0,0,1);
 	if(glfwGetKey(p_window, GLFW_KEY_Q) == GLFW_PRESS)
 		setPosition(0,0,-1);
+	if(glfwGetKey(p_window, GLFW_KEY_O) == GLFW_PRESS)
+		changeCurrentAnimation(0);
+	if(glfwGetKey(p_window, GLFW_KEY_L) == GLFW_PRESS)
+		changeCurrentAnimation(1);
+}
+
+void CESceneAnimation::loadAnimation(const char* p_path){
+	m_animation->loadResource(p_path);
+}
+
+void CESceneAnimation::changeCurrentAnimation(int p_current){
+	m_animation->setCurrentAnimation(p_current);
 }
 
 void CESceneAnimation::setScale(float p_x, float p_y, float p_z){

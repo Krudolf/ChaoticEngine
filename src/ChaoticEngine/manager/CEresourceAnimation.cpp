@@ -6,7 +6,6 @@
 #include "../../include/ChaoticEngine/manager/CEresourceAnimation.hpp"
 
 #include <fstream>
-#include <sstream>
 #include <string>
 
 //Constructor
@@ -29,8 +28,8 @@ bool CEResourceAnimation::loadFile(const char* p_name){
         t_path = t_line.c_str();
         //CEResourceMesh* t_mesh = static_cast<CEResourceMesh*>(t_manager->getResource(t_path));
         m_meshes.push_back(static_cast<CEResourceMesh*>(t_manager->getResource(t_path)));
-    meshList();
     }
+    meshList();
 }
 
 void CEResourceAnimation::meshList(){
@@ -41,10 +40,8 @@ void CEResourceAnimation::meshList(){
 	} 
 }
 
-void CEResourceAnimation::draw(GLuint p_shaderProgram){
-	for(GLuint i = 0; i < m_meshes.size(); i++){
-		if(m_meshes[i] != NULL && m_meshes[i]->getName() != ""){
-			m_meshes[i]->draw(p_shaderProgram);
-		}
+void CEResourceAnimation::draw(GLuint p_shaderProgram, int p_frame){
+	if(m_meshes[p_frame] != NULL){
+		m_meshes[p_frame]->draw(p_shaderProgram);
 	}
 }

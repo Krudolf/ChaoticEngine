@@ -23,12 +23,9 @@ CEResourceManager::~CEResourceManager(){}
 CEResource& CEResourceManager::getResource(const char* p_name){
 	CEResource* t_resource = NULL;
 	std::string t_path = p_name;
-	std::cout << "recurso a meter: " << p_name << std::endl;
 	for(size_t i = 0; i < m_resources.size(); i++){
-		std::cout << "comparamos: " << m_resources[i] << " con: " << t_path << std::endl;
-		if(m_resources[i]!=nullptr && !t_path.compare(m_resources[i]->getName())){
+		if(m_resources[i]!=nullptr && t_path.compare(m_resources[i]->getName()) == 0){
 			t_resource = m_resources[i];
-			std::cout << "ya lo tenia, pa ti" << std::endl;
 			return *t_resource;
 		}
 	}
@@ -39,10 +36,8 @@ CEResource& CEResourceManager::getResource(const char* p_name){
 		if(t_resource->loadFile(p_name)){
 			t_resource->setName(p_name);
 			m_resources.push_back(t_resource);
-			std::cout <<"lo meti: " << p_name << std::endl;
 		}
 	}
-	//showResources();
 	return *t_resource;
 }
 
@@ -87,7 +82,7 @@ void CEResourceManager::deleteResources(){
 
 void CEResourceManager::showResources(){
 	std::cout<<std::endl;
-	std::cout<<"Lista de recursos"<<std::endl;
+	std::cout<<" - LISTA DE RECURSOS -"<<std::endl;
 	for(int i = 0; i < m_resources.size(); i++){
 		std::cout<<"recurso: " << m_resources[i]->getName() <<std::endl;
 	}

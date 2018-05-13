@@ -6,7 +6,7 @@
 #include "../include/ChaoticEngine/CEanimatedMesh.hpp"
 #include "../include/ChaoticEngine/manager/CEresourceManager.hpp"
 
-void showMat(glm::mat4 p_matrix){   
+/*void showMat(glm::mat4 p_matrix){   
     std::cout << std::fixed;
     std::cout << std::setprecision(6);
 
@@ -17,7 +17,7 @@ void showMat(glm::mat4 p_matrix){
         std::cout << std::endl;
     }
     std::cout << std::endl;
-}
+}*/
 
 CEAnimatedMesh::CEAnimatedMesh(GLuint p_shaderProgram) : CEEntity(){
     m_shaderProgram = p_shaderProgram;

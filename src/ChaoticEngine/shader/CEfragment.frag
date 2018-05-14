@@ -17,7 +17,7 @@ struct DirectionalLight{
     vec3 Specular;    
 };
 
-#define NR_POINT_LIGHTS 5
+#define NR_POINT_LIGHTS 1
 struct PointLight{
 	vec3 Position;
 
@@ -71,6 +71,7 @@ vec3 calcPointLight(PointLight light, vec3 normal, vec3 position, vec3 viewDir){
     
     // attenuation
     float distance    = length(light.Position - position);
+    //float distance    = 10.0;
     float attenuation = 1.0 / (light.Constant + light.Linear * distance + light.Quadratic * (distance * distance));
     //float attenuation = 1.0;
     

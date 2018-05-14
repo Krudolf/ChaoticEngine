@@ -9,12 +9,12 @@ CELight::CELight(glm::vec3 p_intensities, float p_attenuation, GLuint p_shaderPr
 	m_shaderProgram = p_shaderProgram;
 
 	m_ambient	= glm::vec3(0.1f, 0.1f, 0.1f);
-	m_diffuse	= glm::vec3(0.8f, 0.8f, 0.8f);
-	m_specular	= glm::vec3(1.0f, 1.0f, 1.0f);
+	m_diffuse	= glm::vec3(0.5f, 0.5f, 0.5f);
+	m_specular	= glm::vec3(0.2f, 0.2f, 0.2f);
 
-	m_linear	= 1.0;
-    m_constant	= 0.045;
-    m_quadratic	= 0.0075;
+	m_linear	= 1.0f;
+    m_constant	= 0.007f;
+    m_quadratic	= 0.0002f;
 }
 
 CELight::~CELight(){}

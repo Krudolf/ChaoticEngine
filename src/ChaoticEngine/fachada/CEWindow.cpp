@@ -50,15 +50,22 @@ void CEWindow::enableZBuffer(){
 }
 
 bool CEWindow::isOpen(){
-	if(glfwWindowShouldClose(m_window) == GL_FALSE)
-		return true;
-	
-	return false;
+	return !glfwWindowShouldClose(m_window);
 }
 
 void CEWindow::close(){
 	glfwDestroyWindow(m_window);
 	glfwTerminate();
+}
+
+void CEWindow::setCursorVisible(bool p_visible){ 
+    if (p_visible){ 
+        glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL); 
+    } 
+ 
+    else{ 
+        glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN); 
+    } 
 }
 
 void CEWindow::clear(float p_red, float p_green, float p_blue, float p_alpha){
@@ -81,6 +88,18 @@ void CEWindow::processInput(){
 
 GLFWwindow* CEWindow::getWindow(){
 	return m_window;
+}
+
+CEPosition CEWindow::getPosition(){
+    CEPosition t_position;
+    glfwGetWindowPos(m_window, &t_position.x, &t_position.y);
+    return t_position;
+}
+
+CESize CEWindow::getSize(){
+    CESize t_size;
+    glfwGetWindowSize(m_window, &t_size.width, &t_size.height);
+    return t_size;
 }
 
 double CEWindow::getTimer(){

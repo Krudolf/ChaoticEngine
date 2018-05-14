@@ -14,7 +14,7 @@ BINARY 	:= CE
 #Compiler set-up
 CC		:= g++
 LDFLAGS := -Wl,-rpath=$(LIBDIR)
-INCLUDE := -I$(HDRDIR) -I$(INCDIR) -I$(INCDIR)OpenGL -I$(INCDIR)glm -I$(INCDIR)sfml
+INCLUDE := -I$(HDRDIR) -I$(INCDIR) -I$(INCDIR)ChaoticEngine -I$(INCDIR)OpenGL -I$(INCDIR)glm -I$(INCDIR)sfml
 LIBS	:= -L$(LIBDIR) -lGL -lGLEW -lglfw -lassimp -lsfml-window -lsfml-graphics -lsfml-system
 FAST	:= -j4
 
@@ -24,7 +24,7 @@ $(BINARY): $(OBJECTS)
 
 #Make objects
 $(OBJDIR)%.o: $(SRCDIR)%.cpp
-	make setup
+	$(MAKE) setup
 	$(CC) -o $@ -c $^ $(INCLUDE)
 
 #Create object directories
@@ -39,23 +39,23 @@ clean:
 
 #Makes binary (previous clean)
 cleanc:
-	make clean
-	make $(FAST)
+	$(MAKE) clean
+	$(MAKE) $(FAST)
 
 #Runs after compiling
 run:
-	make $(FAST)
+	$(MAKE) $(FAST)
 	./$(BINARY)
 
 #Cleans, compiles and runs
 cleanr:
-	make clean
-	make $(FAST)
+	$(MAKE) clean
+	$(MAKE) $(FAST)
 	./$(BINARY)
 
 #Compile the program with 4 threads
 fast:
-	make $(FAST)
+	$(MAKE) $(FAST)
 
 #Prints sources, objects and headers lists
 info:

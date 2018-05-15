@@ -10,9 +10,13 @@ int main(){
 	CEWindow* m_window = new CEWindow(640, 480, "3KSC", false); 
 	CEScene*  m_scene  = new CEScene();
 
-	float 		t_position[]		= {0.0, -10.0, 10.0};
+	float 		t_direction[]		= {-0.2f, -1.0f, -0.3f};
+	float 		t_positionDirect[]	= {0.0, 0.0, 0.0};
+	float 		t_position[]		= {0.0, 0.0, 0.0};
 	float 		t_position2[] 		= {-50.0, 0.0, 0.0};
-	float 		t_lightIntensity[]	= {0.8, 0.8, 0.8};
+	float 		t_position3[] 		= {50.0, 0.0, 10.0};
+	float 		t_position4[] 		= {0.0, 25.0, 0.0};
+	float 		t_position5[] 		= {75.0, 50.0, 10.0};
 	float 		t_lightAtenuation	= 1.0f;
 	const char* t_skyboxPath[6]		= {
 		"assets/skyboxes/fusfus_skybox/stratosphere_ft.tga",  
@@ -24,8 +28,12 @@ int main(){
 	}; 
 
 	CESceneCamera*			m_camera 	= m_scene->createCamera(true);
-	CESceneLight*			m_light		= m_scene->createLight(t_lightIntensity, t_lightAtenuation, t_position);
-	//CESceneLight*			m_light2	= m_scene->createLight(t_lightIntensity, t_lightAtenuation, t_position2);
+	CESceneLight*			m_lightDir	= m_scene->createDirectionalLight(t_direction, t_positionDirect);
+	//CESceneLight*			m_light		= m_scene->createPointLight(t_lightAtenuation, t_position);
+	//CESceneLight*			m_light2	= m_scene->createPointLight(t_lightAtenuation, t_position2);
+	//CESceneLight*			m_light3	= m_scene->createPointLight(t_lightAtenuation, t_position3);
+	//CESceneLight*			m_light4	= m_scene->createPointLight(t_lightAtenuation, t_position4);
+	//CESceneLight*			m_light5	= m_scene->createPointLight(t_lightAtenuation, t_position5);
 	//CESceneMesh*			m_mesh		= m_scene->createMesh("assets/sparky/sparky.obj");
 	CESceneAnimation*		m_animation	= m_scene->createAnimatedMesh("assets/Anim/cubo_color.anim");
 	m_animation->loadAnimation("assets/Anim/cubo_tam.anim");
@@ -41,6 +49,8 @@ int main(){
 
 		//m_mesh->processInput(m_window->getWindow());
 		m_animation->processInput(m_window->getWindow());
+		//std::cout << "Mesh:  " << m_mesh->getPosition().x << " , " << m_mesh->getPosition().y << " , " << m_mesh->getPosition().z << std::endl;
+		//std::cout << "Light: " << m_light->getPosition().x << " , " << m_light->getPosition().y << " , " << m_light->getPosition().z << std::endl;
 		//std::cout << m_camera->getPosition().x << " , " << m_camera->getPosition().y << " , " << m_camera->getPosition().z << std::endl;
 		//m_system->update();
 

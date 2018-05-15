@@ -35,12 +35,13 @@ int main(){
 	//CESceneLight*			m_light4	= m_scene->createPointLight(t_lightAtenuation, t_position4);
 	//CESceneLight*			m_light5	= m_scene->createPointLight(t_lightAtenuation, t_position5);
 	//CESceneMesh*			m_mesh		= m_scene->createMesh("assets/sparky/sparky.obj");
+	//CESceneMesh*			m_mesh		= m_scene->createMesh("assets/shield.obj");
 	CESceneAnimation*		m_animation	= m_scene->createAnimatedMesh("assets/Anim/cubo_color.anim");
-	m_animation->loadAnimation("assets/Anim/cubo_tam.anim");
 	m_animation->changeCurrentAnimation(0);
+	m_animation->loadAnimation("assets/Anim/cubo_tam.anim");
 	CESceneSkybox*			m_skybox	= m_scene->createSkybox(t_skyboxPath, 50);
 	//CESceneParticleSystem* 	m_system	= m_scene->createParticleSystem("assets/awesome.bin", 50);
-	//CESceneSprite*			m_sprite	= m_scene->createSprite("assets/awesome.bin", 10, 10);
+	//CESceneSprite*		  m_sprite	= m_scene->createSprite("assets/awesome.bin", 10, 10);
 	//CESceneBillboard*		m_billboard	= m_scene->createBillboard("assets/awesome.bin", 5, 2, m_mesh->getNode());
 	
 	while(m_window->isOpen()){ 

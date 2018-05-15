@@ -7,7 +7,7 @@
 
 int main(){    
 	std::cout << "*************************\n* TEST DE CHAOTICENGINE *\n*************************" << std::endl; 
-	CEWindow* m_window = new CEWindow(640, 480, "3KSC", false); 
+	CEWindow* m_window = new CEWindow(1024, 768, "3KSC", false); 
 	CEScene*  m_scene  = new CEScene();
 
 	float 		t_direction[]		= {-0.2f, -1.0f, -0.3f};

@@ -3,30 +3,30 @@
 
 #include "../include/ChaoticEngine/CElight.hpp"
 
-CELight::CELight(glm::vec3 p_intensities, float p_attenuation, GLuint p_shaderProgram) : CEEntity(){
-	m_intensities 	= p_intensities;
-	m_attenuation 	= p_attenuation;
+//Constructor for Point light
+CELight::CELight(float p_attenuation, GLuint p_shaderProgram) : CEEntity(){
 	m_shaderProgram = p_shaderProgram;
 
-	m_ambient	= glm::vec3(0.1f, 0.1f, 0.1f);
-	m_diffuse	= glm::vec3(0.5f, 0.5f, 0.5f);
-	m_specular	= glm::vec3(0.2f, 0.2f, 0.2f);
+	m_attenuation 	= p_attenuation;
 
-	m_linear	= 1.0f;
-    m_constant	= 0.007f;
-    m_quadratic	= 0.0002f;
+	setComponents();
+}
+
+//constructor for Directional Light
+CELight::CELight(glm::vec3 p_direction, GLuint p_shaderProgram) : CEEntity(){
+	m_shaderProgram = p_shaderProgram;
+
+	m_direction	= p_direction;
+
+	setComponents();
 }
 
 CELight::~CELight(){}
 
-void CELight::setIntensities(glm::vec3 p_intensities){
-	m_intensities.x = p_intensities.x;
-	m_intensities.y = p_intensities.y;
-	m_intensities.z = p_intensities.z;
-}
-
-void CELight::setAtenuation(float p_attenuation){
-	m_attenuation = p_attenuation;
+void CELight::setComponents(){
+	m_ambient	= glm::vec3(0.1f, 0.1f, 0.1f);
+	m_diffuse	= glm::vec3(0.5f, 0.5f, 0.5f);
+	m_specular	= glm::vec3(0.2f, 0.2f, 0.2f);
 }
 
 void CELight::beginDraw(){

@@ -23,6 +23,7 @@ CEResourceManager::~CEResourceManager(){}
 CEResource& CEResourceManager::getResource(const char* p_name){
 	CEResource* t_resource = NULL;
 	std::string t_path = p_name;
+	std::cout << "queremos cragar el recurso: " << p_name << std::endl;
 	for(size_t i = 0; i < m_resources.size(); i++){
 		if(m_resources[i]!=nullptr && t_path.compare(m_resources[i]->getName()) == 0){
 			t_resource = m_resources[i];

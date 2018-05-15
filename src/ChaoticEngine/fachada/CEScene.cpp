@@ -156,14 +156,16 @@ void CEScene::calculateLights(){
 	glUniform3fv(glGetUniformLocation(t_shaderProgram, "DirLight.Specular" ), 1, glm::value_ptr(m_directionalLight->getSpecular()));
 
 	for(int i = 0; i < m_lights.size(); i++){
-		t_result = t_light + std::to_string(i);
-	    glUniform3fv(glGetUniformLocation(t_shaderProgram, (t_result + t_position).c_str()), 1, glm::value_ptr(m_lights[i]->getPosition()));
-	    
-	    glUniform3fv(glGetUniformLocation(t_shaderProgram, (t_result + t_ambient).c_str() ), 1, glm::value_ptr(m_lights[i]->getAmbient()));
-	    glUniform3fv(glGetUniformLocation(t_shaderProgram, (t_result + t_diffuse).c_str() ), 1, glm::value_ptr(m_lights[i]->getDiffuse()));
-	    glUniform3fv(glGetUniformLocation(t_shaderProgram, (t_result + t_specular).c_str()), 1, glm::value_ptr(m_lights[i]->getSpecular()));
+		if(m_lights[i]->getActive()){
+			t_result = t_light + std::to_string(i);
+		    glUniform3fv(glGetUniformLocation(t_shaderProgram, (t_result + t_position).c_str()), 1, glm::value_ptr(m_lights[i]->getPosition()));
+		    
+		    glUniform3fv(glGetUniformLocation(t_shaderProgram, (t_result + t_ambient).c_str() ), 1, glm::value_ptr(m_lights[i]->getAmbient()));
+		    glUniform3fv(glGetUniformLocation(t_shaderProgram, (t_result + t_diffuse).c_str() ), 1, glm::value_ptr(m_lights[i]->getDiffuse()));
+		    glUniform3fv(glGetUniformLocation(t_shaderProgram, (t_result + t_specular).c_str()), 1, glm::value_ptr(m_lights[i]->getSpecular()));
 
-		glUniform1f(glGetUniformLocation(t_shaderProgram, (t_result + t_atten).c_str()),  m_lights[i]->getAttenuation());
+			glUniform1f(glGetUniformLocation(t_shaderProgram, (t_result + t_atten).c_str()),  m_lights[i]->getAttenuation());
+		}
 	}
 }
 

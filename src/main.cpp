@@ -27,6 +27,7 @@ int main(){
 	CESceneLight*			m_light		= m_scene->createLight(t_lightIntensity, t_lightAtenuation, t_position);
 	//CESceneLight*			m_light2	= m_scene->createLight(t_lightIntensity, t_lightAtenuation, t_position2);
 	//CESceneMesh*			m_mesh		= m_scene->createMesh("assets/sparky/sparky.obj");
+	CESceneMesh*			m_mesh		= m_scene->createMesh("assets/tanque/life_tank.obj");
 	//CESceneAnimation*		m_animation	= m_scene->createAnimatedMesh("assets/Anim/cubo_color.anim");
 	//m_animation->loadAnimation("assets/Anim/cubo_tam.anim");
 	//m_animation->changeCurrentAnimation(0);
@@ -39,7 +40,7 @@ int main(){
 		m_window->processInput();
 		m_window->clear(0.5f, 0.0f, 0.0f, 1.0f); 
 
-		//m_mesh->processInput(m_window->getWindow());
+		m_mesh->processInput(m_window->getWindow());
 		//m_animation->processInput(m_window->getWindow());
 		//std::cout << m_camera->getPosition().x << " , " << m_camera->getPosition().y << " , " << m_camera->getPosition().z << std::endl;
 		m_system->update();

@@ -50,8 +50,6 @@ void CEParticleSystem::init(){
     
     glBindVertexArray(0);
 
-    glEnable (GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     //Create m_amount default particle instances
     for(GLuint i = 0; i < m_amount; i++)
         m_particles.push_back(Particle());
@@ -63,6 +61,9 @@ void CEParticleSystem::beginDraw(){
 
     m_MVP = m_projectionMatrix * m_viewMatrix * m_modelMatrix;
     m_position = getPosition();
+
+    glEnable (GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
     for(Particle particle : m_particles){
         if(particle.Life > 0.0f){

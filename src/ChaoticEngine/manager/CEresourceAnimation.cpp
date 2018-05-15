@@ -23,12 +23,10 @@ bool CEResourceAnimation::loadFile(const char* p_name){
     CEResourceMesh* t_mesh;
 
     while(std::getline(t_file, t_line)){
-        std::cout << "leemos una linea" << std::endl;
         if(t_line == "" || t_line[0] == '#')// Skip everything and continue with the next line
             continue;
 
         t_path = t_line.c_str();
-        //t_mesh = static_cast<CEResourceMesh*>(t_manager->getResource(t_path));
         t_mesh = (CEResourceMesh*)&t_manager->getResource(t_path);
         if(t_mesh != NULL)
         	m_meshes.push_back(t_mesh);

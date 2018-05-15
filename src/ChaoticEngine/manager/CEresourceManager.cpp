@@ -32,6 +32,7 @@ CEResource& CEResourceManager::getResource(const char* p_name){
 	}
 	//Resource not found, we wanna load it from disk
 	if(t_resource == NULL){
+		std::cout << "la creo" << std::endl;
 		//check the format of the resource
 		t_resource = &checkFormat(p_name);
 		if(t_resource->loadFile(p_name)){

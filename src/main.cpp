@@ -36,20 +36,23 @@ int main(){
 	//CESceneLight*			m_light5	= m_scene->createPointLight(t_lightAtenuation, t_position5);
 	//CESceneMesh*			m_mesh		= m_scene->createMesh("assets/sparky/sparky.obj");
 	//CESceneMesh*			m_mesh		= m_scene->createMesh("assets/shield.obj");
-	CESceneAnimation*		m_animation	= m_scene->createAnimatedMesh("assets/Anim/cubo_color.anim");
-	m_animation->changeCurrentAnimation(0);
-	m_animation->loadAnimation("assets/Anim/cubo_tam.anim");
-	CESceneSkybox*			m_skybox	= m_scene->createSkybox(t_skyboxPath, 50);
+	//CESceneAnimation*		m_animation	= m_scene->createAnimatedMesh("assets/Anim/cubo_color.anim");
+	//m_animation->changeCurrentAnimation(0);
+	//m_animation->loadAnimation("assets/Anim/cubo_tam.anim");
+	//CESceneSkybox*			m_skybox	= m_scene->createSkybox(t_skyboxPath, 50);
 	//CESceneParticleSystem* 	m_system	= m_scene->createParticleSystem("assets/awesome.bin", 50);
-	//CESceneSprite*		  m_sprite	= m_scene->createSprite("assets/awesome.bin", 10, 10);
+	CESceneSprite*		  m_sprite	= m_scene->createSprite("assets/awesom0.bin", 10, 10);
+	m_sprite->addTexture("assets/awesom1.bin");
+	m_sprite->addTexture("assets/awesom2.bin");
 	//CESceneBillboard*		m_billboard	= m_scene->createBillboard("assets/awesome.bin", 5, 2, m_mesh->getNode());
 	
 	while(m_window->isOpen()){ 
 		m_window->processInput();
 		m_window->clear(0.5f, 0.0f, 0.0f, 1.0f); 
 
+		m_sprite->processInput(m_window->getWindow());
 		//m_mesh->processInput(m_window->getWindow());
-		m_animation->processInput(m_window->getWindow());
+		//m_animation->processInput(m_window->getWindow());
 		//std::cout << "Mesh:  " << m_mesh->getPosition().x << " , " << m_mesh->getPosition().y << " , " << m_mesh->getPosition().z << std::endl;
 		//std::cout << "Light: " << m_light->getPosition().x << " , " << m_light->getPosition().y << " , " << m_light->getPosition().z << std::endl;
 		//std::cout << m_camera->getPosition().x << " , " << m_camera->getPosition().y << " , " << m_camera->getPosition().z << std::endl;

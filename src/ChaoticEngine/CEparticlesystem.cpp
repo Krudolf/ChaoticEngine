@@ -53,21 +53,21 @@ void CEParticleSystem::init(){
     //Create m_amount default particle instances
     for(GLuint i = 0; i < m_amount; i++)
         m_particles.push_back(Particle());
+
 }
 
 //Render all particles
 void CEParticleSystem::beginDraw(){
     glUseProgram(m_shaderProgram);
-
-    m_MVP = m_projectionMatrix * m_viewMatrix * m_modelMatrix;
+    glm::mat4 t_projection = glm::ortho(20.0f, -20.0f, -20.0f, 20.0f, -15.0f, 100.0f);
+    m_MVP = t_projection * m_modelMatrix;
     m_position = getPosition();
-
     glEnable (GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
     for(Particle particle : m_particles){
         if(particle.Life > 0.0f){
-            glm::mat4 t_projection = glm::ortho(20.0f, -20.0f, -20.0f, 20.0f, -15.0f, 100.0f);
+     
             glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "projection"), 1, GL_FALSE, glm::value_ptr(t_projection));
             //glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "projection"), 1, GL_FALSE, glm::value_ptr(m_projectionMatrix));
 
@@ -89,6 +89,12 @@ void CEParticleSystem::endDraw(){}
 
 void CEParticleSystem::update(GLfloat dt){
     //Add new particles 
+    if(m_firstFlag)
+    {
+        m_firstFlag = false;
+        return;
+    }
+    
     for(GLuint i = 0; i < m_newParticles; i++){
         GLuint unusedParticle = firstUnusedParticle();
         respawnParticle(m_particles[unusedParticle]);
@@ -99,7 +105,7 @@ void CEParticleSystem::update(GLfloat dt){
         p.Life -= dt; //reduce life
         if(p.Life > 0.0f){  //particle is alive, thus update
             p.Position -= p.Velocity * dt; 
-            p.Color.a -= dt * 2.5;
+           // p.Color.a -= dt * 2.5;
         }
     }
 }
@@ -133,7 +139,6 @@ void CEParticleSystem::respawnParticle(Particle &particle){
     GLfloat randlife = ((rand() % 3) - 0.5f / 0.3f);
     if(randlife < 0)
         randlife *= -1; 
-     
     particle.Position   = glm::vec2(m_position.x, m_position.y);
     particle.Color      = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f); 
     particle.Life       = randlife; 

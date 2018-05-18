@@ -53,6 +53,8 @@ private:
     void 	init();
     GLuint 	firstUnusedParticle();
     void 	respawnParticle(Particle &particle);
+
+    bool                    m_firstFlag = true;
 };
 
 #endif

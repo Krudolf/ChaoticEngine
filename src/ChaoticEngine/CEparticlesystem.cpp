@@ -28,10 +28,10 @@ CEParticleSystem::CEParticleSystem(const char* p_path, int p_amount, GLfloat p_v
 void CEParticleSystem::init(){
     GLfloat t_vertices[] = { 
         // Pos      // Tex
-        -0.5f, -0.5f, 0.07f, 0.07f, 
-        -0.5f,  0.5f, 0.07f, 0.93f,
-         0.5f,  0.5f, 0.93f, 0.93f,
-         0.5f, -0.5f, 0.93f, 0.07f
+        -0.5f, -0.5f, 0.0f, 0.0f, 
+        -0.5f,  0.5f, 0.0f, 1.0f,
+         0.5f,  0.5f, 1.0f, 1.0f,
+         0.5f, -0.5f, 1.0f, 0.0f
     };
 
     unsigned int m_indices[] = {
@@ -65,6 +65,9 @@ void CEParticleSystem::init(){
         respawnParticle(m_particles[i]);
     }
     m_lifeVariation = 0.5; //after first particles
+
+    glEnable (GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 //Render all particles
@@ -73,8 +76,6 @@ void CEParticleSystem::beginDraw(){
     glm::mat4 t_projection = glm::ortho(20.0f, -20.0f, -20.0f, 20.0f, -15.0f, 100.0f);
     m_MVP = t_projection * m_modelMatrix;
     m_position = getPosition();
-    glEnable (GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
     for(Particle particle : m_particles){
         if(particle.Life > 0.0f){

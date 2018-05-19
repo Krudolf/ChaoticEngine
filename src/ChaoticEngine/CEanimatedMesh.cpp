@@ -44,12 +44,12 @@ void CEAnimatedMesh::beginDraw(){
         m_currentFrame++;
         m_lastTime += m_frameTime;
     }
-    
-    if(m_currentFrame > m_currentAnimation->getNumFrames() - 1){
-        m_currentFrame = 0;
-    }
-    
     if(m_currentAnimation != NULL){
+        if(m_currentFrame > m_currentAnimation->getNumFrames() - 1){
+            m_currentFrame = 0;
+            if(!m_currentAnimation->getLoopable())
+                setCurrentAnimation(0);
+        }
         m_currentAnimation->draw(m_shaderProgram, m_currentFrame);
     }
 }

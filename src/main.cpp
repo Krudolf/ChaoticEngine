@@ -34,10 +34,9 @@ int main(){
 	//CESceneLight*			m_light3	= m_scene->createPointLight(t_lightAtenuation, t_position3);
 	//CESceneLight*			m_light4	= m_scene->createPointLight(t_lightAtenuation, t_position4);
 	//CESceneLight*			m_light5	= m_scene->createPointLight(t_lightAtenuation, t_position5);
-	//CESceneMesh*			m_mesh		= m_scene->createMesh("assets/sparky/sparky.obj");
-	//CESceneMesh*			m_mesh		= m_scene->createMesh("assets/shield.obj");
-	CESceneAnimation*		m_animation	= m_scene->createAnimatedMesh("assets/Anim/anim_portal_loop/portal_loop.anim");
-	m_animation->changeCurrentAnimation(0);
+	CESceneMesh*			m_mesh		= m_scene->createMesh("assets/sparky/sparky.obj");
+	//CESceneAnimation*		m_animation	= m_scene->createAnimatedMesh("assets/Anim/anim_portal_loop/portal_loop.anim");
+	//m_animation->changeCurrentAnimation(0);
 	//m_animation->loadAnimation("assets/Anim/anim_portal_abrir/portal_abrir.anim");
 	//m_animation->changeCurrentAnimation(1);
 	CESceneSkybox*			m_skybox	= m_scene->createSkybox(t_skyboxPath, 50);
@@ -52,8 +51,8 @@ int main(){
 		m_window->clear(0.5f, 0.0f, 0.0f, 1.0f); 
 
 		//m_sprite->processInput(m_window->getWindow());
-		//m_mesh->processInput(m_window->getWindow());
-		m_animation->processInput(m_window->getWindow());
+		m_mesh->processInput(m_window->getWindow());
+		//m_animation->processInput(m_window->getWindow());
 		//std::cout << "Mesh:  " << m_mesh->getPosition().x << " , " << m_mesh->getPosition().y << " , " << m_mesh->getPosition().z << std::endl;
 		//std::cout << "Light: " << m_light->getPosition().x << " , " << m_light->getPosition().y << " , " << m_light->getPosition().z << std::endl;
 		//std::cout << m_camera->getPosition().x << " , " << m_camera->getPosition().y << " , " << m_camera->getPosition().z << std::endl;

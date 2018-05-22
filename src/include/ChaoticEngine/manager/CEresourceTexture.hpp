@@ -14,7 +14,7 @@ public:
 	bool loadFile(const char* p_name);
 	void draw(GLuint p_shaderProgram);
 
-	GLint getTextureId(){return m_textureId;}
+	GLuint getTextureId(){return m_textureId;}
 
 	unsigned char* getTextureData(){return m_textureData;}
 

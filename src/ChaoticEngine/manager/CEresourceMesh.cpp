@@ -125,7 +125,6 @@ std::vector<CEResourceTexture*> CEResourceMesh::loadMaterialTextures(aiMaterial 
         t_texture->setTextureType(p_typeName);
         t_texture->setTexturePath(str.C_Str());
         t_textures.push_back(t_texture);
-        m_textures.push_back(t_texture);
     }
 	return t_textures;
 }

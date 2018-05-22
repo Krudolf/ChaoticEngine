@@ -19,6 +19,7 @@ public:
 
 private:
 	std::vector<CEsubMesh> m_meshes;
+	std::vector<CEResourceTexture*> m_textures;
     std::string m_directory;
 	
 	void processNode(aiNode* p_node, const aiScene* p_scene);

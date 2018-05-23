@@ -9,7 +9,7 @@
 
 class CESprite : public CEEntity{
 public:
-	CESprite(const char* p_urlSource, float p_width, float p_height, GLuint p_shaderProgram);
+	CESprite(const char* p_urlSource, float p_width, float p_height, GLuint p_shaderProgram, bool p_originCenter = true);
 	virtual ~CESprite();
 
 	void 	loadResource(const char* p_urlSource);
@@ -27,6 +27,12 @@ public:
 
 	void	getNext();
 	void	getLast();
+    int     getFrame()                  { return m_currentFrame;    }
+    void    setFrame(int p_frame);
+
+    bool    getVisible()                { return m_visible;         }
+    void    setVisible(bool p_visible)  { m_visible = p_visible;    }
+    void    toggleVisible()             { m_visible = !m_visible;   }
 
 private:
 	GLuint m_shaderProgram;
@@ -42,6 +48,8 @@ private:
 
     float m_width;
 	float m_height;
+
+    bool m_visible = true;
 };
 
 #endif

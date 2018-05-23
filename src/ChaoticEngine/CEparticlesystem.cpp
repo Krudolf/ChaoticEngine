@@ -5,10 +5,11 @@
 #include <cmath>
 #include "../include/ChaoticEngine/CEparticlesystem.hpp"
 #include "../include/ChaoticEngine/manager/CEresourceManager.hpp"
+
 #define PI 3.14159265
 
-CEParticleSystem::CEParticleSystem(const char* p_path, int p_amount, GLfloat p_velocity,
-    GLfloat p_life, int p_minAngle, int p_maxAngle, bool p_explode, GLuint p_shaderProgram) : CEEntity(){
+CEParticleSystem::CEParticleSystem(const char* p_path, int p_amount, float p_x, float p_y, GLfloat p_velocity,
+    GLfloat p_life, int p_minAngle, int p_maxAngle, bool p_explode, float p_systemLife, GLuint p_shaderProgram) : CEEntity(){
     m_shaderProgram     = p_shaderProgram;
     m_amount            = p_amount;
     m_newParticles      = 1; //??
@@ -20,10 +21,15 @@ CEParticleSystem::CEParticleSystem(const char* p_path, int p_amount, GLfloat p_v
     m_explode           = p_explode;
     m_lifeVariation     = 0.001;
     m_velocityVariation = 0.6;
+    m_systemLife        = p_systemLife;
+
+    m_newParticles = 100;
+    m_particleLife = 2.0f;
 
     loadResource(p_path);
     init();
 }
+
 
 void CEParticleSystem::init(){
     GLfloat t_vertices[] = { 
@@ -62,36 +68,46 @@ void CEParticleSystem::init(){
     for(GLuint i = 0; i < m_amount; i++)
     {
         m_particles.push_back(Particle());
-        respawnParticle(m_particles[i]);
     }
     m_lifeVariation = 0.5; //after first particles
 }
 
+
 //Render all particles
 void CEParticleSystem::beginDraw(){
+    
     glUseProgram(m_shaderProgram);
-    glm::mat4 t_projection = glm::ortho(20.0f, -20.0f, -20.0f, 20.0f, -15.0f, 100.0f);
-    m_MVP = t_projection * m_modelMatrix;
+    glm::mat4 t_projection = glm::ortho(512.0f, -512.0f, -384.0f, 384.0f, -15.0f, 100.0f);
+    //glm::mat4 t_projection = glm::ortho(20.0f, -20.0f, -20.0f, 20.0f, -15.0f, 100.0f);
+    m_MVP = t_projection * m_viewMatrix * m_modelMatrix;
     m_position = getPosition();
     glEnable (GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    m_MVP = m_projectionMatrix * m_viewMatrix * m_modelMatrix;
+    m_position = getPosition();
+
+    glEnable (GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
 
     for(Particle particle : m_particles){
         if(particle.Life > 0.0f){
-     
             glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "projection"), 1, GL_FALSE, glm::value_ptr(t_projection));
+            glUniform1f(glGetUniformLocation(m_shaderProgram, "scale2"), 20);
             glUniform2f(glGetUniformLocation(m_shaderProgram, "offset"), particle.Position.x, particle.Position.y);
             glUniform4f(glGetUniformLocation(m_shaderProgram, "color"), particle.Color.x, particle.Color.y, particle.Color.z, particle.Color.w);
 
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, m_texture->getTextureId());
-
+            glDepthMask (GL_FALSE); //arreglo para las transparencias
             glBindVertexArray(m_VAO);
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
             glBindVertexArray(0);
         }
     }
+    glDepthMask (GL_TRUE);
 }
 
 void CEParticleSystem::endDraw(){}
@@ -100,17 +116,22 @@ void CEParticleSystem::update(GLfloat dt){
     //Add new particles 
     for(GLuint i = 0; i < m_newParticles; i++){
         int unusedParticle = firstUnusedParticle();
-        if(unusedParticle == -1) break;
+        if(unusedParticle == -1){
+            for(GLuint i = 0; i < m_amount; i++){
+                m_particles[i].Life = 0;
+            }
+            break;
+        }
         respawnParticle(m_particles[unusedParticle]);
     }
 
+    m_systemLife -= dt;
     //Update all particles
     for(GLuint i = 0; i < m_amount; i++){
         Particle &p = m_particles[i];
-        p.Life -= dt; //reduce life
-        if(p.Life > 0.0f){  //particle is alive, thus update
+        p.Life -= dt;
+        if(p.Life > 0.0f){  //particle is alive
             p.Position -= p.Velocity * dt; 
-           // p.Color.a -= dt * 2.5;
         }
     }
 }
@@ -118,8 +139,10 @@ void CEParticleSystem::update(GLfloat dt){
 //Stores the index of the last particle used (for quick access to next dead particle)
 int lastUsedParticle = 0;
 int CEParticleSystem::firstUnusedParticle(){
-    if(m_explode)
+    if(m_explode && m_systemLife < 0)
+    {   
         return -1;
+    }
     //First search from last used particle, this will usually return almost instantly
     for(int i = lastUsedParticle; i < m_amount; i++){
         if(m_particles[i].Life <= 0.0f){
@@ -147,7 +170,7 @@ void CEParticleSystem::respawnParticle(Particle &particle){
     float t_velocity    = (m_velocity * m_velocityVariation) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(m_velocity - (m_velocity * m_velocityVariation))));
     GLfloat t_life      = (m_life * m_lifeVariation) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(m_life - (m_life * m_lifeVariation))));
     particle.Position   = glm::vec2(m_position.x, m_position.y);
-    particle.Color      = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f); 
+    //particle.Color      = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f); 
     particle.Life       = t_life; 
     particle.Velocity   = glm::vec2(t_velocity * t_sin, t_velocity* t_cos);
 }

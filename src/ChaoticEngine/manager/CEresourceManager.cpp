@@ -23,7 +23,6 @@ CEResourceManager::~CEResourceManager(){}
 CEResource& CEResourceManager::getResource(const char* p_name){
 	CEResource* t_resource = NULL;
 	std::string t_path = p_name;
-	std::cout << "leemos el recurso: " << p_name << std::endl;
 	for(size_t i = 0; i < m_resources.size(); i++){
 		if(m_resources[i]!=nullptr && t_path.compare(m_resources[i]->getName()) == 0){
 			t_resource = m_resources[i];
@@ -34,11 +33,9 @@ CEResource& CEResourceManager::getResource(const char* p_name){
 	if(t_resource == NULL){
 		//check the format of the resource
 		t_resource = &checkFormat(p_name);
-		if(t_resource != NULL){
-			if(t_resource->loadFile(p_name)){
-				t_resource->setName(p_name);
-				m_resources.push_back(t_resource);
-			}
+		if(t_resource->loadFile(p_name)){
+			t_resource->setName(p_name);
+			m_resources.push_back(t_resource);
 		}
 	}
 	return *t_resource;

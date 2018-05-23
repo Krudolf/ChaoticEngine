@@ -24,21 +24,23 @@ public:
 	~CEScene();
 
 	CESceneCamera*			createCamera(bool p_isActive = false);
-	CESceneLight*			createDirectionalLight(float p_direction[3], float p_position[3]);
-	CESceneLight*			createPointLight(float p_lightAtenuation, float p_position[3]);
+	CESceneLight*			createDirectionalLight(float p_direction[3]);
+	CESceneLight*			createPointLight(float p_lightAtenuation);
 	CESceneMesh*			createMesh(const char* p_path);
-	CESceneAnimation*		createAnimatedMesh(const char* p_path);
+	CESceneAnimation*		createAnimatedMesh(const char* p_path, bool p_loop);
 	CESceneQuad*			createQuad(float p_vertex[4][2]);
-	CESceneSprite*			createSprite(const char* p_path, float p_width, float p_height);
+	CESceneSprite*			createSprite(const char* p_path, float p_width, float p_height, bool p_originCenter = true);
 	CESceneBillboard*		createBillboard(const char* p_path, float p_width, float p_height, CESceneNode* p_parent = NULL);
-	CESceneParticleSystem*	createParticleSystem(const char* p_path, int p_amount, GLfloat p_velocity, GLfloat p_life, int p_minAngle,int p_maxAngle, bool p_explode);
+  	CESceneParticleSystem*  createParticleSystem(const char* p_path, int p_amount, float p_x, float p_y, GLfloat p_velocity, GLfloat p_life, int p_minAngle, int p_maxAngle, bool p_explode,float p_systemLife); 
 	CESceneSkybox*			createSkybox(const char* p_path[6], float p_scale);
 
 	void 	setActiveCamera(CESceneCamera* p_camera);
 	void 	calculateLights();
 
 	void 	draw();
+    void    draw2D();
 	void 	release();
+    void    clean()     { m_root->removeAllChilds(); }
 	void 	remove(CESceneNode* p_node);
 
 private:

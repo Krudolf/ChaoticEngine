@@ -4,12 +4,17 @@
 
 #include "../../include/ChaoticEngine/fachada/CESceneParticleSystem.hpp"
 
-CESceneParticleSystem::CESceneParticleSystem(CESceneNode* p_parent, const char* p_path, int p_amount, GLfloat p_velocity,
-		GLfloat p_life, int p_minAngle, int p_maxAngle, bool p_explode, GLuint p_shaderProgram){
+/*
+Fachada para crear Emisores de particulas y aplicarle las transformaciones correspondientes
+*/
+
+CESceneParticleSystem::CESceneParticleSystem(CESceneNode* p_parent, const char* p_path, int p_amount, float p_x, float p_y, GLfloat p_velocity,
+		GLfloat p_life, int p_minAngle, int p_maxAngle, bool p_explode, float p_systemLife, GLuint p_shaderProgram){
 	m_rotate    = new CETransform();
 	m_scale	    = new CETransform();
 	m_translate = new CETransform(); 
-	m_system 	= new CEParticleSystem(p_path, p_amount, p_velocity, p_life, p_minAngle, p_maxAngle, p_explode, p_shaderProgram);
+	setPosition(p_x, p_y, 0);
+	m_system 	= new CEParticleSystem(p_path, p_amount, p_x, p_y, p_velocity, p_life, p_minAngle, p_maxAngle, p_explode, p_systemLife, p_shaderProgram);
 	
 	m_rotate->rotate(0, 0, 0);
 	m_scale->scale(1, 1, 1);
@@ -23,6 +28,7 @@ CESceneParticleSystem::CESceneParticleSystem(CESceneNode* p_parent, const char* 
 	t_nodeScale->setEntity(m_scale);
 	t_nodeTranslate->setEntity(m_translate);
 	t_nodeEmitter->setEntity(m_system);
+
 }
 
 CESceneParticleSystem::~CESceneParticleSystem(){
@@ -83,3 +89,8 @@ void CESceneParticleSystem::setAbsolutePosition(float p_x, float p_y, float p_z)
 	m_translate->loadIdentity();
 	m_translate->translate(p_x, p_y, p_z);	
 }
+
+CEParticleSystem* CESceneParticleSystem::getSystem(){
+	return m_system;
+}
+

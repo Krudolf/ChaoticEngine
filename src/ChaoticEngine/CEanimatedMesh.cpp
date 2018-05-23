@@ -44,9 +44,11 @@ void CEAnimatedMesh::beginDraw(){
         m_currentFrame++;
         m_lastTime += m_frameTime;
     }
-    
     if(m_currentFrame > m_currentAnimation->getNumFrames() - 1){
         m_currentFrame = 0;
+        //if the cuurent animation dont have loop, change to animation number 0
+        if(!m_currentAnimation->getHaveLoop())
+            m_currentAnimation = m_animations[0];
     }
     
     if(m_currentAnimation != NULL){
@@ -56,16 +58,18 @@ void CEAnimatedMesh::beginDraw(){
 
 void CEAnimatedMesh::endDraw(){}
 
-void CEAnimatedMesh::loadResource(const char* p_urlSource){
+void CEAnimatedMesh::loadResource(const char* p_urlSource, bool p_loop){
     CEResourceManager* t_manager = CEResourceManager::instance();
     CEResourceAnimation* t_resource = (CEResourceAnimation*)&t_manager->getResource(p_urlSource);
-    if(t_resource != NULL)
+    if(t_resource != NULL){
+        t_resource->setHaveLoop(p_loop);
         m_animations.push_back(t_resource);
+    }
 }
 
 void CEAnimatedMesh::setCurrentAnimation(int p_current){
     if(p_current < m_animations.size()){
         m_currentAnimation = m_animations[p_current];
-        m_currentFrame = 0;
+        //m_currentFrame = 0;
     }
 }

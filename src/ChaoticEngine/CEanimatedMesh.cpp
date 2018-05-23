@@ -38,7 +38,7 @@ void CEAnimatedMesh::beginDraw(){
     //showMat(m_modelMatrix);
 
     double t_time = glfwGetTime();
-    //m_frameTime = 1.0; //así ira a 1 fps (quitar para aumentar a 25 fps)
+    m_frameTime = 0.5; //así ira a 1 fps (quitar para aumentar a 25 fps)
 
     if (t_time - m_lastTime >= m_frameTime){ 
         m_currentFrame++;
@@ -47,8 +47,7 @@ void CEAnimatedMesh::beginDraw(){
     if(m_currentAnimation != NULL){
         if(m_currentFrame > m_currentAnimation->getNumFrames() - 1){
             m_currentFrame = 0;
-            if(!m_currentAnimation->getLoopable())
-                setCurrentAnimation(0);
+            setCurrentAnimation(0);
         }
         m_currentAnimation->draw(m_shaderProgram, m_currentFrame);
     }

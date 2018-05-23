@@ -35,11 +35,12 @@ int main(){
 	//CESceneLight*			m_light4	= m_scene->createPointLight(t_lightAtenuation, t_position4);
 	//CESceneLight*			m_light5	= m_scene->createPointLight(t_lightAtenuation, t_position5);
 	//CESceneMesh*			m_mesh		= m_scene->createMesh("assets/sparky/sparky.obj");
-	CESceneAnimation*		m_animation	= m_scene->createAnimatedMesh("assets/Anim/anim_portal_loop/portal_loop.anim");
+	CESceneAnimation*		m_animation	= m_scene->createAnimatedMesh("assets/Anim/Plup/plup_quieto.anim");
 	m_animation->changeCurrentAnimation(0);
-	m_animation->loadAnimation("assets/Anim/anim_portal_abrir/portal_abrir.anim");
-	m_animation->changeCurrentAnimation(1);
-	CESceneSkybox*			m_skybox	= m_scene->createSkybox(t_skyboxPath, 50);
+	m_animation->loadAnimation("assets/Anim/Plup/plup_disparar.anim");
+	m_animation->loadAnimation("assets/Anim/Plup/plup_dash.anim");
+	m_animation->loadAnimation("assets/Anim/Plup/plup_andar.anim");
+	//CESceneSkybox*			m_skybox	= m_scene->createSkybox(t_skyboxPath, 50);
 	//CESceneParticleSystem* 	m_system	= m_scene->createParticleSystem("assets/fire.png", 50, 10, 2, -20, 20, false);
 	//CESceneSprite*		  	m_sprite	= m_scene->createSprite("assets/awesom0.bin", 10, 10);
 	//m_sprite->addTexture("assets/awesom1.bin");

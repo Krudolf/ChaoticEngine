@@ -66,6 +66,10 @@ void CESceneAnimation::processInput(GLFWwindow* p_window){
 		changeCurrentAnimation(2);
 	if(glfwGetKey(p_window, GLFW_KEY_M) == GLFW_PRESS)
 		changeCurrentAnimation(3);
+	if(glfwGetKey(p_window, GLFW_KEY_I) == GLFW_PRESS)
+		changeCurrentAnimation(4);
+	if(glfwGetKey(p_window, GLFW_KEY_U) == GLFW_PRESS)
+		changeCurrentAnimation(5);
 }
 
 void CESceneAnimation::loadAnimation(const char* p_path){

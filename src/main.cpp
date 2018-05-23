@@ -40,6 +40,15 @@ int main(){
 	m_animation->loadAnimation("assets/Anim/Plup/plup_disparar.anim");
 	m_animation->loadAnimation("assets/Anim/Plup/plup_dash.anim");
 	m_animation->loadAnimation("assets/Anim/Plup/plup_andar.anim");
+
+	//CESceneAnimation*		m_animation	= m_scene->createAnimatedMesh("assets/Anim/Sparky/sparky_quieto.anim");
+	//m_animation->changeCurrentAnimation(0);
+	//m_animation->loadAnimation("assets/Anim/Sparky/sparky_punch.anim");
+	//m_animation->loadAnimation("assets/Anim/Sparky/sparky_shock.anim");
+	//m_animation->loadAnimation("assets/Anim/Sparky/sparky_andar.anim");
+	//m_animation->loadAnimation("assets/Anim/Sparky/sparky_ulti.anim");
+	//m_animation->loadAnimation("assets/Anim/Sparky/sparky_salto.anim");
+
 	//CESceneSkybox*			m_skybox	= m_scene->createSkybox(t_skyboxPath, 50);
 	//CESceneParticleSystem* 	m_system	= m_scene->createParticleSystem("assets/fire.png", 50, 10, 2, -20, 20, false);
 	//CESceneSprite*		  	m_sprite	= m_scene->createSprite("assets/awesom0.bin", 10, 10);
